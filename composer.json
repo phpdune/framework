@@ -1,0 +1,22 @@
+{
+    "name": "dune/framework",
+    "description": "The PHP Dune Framework !",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "php framework",
+        "framework",
+        "Dune"
+          ],
+    "authors": [
+        {
+            "name": "coderswat"
+        }
+    ],
+  "autoload": {
+        "psr-4": {
+            "Dune\\": "src/Dune/"
+        }
+    },
+    "require": {}
+}

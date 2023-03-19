@@ -48,6 +48,7 @@ class SessionHandler
      */
     protected static function getSession(string $key): ?string
     {
+        self::sessionStart();
         self::$encrypter = new SessionEncrypter();
         if (isset($_SESSION[$key])) {
             $getValue = self::sessionDecrypt($_SESSION[$key]);
@@ -112,6 +113,7 @@ class SessionHandler
      */
     protected static function flushSession(): void
     {
+       self::sessionStart();
         $_SESSION = [];
     }
     /**
@@ -123,6 +125,7 @@ class SessionHandler
      */
     protected static function unsetSession(string $key): void
     {
+        self::sessionStart();
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
@@ -136,6 +139,7 @@ class SessionHandler
      */
     protected static function getAllSession(): ?array
     {
+        self::sessionStart();
         self::$encrypter = new SessionEncrypter();
         $data = [];
         if (isset($_SESSION)) {
@@ -155,6 +159,7 @@ class SessionHandler
      */
     protected static function sessionHas(string $key): bool
     {
+        self::sessionStart();
         if (isset($_SESSION[$key])) {
             return true;
         }

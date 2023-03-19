@@ -24,7 +24,7 @@ class Error
 
         $debuginfo = env('APP_DEBUG');
         if ($debuginfo === 'true') {
-            require_once PATH.'/core/Exception/Errors/main.php';
+            require_once PATH.'/vendor/dune/framework/src/Dune/Exception/Errors/main.php';
             exit();
         }
         abort($code);

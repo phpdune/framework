@@ -18,5 +18,6 @@
             "Dune\\": "src/Dune/"
         }
     },
-    "require": {}
+    "require": {},
+    "files": ["src/Dune/Helpers/functions.php"]
 }

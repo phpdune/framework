@@ -19,5 +19,7 @@
         },
         "files": ["src/Dune/Helpers/functions.php"]
     },
-    "require": {}
+    "require": {
+      "php" : "^8.0"
+    }
 }

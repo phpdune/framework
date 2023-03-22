@@ -146,3 +146,22 @@ function errorHandler($errno, $errstr, $errfile, $errline)
 {
     return Error::handle($errstr, $errfile, $errline);
 }
+/**
+ * return config values
+ *
+ * @param string $string
+ *
+ * @return null|string
+ */
+function config(string $string): mixed
+{
+  $path = PATH.'/config/';
+  $content = explode('.',$string);
+  $file = $content[0].'.php';
+  $key = $content[1];
+  if(file_exists($path.$file)) {
+     $data = include $path.$file;
+     return $data[$key];
+  }
+  return null;
+}

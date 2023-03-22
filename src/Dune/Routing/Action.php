@@ -21,7 +21,7 @@ class Action extends Router
      *
      * @return string|null
      */
-    protected static function tryRun($uri, $requestMethod): ?string
+    protected static function tryRun($uri, $requestMethod): mixed
     {
         $url = parse_url($uri);
 
@@ -66,7 +66,7 @@ class Action extends Router
      *
      * @return string|null
      */
-    protected static function runMethod(array $action): ?string
+    protected static function runMethod(array $action): mixed
     {
         [$class, $method] = $action;
         if (class_exists($class)) {

@@ -123,7 +123,7 @@ class Router implements RouterInterface
      *
      * @return string|null
      */
-    protected static function runCallable(callable $action): ?string
+    protected static function runCallable(callable $action): mixed
     {
         return call_user_func($action);
     }
@@ -183,7 +183,7 @@ class Router implements RouterInterface
      *
      * @return string|null
      */
-     public static function run($uri, $method): ?string
+     public static function run($uri, $method): mixed
      {
          return Action::tryRun($uri, $method);
      }

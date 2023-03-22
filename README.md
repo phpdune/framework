@@ -11,7 +11,7 @@ The PHP Dune framework is a mini lightweight mvc framework for your mini Web App
 - Middlewares
 - And Go on ..
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation gives you a complete toolset required to build any application with which you are tasked.
+Dune is accessible, yet powerful, providing tools needed for medium, mini applications. A superb combination of simplicity, elegance, and innovation gives you a complete toolset required to build any application with which you are tasked.
 
 ## Contributing
 

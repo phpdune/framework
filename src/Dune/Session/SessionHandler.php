@@ -101,7 +101,7 @@ class SessionHandler
     protected static function start(): void
     {
         if (session_status() == PHP_SESSION_NONE) {
-           \session_set_cookie_params(config('session.lifetime'),config('session.path'),config('session.domain'),config('session.secure'),config('session.http_only'));
+            \session_set_cookie_params(config('session.lifetime'), config('session.path'), config('session.domain'), config('session.secure'), config('session.http_only'));
             \session_save_path(config('session.session_storage'));
             \session_start();
         }
@@ -115,10 +115,10 @@ class SessionHandler
      */
     protected static function flushSession(): void
     {
-       if (!session_status() == PHP_SESSION_NONE) {
-        \session_unset();
-        \session_destroy();
-       }
+        if (!session_status() == PHP_SESSION_NONE) {
+            \session_unset();
+            \session_destroy();
+        }
     }
     /**
      * unset the session from given key

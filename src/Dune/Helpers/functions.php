@@ -155,13 +155,13 @@ function errorHandler($errno, $errstr, $errfile, $errline)
  */
 function config(string $string): mixed
 {
-  $path = PATH.'/config/';
-  $content = explode('.',$string);
-  $file = $content[0].'.php';
-  $key = $content[1];
-  if(file_exists($path.$file)) {
-     $data = include $path.$file;
-     return $data[$key];
-  }
-  return null;
+    $path = PATH.'/config/';
+    $content = explode('.', $string);
+    $file = $content[0].'.php';
+    $key = $content[1];
+    if (file_exists($path.$file)) {
+        $data = include $path.$file;
+        return $data[$key];
+    }
+    return null;
 }

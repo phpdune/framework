@@ -1,3 +1,5 @@
+![Dune Stock Image](https://user-images.githubusercontent.com/97345827/226925097-51179d2d-8b2a-40f1-bf9c-6759ddcb1047.png)
+
 ## About Dune
 
 > **Note:** This repository contains the core code of the Dune framework. If you want to build an application using Dune, visit the main [Dune repository](https://github.com/coswat/dune).
@@ -24,3 +26,5 @@ Please Open a issue on github, or contact us on telegram [Contact](https://teleg
 ## License
 
 The Dune framework is open-sourced software licensed under the [MIT license](LICENSE.md).
+
+

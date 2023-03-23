@@ -30,7 +30,6 @@ class SessionHandler
     protected static function setSession(string $key, string $value): void
     {
         self::start();
-        self::$encrypter = new SessionEncrypter();
         if (!isset($_SESSION[$key])) {
             if (self::sessionNameisValid($key)) {
                 $value = config('session.encrypt') ? self::sessionEncrypt($value) : $value;
@@ -49,7 +48,6 @@ class SessionHandler
     protected static function getSession(string $key): ?string
     {
         self::start();
-        self::$encrypter = new SessionEncrypter();
         if (isset($_SESSION[$key])) {
             $getValue = config('session.encrypt') ? self::sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
             return $getValue;
@@ -78,6 +76,7 @@ class SessionHandler
      */
     protected static function sessionEncrypt(string $key): string
     {
+        self::$encrypter = new SessionEncrypter();
         return self::$encrypter->encrypt($key);
     }
     /**
@@ -89,10 +88,11 @@ class SessionHandler
      */
     protected static function sessionDecrypt(string $key): string
     {
+        self::$encrypter = new SessionEncrypter();
         return self::$encrypter->decrypt($key);
     }
      /**
-     * set session_start() if it doesn't exist
+     * set session_start() if it doesn't exist and add some other session configuration
      *
      * @param  string  none
      *

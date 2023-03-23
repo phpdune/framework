@@ -21,7 +21,7 @@ interface SessionInterface
      *
      * @return null|string
      */
-    public static function get(string $key): ?string;
+    public static function get(string $key): string|array|null;
     /**
      * get all session
      *
@@ -54,4 +54,28 @@ interface SessionInterface
      * @return none
      */
     public static function flush(): void;
+    /**
+     * will return the id of the session
+     * 
+     * @param none
+     *
+     * @return string|int
+     */   
+    public static function id(): string|int;
+    /**
+     * will return the name of the session
+     * 
+     * @param none
+     *
+     * @return null|string
+     */   
+    public static function name(): ?string;
+    /**
+     * will return session global variable values
+     * 
+     * @param none
+     *
+     * @return array|null
+     */ 
+     public static function all(): ?array;
 }

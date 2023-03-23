@@ -37,7 +37,24 @@ class SessionHandler
             }
         }
     }
-
+    /**
+     * Setting Session
+     *
+     * @param  string  $key
+     * @param array $value
+     *
+     * @return none
+     */
+    protected static function setArraySession(string $key, array $value): void
+    {
+        self::start();
+        if (!isset($_SESSION[$key])) {
+            if (self::sessionNameisValid($key)) {
+                  $_SESSION[$key] = $value;
+                } 
+                
+            }
+        }
     /**
      * getSession process goes here
      *
@@ -45,10 +62,14 @@ class SessionHandler
      *
      * @return string|null
      */
-    protected static function getSession(string $key): ?string
+    protected static function getSession(string $key): mixed
     {
         self::start();
         if (isset($_SESSION[$key])) {
+          if(is_array($_SESSION[$key]))
+          {
+            return $_SESSION[$key];
+          }
             $getValue = config('session.encrypt') ? self::sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
             return $getValue;
         }
@@ -76,7 +97,7 @@ class SessionHandler
      */
     protected static function sessionEncrypt(string $key): string
     {
-        self::$encrypter = new SessionEncrypter();
+         self::$encrypter = new SessionEncrypter();
         return self::$encrypter->encrypt($key);
     }
     /**
@@ -92,7 +113,7 @@ class SessionHandler
         return self::$encrypter->decrypt($key);
     }
      /**
-     * set session_start() if it doesn't exist and add some other session configuration
+     * set session_start() if it doesn't exist
      *
      * @param  string  none
      *
@@ -101,7 +122,8 @@ class SessionHandler
     protected static function start(): void
     {
         if (session_status() == PHP_SESSION_NONE) {
-            \session_set_cookie_params(config('session.lifetime'), config('session.path'), config('session.domain'), config('session.secure'), config('session.http_only'));
+           \session_name(config('session.session_name'));
+           \session_set_cookie_params(config('session.lifetime'),config('session.path'),config('session.domain'),config('session.secure'),config('session.http_only'));
             \session_save_path(config('session.session_storage'));
             \session_start();
         }
@@ -115,10 +137,10 @@ class SessionHandler
      */
     protected static function flushSession(): void
     {
-        if (!session_status() == PHP_SESSION_NONE) {
-            \session_unset();
-            \session_destroy();
-        }
+       if (!session_status() == PHP_SESSION_NONE) {
+        \session_unset();
+        \session_destroy();
+       }
     }
     /**
      * unset the session from given key

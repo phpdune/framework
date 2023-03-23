@@ -56,26 +56,26 @@ interface SessionInterface
     public static function flush(): void;
     /**
      * will return the id of the session
-     * 
+     *
      * @param none
      *
      * @return string|int
-     */   
+     */
     public static function id(): string|int;
     /**
      * will return the name of the session
-     * 
+     *
      * @param none
      *
      * @return null|string
-     */   
+     */
     public static function name(): ?string;
     /**
      * will return session global variable values
-     * 
+     *
      * @param none
      *
      * @return array|null
-     */ 
-     public static function all(): ?array;
+     */
+    public static function all(): ?array;
 }

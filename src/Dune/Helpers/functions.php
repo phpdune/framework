@@ -56,7 +56,7 @@ function runRoutes()
  *
  * @return none
  */
-function abort(int $code = 404,string $message = null): void
+function abort(int $code = 404, string $message = null): void
 {
     $file = PATH . '/app/views/errors/error.php';
     if (file_exists($file)) {

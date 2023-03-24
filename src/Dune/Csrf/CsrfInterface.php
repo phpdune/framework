@@ -15,8 +15,8 @@ interface CsrfInterface
      */
     public static function get(): ?string;
     /**
-     * generate a csrf token
-     *
+      * generate a csrf token
+      *
       * @param  none
       *
       * @return null|string

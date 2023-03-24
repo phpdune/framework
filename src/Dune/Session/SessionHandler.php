@@ -184,9 +184,20 @@ class SessionHandler
     protected static function sessionHas(string $key): bool
     {
         self::start();
-        if (isset($_SESSION[$key])) {
-            return true;
-        }
-        return false;
+       return (isset($_SESSION[$key]) ? true : false);
+    }
+     /**
+     * will add new value to the current session
+     * 
+     * @param string $key
+     * @param string $value
+     *
+     * @return bool|null
+     */
+    protected static function sessionOverwrite(string $key, string $value): void
+    {
+         self::start();
+       (!self::sessionHas($key) ? self::setSession($key,$value) : $_SESSION[$key] = $value);
+
     }
 }

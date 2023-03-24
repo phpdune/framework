@@ -78,4 +78,13 @@ interface SessionInterface
      * @return array|null
      */
     public static function all(): ?array;
+     /**
+     * will add new value to the current session
+     * 
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+     public static function overwrite(string $key,string $value): void;
 }

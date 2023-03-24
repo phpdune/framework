@@ -91,4 +91,14 @@ class Session extends SessionHandler implements SessionInterface
      {
          return empty($_SESSION) ? null : $_SESSION;
      }
+     /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+     public static function overwrite(string $key,string $value): void
+     {
+        self::sessionOverwrite($key, $value);
+     }
 }

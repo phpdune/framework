@@ -165,3 +165,16 @@ function config(string $string): mixed
     }
     return null;
 }
+/**
+ * generate a csrf/xsrf token
+ *
+ * @param none
+ *
+ * @return null|string
+ */
+function csrf(): ?string
+{
+   $csrfToken = Csrf::generate();
+   $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
+   return $csrfField;
+}

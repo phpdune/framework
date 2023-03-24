@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Dune\Csrf;
+
 use Dune\Session\Session;
 use Dune\Http\Request;
 
@@ -34,7 +35,7 @@ class CsrfHandler
             return false;
         } elseif (!$id) {
             return false;
-        } elseif (hash_equals($token,$id)
+        } elseif (hash_equals($token, $id)
         ) {
             return true;
         }

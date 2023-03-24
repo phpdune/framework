@@ -38,12 +38,11 @@ class Action extends Router
                 $route['route'] == $url['path'] &&
                 $route['method'] == $requestMethod
             ) {
-              if($requestMethod == 'POST' || $requestMethod == 'PUT' || $requestMethod == 'PATCH' || $requestMethod == 'DELETE'){
-                $request = new Request();
-                
-                (Csrf::validate(Session::get('_token'),$request->get('_token')) ? '' : abort(419));
-                
-              }
+                if ($requestMethod == 'POST' || $requestMethod == 'PUT' || $requestMethod == 'PATCH' || $requestMethod == 'DELETE') {
+                    $request = new Request();
+
+                    (Csrf::validate(Session::get('_token'), $request->get('_token')) ? '' : abort(419));
+                }
                 $action = $route['action'];
                 if ($route['middleware']) {
                     $middleware = \App\Middleware\Middleware::MAP[$route['middleware']] ?? false;

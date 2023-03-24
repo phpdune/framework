@@ -97,8 +97,8 @@ class Session extends SessionHandler implements SessionInterface
      *
      * @return mixed
      */
-     public static function overwrite(string $key,string $value): void
+     public static function overwrite(string $key, string $value): void
      {
-        self::sessionOverwrite($key, $value);
+         self::sessionOverwrite($key, $value);
      }
 }

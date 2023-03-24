@@ -174,7 +174,7 @@ function config(string $string): mixed
  */
 function csrf(): ?string
 {
-   $csrfToken = Csrf::generate();
-   $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
-   return $csrfField;
+    $csrfToken = Csrf::generate();
+    $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
+    return $csrfField;
 }

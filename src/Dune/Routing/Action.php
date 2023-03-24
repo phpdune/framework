@@ -41,7 +41,7 @@ class Action extends Router
                 if ($requestMethod == 'POST' || $requestMethod == 'PUT' || $requestMethod == 'PATCH' || $requestMethod == 'DELETE') {
                     $request = new Request();
 
-                    (Csrf::validate(Session::get('_token'), $request->get('_token')) ? '' : abort(419));
+                    (Csrf::validate(Session::get('_token'), $request->get('_token')) ? '' : abort(419,'Page Expired'));
                 }
                 $action = $route['action'];
                 if ($route['middleware']) {

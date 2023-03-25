@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Dune\Cookie\Cookie;
+namespace Dune\Cookie;
 
-class Cookie implements CookiInterface
+class Cookie extends CookieHandler implements CookiInterface
 {
     /**
      *
@@ -23,7 +23,7 @@ class Cookie implements CookiInterface
      *
      * @return string|null
      */
-    public static function get(string $key): ?string
+    public static function get(string $key): mixed
     {
         return self::getCookie($key);
     }

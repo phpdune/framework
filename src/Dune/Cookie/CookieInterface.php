@@ -22,7 +22,7 @@ interface CookieInterface
      *
      * @return string|null
      */
-    public static function get(string $key): ?string;
+    public static function get(string $key): mixed;
     /**
      * unset a cookie
      *

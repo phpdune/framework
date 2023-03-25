@@ -61,7 +61,6 @@ function abort(int $code = 404, string $message = null): void
 {
     $file = PATH . '/app/views/errors/error.php';
     if (file_exists($file)) {
-        http_response_code($code);
         require_once $file;
     }
 }

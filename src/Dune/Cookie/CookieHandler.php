@@ -91,7 +91,7 @@ class CookieHandler
        *
        * @return bool
        */
-      protected static function validName(): bool
+      protected static function validName(string $key): bool
       {
           return (preg_match(self::COOKIE_PATTERN, $key) === 1);
       }

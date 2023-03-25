@@ -59,7 +59,6 @@ class CsrfHandler
      */
     protected static function tokenValidate(string|null $token, string|null $id): bool
     {
-        $request = new Request();
         if (!$token) {
             return false;
         } elseif (!$id) {

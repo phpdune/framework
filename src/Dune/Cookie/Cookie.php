@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dune\Cookie;
 
-class Cookie extends CookieHandler implements CookiInterface
+class Cookie extends CookieHandler implements CookieInterface
 {
     /**
      *
@@ -55,7 +55,7 @@ class Cookie extends CookieHandler implements CookiInterface
      */
     public static function flush(): void
     {
-        return self::flushCookie();
+         self::flushCookie();
     }
     /**
      *

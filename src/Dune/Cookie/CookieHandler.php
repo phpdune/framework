@@ -71,7 +71,9 @@ class CookieHandler
        */
       protected static function flushCookie(): void
       {
-          $_COOKIE = [];
+          foreach($_COOKIE as $key => $value) {
+            self::unsetCookie($key);
+          }
       }
       /**
        * show all the cookies that are currently active

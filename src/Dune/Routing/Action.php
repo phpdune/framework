@@ -82,8 +82,7 @@ class Action extends Router
             throw new NotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
-            $request = new Request();
-            return call_user_func_array([$class, $method], [$request]);
+            return call_user_func_array([$class, $method], [new Request()]);
         }
         throw new NotFound("Exception : Method {$method} Not Found");
     }

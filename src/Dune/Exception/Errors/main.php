@@ -13,7 +13,7 @@
   font-family: 'Poppins',sans-serif;
 }
 body {
-  background-image: url('https://imgtr.ee/images/2023/03/16/qvwVl.jpg');
+  background-image: url('https://i.ibb.co/BtNhSTq/error-01.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

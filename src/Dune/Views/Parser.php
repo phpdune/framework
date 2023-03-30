@@ -92,8 +92,8 @@ class Parser
      */
      protected static function replacePHP(string $template): string
      {
-         $template = str_replace('{ php }', '<?php ', $template);
-         $template = str_replace('{ endphp }', ' ?>', $template);
+         $template = str_replace('{ php', '<?php ', $template);
+         $template = str_replace('endphp }', ' ?>', $template);
          return $template;
      }
     /**

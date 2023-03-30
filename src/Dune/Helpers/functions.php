@@ -58,11 +58,14 @@ function runRoutes()
  *
  * @return none
  */
-function abort(int $code = 404, string $message = null): void
+function abort(int $code = 404, string $message = null)
 {
-    $file = PATH . '/app/views/errors/error.php';
+    $file = PATH . '/app/views/errors/error.view.php';
     if (file_exists($file)) {
-        require_once $file;
+        return view('errors/error', [
+          'code' => $code,
+          'message' => $message
+          ]);
     }
 }
 /**

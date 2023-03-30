@@ -55,7 +55,7 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function flush(): void
     {
-         self::flushCookie();
+        self::flushCookie();
     }
     /**
      *

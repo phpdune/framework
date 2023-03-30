@@ -114,11 +114,11 @@ class Parser
     /**
      * @param  string  $template
      * @param string $tag
-     * 
+     *
      * @return string
      */
-     protected static function parseExtends (string $template, string $tag): ?string 
+     protected static function parseExtends(string $template, string $tag): ?string
      {
-       return $template = str_replace($tag,'',$template);
+         return $template = str_replace($tag, '', $template);
      }
 }

@@ -8,6 +8,7 @@ use Dune\Exception\Errors\Error;
 use Dune\Http\Request;
 use Dune\Session\Session;
 use Dune\Csrf\Csrf;
+
 /**
  * view() function, to render the view from controller and to pass data to view via array
  *

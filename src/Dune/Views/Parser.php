@@ -44,8 +44,8 @@ class Parser
      */
     protected static function varReplaceReal(string $template): string
     {
-        $template = str_replace('{!! ', '<?php echo ', $template);
-        $template = str_replace(' !!}', '; ?>', $template);
+        $template = str_replace('{! ', '<?php echo ', $template);
+        $template = str_replace(' !}', '; ?>', $template);
         return $template;
     }
     /**
@@ -110,5 +110,15 @@ class Parser
          $template = str_replace(') }', '): ?>', $template);
          $template = str_replace('{ endif }', '<?php endif; ?>', $template);
          return $template;
+     }
+    /**
+     * @param  string  $template
+     * @param string $tag
+     * 
+     * @return string
+     */
+     protected static function parseExtends (string $template, string $tag): ?string 
+     {
+       return $template = str_replace($tag,'',$template);
      }
 }

@@ -29,8 +29,8 @@ class Parser
      */
     protected static function varReplace(string $template): string
     {
-        $template = preg_replace('/{{/','<?php echo htmlspecialchars(',$template);
-        $template = preg_replace('/}}/',', ENT_QUOTES); ?>', $template);
+        $template = preg_replace('/{{/', '<?php echo htmlspecialchars(', $template);
+        $template = preg_replace('/}}/', ', ENT_QUOTES); ?>', $template);
         return $template;
     }
     /**
@@ -40,8 +40,8 @@ class Parser
      */
     protected static function varReplaceReal(string $template): string
     {
-        $template = preg_replace('/{!/','<?php echo ',$template);
-        $template = preg_replace('/!}/','; ?>', $template);
+        $template = preg_replace('/{!/', '<?php echo ', $template);
+        $template = preg_replace('/!}/', '; ?>', $template);
         return $template;
     }
     /**

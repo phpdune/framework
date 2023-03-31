@@ -40,8 +40,8 @@ class Parser
      */
     protected static function varReplaceReal(string $template): string
     {
-        $template = str_replace('{! ', '<?php echo ', $template);
-        $template = str_replace(' !}', '; ?>', $template);
+        $template = preg_replace('/{!/','<?php echo ',$template);
+        $template = preg_replace('/!}/','; ?>', $template);
         return $template;
     }
     /**

@@ -182,3 +182,18 @@ function csrf(): ?string
     $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
     return $csrfField;
 }
+/**
+ * return json response
+ *
+ * @param array $data
+ * @param int $code
+ *
+ * @return string|null
+ */
+function json(array $data, int $code): ?string
+{
+    $data = json_encode($data);
+    header('Content-Type:application/json');
+    http_response_code($code);
+    return $data;
+}

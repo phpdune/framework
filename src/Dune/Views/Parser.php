@@ -29,12 +29,8 @@ class Parser
      */
     protected static function varReplace(string $template): string
     {
-        $template = str_replace(
-            '{{ ',
-            '<?php echo htmlspecialchars(',
-            $template
-        );
-        $template = str_replace(' }}', ', ENT_QUOTES); ?>', $template);
+        $template = preg_replace('/{{/','<?php echo htmlspecialchars(',$template);
+        $template = preg_replace('/}}/',', ENT_QUOTES); ?>', $template);
         return $template;
     }
     /**

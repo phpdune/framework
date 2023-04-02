@@ -70,10 +70,10 @@ class SessionHandler
             }
             $getValue = config('session.encrypt') ? self::sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
             return $getValue;
-        } else if (isset($_SESSION['__'.$key])) {
-          $value = $_SESSION['__'.$key];
-          self::unsetSession('__'.$key);
-          return $value;
+        } elseif (isset($_SESSION['__'.$key])) {
+            $value = $_SESSION['__'.$key];
+            self::unsetSession('__'.$key);
+            return $value;
         }
         return null;
     }
@@ -188,9 +188,8 @@ class SessionHandler
     protected static function sessionHas(string $key): bool
     {
         self::start();
-        if(isset($_SESSION[$key]) || isset($_SESSION['__'.$key])) 
-        {
-          return true;
+        if (isset($_SESSION[$key]) || isset($_SESSION['__'.$key])) {
+            return true;
         }
         return false;
     }

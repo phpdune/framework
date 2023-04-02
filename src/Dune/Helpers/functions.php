@@ -10,6 +10,7 @@ use Dune\Session\Session;
 use Dune\Csrf\Csrf;
 use Dune\Helpers\Response;
 use Dune\Helpers\Redirect;
+
 /**
  * view() function, to render the view from controller and to pass data to view via array
  *
@@ -192,7 +193,7 @@ function csrf(): ?string
  */
 function response(): Response
 {
-  return new Response();
+    return new Response();
 }
 /**
  * return Redirect
@@ -201,8 +202,8 @@ function response(): Response
  *
  * @return string|null
  */
- 
- function redirect(): Redirect 
- {
-   return new Redirect();
- }
+
+function redirect(): Redirect
+{
+    return new Redirect();
+}

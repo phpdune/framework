@@ -8,7 +8,8 @@ use Dune\Exception\Errors\Error;
 use Dune\Http\Request;
 use Dune\Session\Session;
 use Dune\Csrf\Csrf;
-
+use Dune\Helpers\Response;
+use Dune\Helpers\Redirect;
 /**
  * view() function, to render the view from controller and to pass data to view via array
  *
@@ -183,17 +184,25 @@ function csrf(): ?string
     return $csrfField;
 }
 /**
- * return json response
+ * return Response
  *
- * @param array $data
- * @param int $code
+ * @param none
  *
  * @return string|null
  */
-function json(array $data, int $code): ?string
+function response(): Response
 {
-    $data = json_encode($data);
-    header('Content-Type:application/json');
-    http_response_code($code);
-    return $data;
+  return new Response();
 }
+/**
+ * return Redirect
+ *
+ * @param none
+ *
+ * @return string|null
+ */
+ 
+ function redirect(): Redirect 
+ {
+   return new Redirect();
+ }

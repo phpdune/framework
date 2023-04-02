@@ -9,6 +9,7 @@ use Dune\Exception\NotFound;
 use Dune\Exception\MethodNotSupported;
 use Dune\Csrf\Csrf;
 use Dune\Session\Session;
+use Dune\Container\Container;
 
 class Action extends Router
 {
@@ -79,7 +80,8 @@ class Action extends Router
     {
         [$class, $method] = $action;
         if (class_exists($class)) {
-            $class = new $class();
+           $container = new Container();
+            $class = $container->get($class);
         } else {
             throw new NotFound("Exception : Class {$class} Not Found");
         }

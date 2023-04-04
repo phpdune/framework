@@ -80,7 +80,7 @@ class Action extends Router
     {
         [$class, $method] = $action;
         if (class_exists($class)) {
-           $container = new Container();
+            $container = new Container();
             $class = $container->get($class);
         } else {
             throw new NotFound("Exception : Class {$class} Not Found");

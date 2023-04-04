@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Dune\Container;
 
@@ -34,7 +34,6 @@ class Container implements ContainerInterface
 
     public function resolve(string $id)
     {
-
         $reflectionClass = new \ReflectionClass($id);
 
         if (! $reflectionClass->isInstantiable()) {
@@ -44,14 +43,14 @@ class Container implements ContainerInterface
         $constructor = $reflectionClass->getConstructor();
 
         if (! $constructor) {
-            return new $id;
+            return new $id();
         }
 
 
         $parameters = $constructor->getParameters();
 
         if (! $parameters) {
-            return new $id;
+            return new $id();
         }
 
         $dependencies = array_map(

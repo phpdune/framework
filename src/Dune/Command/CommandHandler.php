@@ -8,7 +8,7 @@ class CommandHandler
 {
     /**
      * creating controller method
-     * 
+     *
      * @param ?string $name
      *
      * @return ?string
@@ -34,7 +34,7 @@ class CommandHandler
     }
     /**
      * return the controller stub file
-     * 
+     *
      * @param string $name
      *
      * @return string

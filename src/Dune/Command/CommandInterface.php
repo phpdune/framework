@@ -8,7 +8,7 @@ interface CommandInterface
 {
     /**
      * Check the commands and pass to the corresponding method
-     * 
+     *
      * @param ?string $command
      * @param ?string $arg
      *

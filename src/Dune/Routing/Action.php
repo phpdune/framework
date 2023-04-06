@@ -30,28 +30,32 @@ class Action extends Router
 
         foreach (self::$routes as $route) {
             if (
-                $route['route'] == $url['path'] &&
-                $route['method'] != $requestMethod
+                $route["route"] == $url["path"] &&
+                $route["method"] != $requestMethod
             ) {
-                throw new MethodNotSupported("Exception : {$requestMethod} Method Not Supported For This Route, Supported Method {$route['method']}");
+                throw new MethodNotSupported(
+                    "Exception : {$requestMethod} Method Not Supported For This Route, Supported Method {$route["method"]}"
+                );
             }
             if (
-                $route['route'] == $url['path'] &&
-                $route['method'] == $requestMethod
+                $route["route"] == $url["path"] &&
+                $route["method"] == $requestMethod
             ) {
-                if ($requestMethod == 'POST' || $requestMethod == 'PUT' || $requestMethod == 'PATCH' || $requestMethod == 'DELETE') {
+                if ($requestMethod != "GET") {
                     $request = new Request();
-                    if (!Csrf::validate(Session::get('_token'), $request->get('_token'))) {
-                        abort(419, 'Page Expired');
-                        exit;
+                    if (
+                        !Csrf::validate(
+                            Session::get("_token"),
+                            $request->get("_token")
+                        )
+                    ) {
+                        abort(419, "Page Expired");
+                        exit();
                     }
                 }
-                $action = $route['action'];
-                if ($route['middleware']) {
-                    $middleware = \App\Middleware\Middleware::MAP[$route['middleware']] ?? false;
-                    if (!$middleware) {
-                        throw new NotFound("Exception : Middleware {$route['middleware']} Not Found");
-                    }
+                $action = $route["action"];
+                if ($route["middleware"]) {
+                    $middleware = self::getMiddleware($route["middleware"]);
                     self::callMiddleware($middleware);
                 }
                 if (is_callable($action)) {
@@ -65,7 +69,9 @@ class Action extends Router
                 }
             }
         }
-        throw new NotFound("Exception : Route Not Found By This URI {$url['path']}");
+        throw new NotFound(
+            "Exception : Route Not Found By This URI {$url["path"]}"
+        );
     }
     /**
      * will run method in route
@@ -89,5 +95,23 @@ class Action extends Router
             return call_user_func_array([$class, $method], [new Request()]);
         }
         throw new NotFound("Exception : Method {$method} Not Found");
+    }
+    /**
+     * get the middleware
+     *
+     * @param  string  $middleware
+     *
+     *
+     * @return string|null
+     */
+    protected static function getMiddleware(string $middleware): ?string
+    {
+        $middleware = \App\Middleware\Middleware::MAP[$middleware] ?? null;
+        if (!$middleware) {
+            throw new NotFound(
+                "Exception : Middleware {$route["middleware"]} Not Found"
+            );
+        }
+        return $middleware;
     }
 }

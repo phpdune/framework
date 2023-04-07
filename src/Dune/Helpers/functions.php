@@ -10,6 +10,7 @@ use Dune\Session\Session;
 use Dune\Csrf\Csrf;
 use Dune\Helpers\Response;
 use Dune\Helpers\Redirect;
+use Dune\ErrorHandler\Logger;
 
 /**
  * view() function, to render the view from controller and to pass data to view via array
@@ -30,7 +31,7 @@ function view(string $view, array $data = null)
             return View::render($view);
         }
     } catch (\Exception $e) {
-        return Error::handle($e->getMessage());
+        return Error::handleException($e);
     }
 }
 /**
@@ -49,7 +50,7 @@ function runRoutes()
         $method = $request->get('_method') ?? $request->method();
         return Route::run($request->server('request_uri'), $method);
     } catch (\Exception $e) {
-        return Error::handle($e->getMessage());
+        return Error::handleException($e);
     }
 }
 /**
@@ -193,7 +194,7 @@ function csrf(): ?string
  */
 function response(): Response
 {
-    return new Response();
+  return new Response();
 }
 /**
  * return Redirect
@@ -202,8 +203,20 @@ function response(): Response
  *
  * @return string|null
  */
-
-function redirect(): Redirect
-{
-    return new Redirect();
-}
+ 
+ function redirect(): Redirect 
+ {
+   return new Redirect();
+ }
+ /**
+ * for logging message
+ *
+ * @param mixed $message
+ *
+ * @return none
+ */
+ function logs(mixed $message): void
+ {
+   $logger = new Logger();
+   $logger->put($message);
+ }

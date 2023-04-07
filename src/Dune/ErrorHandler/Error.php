@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Dune\ErrorHandler;
+
 use Dune\ErrorHandler\Logger;
 
 class Error
@@ -40,10 +41,10 @@ class Error
      */
     public static function handleException(\Exception $e): void
     {
-      $code = str_contains($e->getMessage(), 'Not Found') ? 404 : 500;
-      $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
-      
-      if (self::debugMode()) {
+        $code = str_contains($e->getMessage(), 'Not Found') ? 404 : 500;
+        $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
+
+        if (self::debugMode()) {
             require_once self::getErrorPage();
             exit();
         }
@@ -57,14 +58,13 @@ class Error
      * @param none
      *
      * @return null|string
-     */    
+     */
     private static function getErrorPage(): ?string
     {
-      if(file_exists(PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php')) 
-      {
-        return PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php';
-      }
-      return null;
+        if (file_exists(PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php')) {
+            return PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php';
+        }
+        return null;
     }
     /**
      * check if the app enabled debug mode
@@ -72,13 +72,13 @@ class Error
      * @param none
      *
      * @return bool
-     */    
+     */
     private static function debugMode(): bool
     {
-       if(env('APP_DEBUG') === 'true') {
-         return true;
-      }
-      return false;
+        if (env('APP_DEBUG') === 'true') {
+            return true;
+        }
+        return false;
     }
     /**
      * will log message
@@ -86,10 +86,10 @@ class Error
      * @param string $message
      *
      * @return none
-     */    
+     */
     private static function logMessage(string $message): void
     {
-      $logger = new Logger();
-      $logger->put($message);
+        $logger = new Logger();
+        $logger->put($message);
     }
 }

@@ -194,7 +194,7 @@ function csrf(): ?string
  */
 function response(): Response
 {
-  return new Response();
+    return new Response();
 }
 /**
  * return Redirect
@@ -203,20 +203,20 @@ function response(): Response
  *
  * @return string|null
  */
- 
- function redirect(): Redirect 
- {
-   return new Redirect();
- }
- /**
- * for logging message
- *
- * @param mixed $message
- *
- * @return none
- */
- function logs(mixed $message): void
- {
-   $logger = new Logger();
-   $logger->put($message);
- }
+
+function redirect(): Redirect
+{
+    return new Redirect();
+}
+/**
+* for logging message
+*
+* @param mixed $message
+*
+* @return none
+*/
+function logs(mixed $message): void
+{
+    $logger = new Logger();
+    $logger->put($message);
+}

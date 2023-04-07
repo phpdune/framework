@@ -30,8 +30,8 @@ class Compiler
      */
     protected static function varCompile(string $template): string
     {
-        $template = preg_replace('/{{/','<?php echo htmlspecialchars(',$template);
-        $template = preg_replace('/}}/',', ENT_QUOTES); ?>', $template);
+        $template = preg_replace('/{{/', '<?php echo htmlspecialchars(', $template);
+        $template = preg_replace('/}}/', ', ENT_QUOTES); ?>', $template);
         return $template;
     }
     /**
@@ -41,8 +41,8 @@ class Compiler
      */
     protected static function varCompileReal(string $template): string
     {
-        $template = preg_replace('/{!/','<?php echo ',$template);
-        $template = preg_replace('/!}/','; ?>', $template);
+        $template = preg_replace('/{!/', '<?php echo ', $template);
+        $template = preg_replace('/!}/', '; ?>', $template);
         return $template;
     }
     /**
@@ -57,7 +57,6 @@ class Compiler
          $template = str_replace(') }', '): ?>', $template);
          $template = str_replace('{ endforeach }', '<?php endforeach; ?>', $template);
          return $template;
-         
      }
     /**
      * @param  string  $template
@@ -126,9 +125,9 @@ class Compiler
      */
      protected static function addNamespace(string $template): ?string
      {
-       $template = preg_replace('/Session::/','\Dune\Session\Session::',$template);
-       $template = preg_replace('/Cookie::/','\Dune\Cookie\Cookie::',$template);
-       $template = preg_replace('/Grape::/','\Coswat\Grapes\Grape::',$template);
-       return $template;
+         $template = preg_replace('/Session::/', '\Dune\Session\Session::', $template);
+         $template = preg_replace('/Cookie::/', '\Dune\Cookie\Cookie::', $template);
+         $template = preg_replace('/Grape::/', '\Coswat\Grapes\Grape::', $template);
+         return $template;
      }
 }

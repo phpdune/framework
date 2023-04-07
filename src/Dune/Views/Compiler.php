@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Dune\Views;
 
-class Parser
+class Compiler
 {
     /**
      * @param  string  $template
      *
      * @return string
      */
-    protected static function parse(string $template): string
+    protected static function compile(string $template): string
     {
-        $template = self::varReplace($template);
-        $template = self::varReplaceReal($template);
-        $template = self::replaceForeach($template);
-        $template = self::replaceFor($template);
-        $template = self::replaceWhile($template);
-        $template = self::replacePHP($template);
-        $template = self::replaceIf($template);
+        $template = self::varCompile($template);
+        $template = self::varCompileReal($template);
+        $template = self::compileForeach($template);
+        $template = self::compileFor($template);
+        $template = self::compileWhile($template);
+        $template = self::compilePHP($template);
+        $template = self::compileIf($template);
         $template = self::addNamespace($template);
         return $template;
     }
@@ -28,10 +28,10 @@ class Parser
      *
      * @return string
      */
-    protected static function varReplace(string $template): string
+    protected static function varCompile(string $template): string
     {
-        $template = preg_replace('/{{/', '<?php echo htmlspecialchars(', $template);
-        $template = preg_replace('/}}/', ', ENT_QUOTES); ?>', $template);
+        $template = preg_replace('/{{/','<?php echo htmlspecialchars(',$template);
+        $template = preg_replace('/}}/',', ENT_QUOTES); ?>', $template);
         return $template;
     }
     /**
@@ -39,10 +39,10 @@ class Parser
      *
      * @return string
      */
-    protected static function varReplaceReal(string $template): string
+    protected static function varCompileReal(string $template): string
     {
-        $template = preg_replace('/{!/', '<?php echo ', $template);
-        $template = preg_replace('/!}/', '; ?>', $template);
+        $template = preg_replace('/{!/','<?php echo ',$template);
+        $template = preg_replace('/!}/','; ?>', $template);
         return $template;
     }
     /**
@@ -51,19 +51,20 @@ class Parser
      *
      * @return string
      */
-     protected static function replaceForeach(string $template): string
+     protected static function compileForeach(string $template): string
      {
          $template = str_replace('{ foreach(', '<?php foreach(', $template);
          $template = str_replace(') }', '): ?>', $template);
          $template = str_replace('{ endforeach }', '<?php endforeach; ?>', $template);
          return $template;
+         
      }
     /**
      * @param  string  $template
      *
      * @return string
      */
-     protected static function replaceFor(string $template): string
+     protected static function compileFor(string $template): string
      {
          $template = str_replace('{ for(', '<?php for(', $template);
          $template = str_replace(') }', '): ?>', $template);
@@ -75,7 +76,7 @@ class Parser
      *
      * @return string
      */
-     protected static function replaceWhile(string $template): string
+     protected static function compileWhile(string $template): string
      {
          $template = str_replace('{ while(', '<?php while(', $template);
          $template = str_replace(') }', '): ?>', $template);
@@ -87,7 +88,7 @@ class Parser
      *
      * @return string
      */
-     protected static function replacePHP(string $template): string
+     protected static function compilePHP(string $template): string
      {
          $template = str_replace('{ php', '<?php ', $template);
          $template = str_replace('endphp }', ' ?>', $template);
@@ -98,7 +99,7 @@ class Parser
      *
      * @return string
      */
-     protected static function replaceIf(string $template): string
+     protected static function compileIf(string $template): string
      {
          $template = str_replace('{ if(', '<?php if( ', $template);
          $template = str_replace(') }', '): ?>', $template);
@@ -114,7 +115,7 @@ class Parser
      *
      * @return string
      */
-     protected static function parseExtends(string $template, string $tag): ?string
+     protected static function compileExtends(string $template, string $tag): ?string
      {
          return $template = str_replace($tag, '', $template);
      }
@@ -125,8 +126,8 @@ class Parser
      */
      protected static function addNamespace(string $template): ?string
      {
-         $template = preg_replace('/Session::/', '\Dune\Session\Session::', $template);
-         $template = preg_replace('/Cookie::/', '\Dune\Cookie\Cookie::', $template);
-         return $template;
+       $template = preg_replace('/Session::/','\Dune\Session\Session::',$template);
+       $template = preg_replace('/Cookie::/','\Dune\Cookie\Cookie::',$template);
+       return $template;
      }
 }

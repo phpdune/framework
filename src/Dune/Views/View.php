@@ -6,7 +6,7 @@ namespace Dune\Views;
 
 use Dune\Exception\NotFound;
 
-class View extends Parser implements ViewInterface
+class View extends Compiler implements ViewInterface
 {
     /**
      * The view file.
@@ -59,7 +59,7 @@ class View extends Parser implements ViewInterface
         );
     }
     /**
-     * parse the layout file if exists
+     * compile the layout file if exists
      *
      * @param  none
      *
@@ -68,7 +68,7 @@ class View extends Parser implements ViewInterface
     private static function loadFile(): ?string
     {
         $template = file_get_contents(self::$file);
-        $template = self::parse($template);
+        $template = self::compile($template);
         if (
             preg_match_all(
                 "/{[\s]?extends\.(\w{1,})[\s]?}/",
@@ -83,9 +83,9 @@ class View extends Parser implements ViewInterface
                     "Exception : {$matches[1][0]}.view.php File Not Found In views/layouts Directory"
                 );
             }
-            $template = self::parseExtends($template, $matches[0][0]);
+            $template = self::compileExtends($template, $matches[0][0]);
             $layoutTemplate = file_get_contents(self::$layout);
-            $layoutTemplate = self::parse($layoutTemplate);
+            $layoutTemplate = self::compile($layoutTemplate);
         }
 
         return isset(self::$layout)

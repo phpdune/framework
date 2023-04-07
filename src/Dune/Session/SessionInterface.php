@@ -23,14 +23,6 @@ interface SessionInterface
      */
     public static function get(string $key): string|array|null;
     /**
-     * get all session
-     *
-     * @param  none
-     *
-     * @return array|null
-     */
-    public static function getAll(): ?array;
-    /**
      * check session exist or not by key
      *
      * @param  string  $key

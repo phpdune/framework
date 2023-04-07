@@ -31,15 +31,6 @@ class Session extends SessionHandler implements SessionInterface
     /**
      * @param  string  $key
      *
-     * @return array|null
-     */
-    public static function getAll(): ?array
-    {
-        return self::getAllSession();
-    }
-    /**
-     * @param  string  $key
-     *
      * @return none
      */
     public static function unset(string $key): void

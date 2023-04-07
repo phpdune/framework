@@ -28,15 +28,7 @@ class View extends Compiler implements ViewInterface
      */
 
     private static array $var;
-    /**
-     * Creating an instance of Controller
-     *
-     * @return none
-     */
-    public function __construct()
-    {
-        $this->controller = new Controller();
-    }
+
     /**
      * @param  string  $view
      * @param  array  $data

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dune\Helpers;
 
 use Dune\Routing\Router as Route;
-use Dune\Exception\Errors\Error;
+use Dune\ErrorHandler\Error;
 use Dune\Session\Session;
 
 class Redirect

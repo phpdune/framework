@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Dune\Views\View;
 use Dune\Routing\Router as Route;
-use Dune\Exception\Errors\Error;
+use Dune\ErrorHandler\Error;
 use Dune\Http\Request;
 use Dune\Session\Session;
 use Dune\Csrf\Csrf;

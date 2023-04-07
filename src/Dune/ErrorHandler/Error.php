@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dune\Exception\Errors;
+namespace Dune\ErrorHandler;
 
 class Error
 {
@@ -23,7 +23,7 @@ class Error
         }
 
         if (env('APP_DEBUG') === 'true') {
-            require_once PATH.'/vendor/dune/framework/src/Dune/Exception/Errors/main.php';
+            require_once PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/main.php';
             exit();
         }
         abort($code);

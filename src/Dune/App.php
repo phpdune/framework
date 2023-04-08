@@ -6,7 +6,7 @@ namespace Dune;
 
 use Dotenv\Dotenv;
 
-class App 
+final class App 
 {
      /**
       * load the env variables and set custom error handling

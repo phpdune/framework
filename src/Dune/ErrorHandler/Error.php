@@ -8,15 +8,14 @@ use Dune\ErrorHandler\Logger;
 
 class Error
 {
-       public function __construct()
-        {
-        register_shutdown_function(function(){
+    public function __construct()
+    {
+        register_shutdown_function(function () {
             $error = error_get_last();
-            if($error){
+            if ($error) {
                 throw new \Exception($error['message'], -1, $error['type'], $error['file'], $error['line']);
             }
         });
-
     }
     /**
      * will handle the custom error message
@@ -33,7 +32,6 @@ class Error
             return;
         }
         throw new \Exception($errstr, 0, $errno, $errfile, $errline);
-
     }
     /**
      * will handle the custom exception
@@ -42,7 +40,7 @@ class Error
      *
      * @return none
      */
-    public static function handleException( $e): void
+    public static function handleException($e): void
     {
         $code = str_contains($e->getMessage(), 'Not Found') ? 404 : 500;
         $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();

@@ -85,7 +85,6 @@ function route(string $key)
     if (array_key_exists($key, $array)) {
         return Route::$names[$key];
     } else {
-      
         trigger_error("Route Not Found With Name {$key}");
     }
 }
@@ -152,7 +151,7 @@ function env($key)
  */
 function errorHandler($errno, $errstr, $errfile, $errline)
 {
-    return Error::handle($errno,$errstr, $errfile, $errline);
+    return Error::handle($errno, $errstr, $errfile, $errline);
 }
 /**
  * app custom exception handler
@@ -241,7 +240,7 @@ function logs(mixed $message): void
 */
 function memory(): string
 {
-  $size = memory_get_usage(true);
-  $unit = array('b','kb','mb','gb','tb','pb');
-return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+    $size = memory_get_usage(true);
+    $unit = array('b','kb','mb','gb','tb','pb');
+    return @round($size/pow(1024, ($i=floor(log($size, 1024)))), 2).' '.$unit[$i];
 }

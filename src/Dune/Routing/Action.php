@@ -54,8 +54,8 @@ class Action extends Router
                     }
                 }
                 $action = $route["action"];
-                if ($route["middleware"]) {
-                    $middleware = self::getMiddleware($route["middleware"]);
+                if (isset(self::$middlewares[$url['path']])) {
+                    $middleware = self::getMiddleware(self::$middlewares[$url['path']]);
                     self::callMiddleware($middleware);
                 }
                 if (is_callable($action)) {
@@ -106,7 +106,7 @@ class Action extends Router
      */
     protected static function getMiddleware(string $middleware): ?string
     {
-        $middleware = \App\Middleware\Middleware::MAP[$middleware] ?? null;
+        $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
         if (!$middleware) {
             throw new NotFound(
                 "Exception : Middleware {$route["middleware"]} Not Found"

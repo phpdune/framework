@@ -34,6 +34,12 @@ class Router implements RouterInterface
      * @var array
      */
     public static array $names;
+    /**
+     * route middlewares storred here
+     *
+     * @var array
+     */
+    protected static array $middlewares;
 
     /**
      * @param  string  $route
@@ -51,8 +57,7 @@ class Router implements RouterInterface
         self::$routes[] = [
             'route' => $route,
             'method' => $method,
-            'action' => $action,
-            'middleware' => null,
+            'action' => $action
         ];
     }
     /**
@@ -63,8 +68,8 @@ class Router implements RouterInterface
      */
     public static function get(string $route, callable|array|string $action): self
     {
-        if (is_string($action)) {
-            $action = [self::$controller,$action];
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
         }
         self::setRoutes($route, 'GET', $action);
         return new static();
@@ -88,8 +93,8 @@ class Router implements RouterInterface
      */
     public static function post(string $route, callable|array|string $action): self
     {
-        if (is_string($action)) {
-            $action = [self::$controller,$action];
+       if(is_string($action)) {
+         $action = [self::$controller,$action];
         }
         self::setRoutes($route, 'POST', $action);
         return new static();
@@ -102,8 +107,8 @@ class Router implements RouterInterface
      */
     public static function put(string $route, callable|array|string $action): self
     {
-        if (is_string($action)) {
-            $action = [self::$controller,$action];
+      if(is_string($action)) {
+         $action = [self::$controller,$action];
         }
         self::setRoutes($route, 'PUT', $action);
         return new static();
@@ -116,8 +121,8 @@ class Router implements RouterInterface
      */
     public static function patch(string $route, callable|array|string $action): self
     {
-        if (is_string($action)) {
-            $action = [self::$controller,$action];
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
         }
         self::setRoutes($route, 'PATCH', $action);
         return new static();
@@ -130,8 +135,8 @@ class Router implements RouterInterface
      */
     public static function delete(string $route, callable|array|string $action): self
     {
-        if (is_string($action)) {
-            $action = [self::$controller,$action];
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
         }
         self::setRoutes($route, 'DELETE', $action);
         return new static();
@@ -168,7 +173,7 @@ class Router implements RouterInterface
      */
     public function middleware(string $key): self
     {
-        self::$routes[array_key_last(self::$routes)]["middleware"] = $key;
+        self::$middlewares[self::$path] = $key;
         return new static();
     }
     /**
@@ -216,9 +221,9 @@ class Router implements RouterInterface
      *
      * @return none
      */
-     public static function controller(string $controller, \Closure $callback): void
+     public static function controller(string $controller,\Closure $callback): void
      {
-         self::$controller = $controller;
-         $callback();
+       self::$controller = $controller;
+       $callback();
      }
 }

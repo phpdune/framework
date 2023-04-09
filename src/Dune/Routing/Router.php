@@ -14,13 +14,19 @@ class Router implements RouterInterface
      * @var array
      */
     protected static array $routes;
+    /**
+     * prefix controller
+     *
+     * @var string
+     */
+    private static string $controller;
 
     /**
      * The route path
      *
      * @var string
      */
-    public static string $name;
+    public static string $path;
 
     /**
      * The routes name stored here
@@ -41,7 +47,7 @@ class Router implements RouterInterface
         string $method,
         callable|array|string $action
     ): void {
-        self::$name = $route;
+        self::$path = $route;
         self::$routes[] = [
             'route' => $route,
             'method' => $method,
@@ -55,8 +61,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    public static function get(string $route, callable|array $action): self
+    public static function get(string $route, callable|array|string $action): self
     {
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
+        }
         self::setRoutes($route, 'GET', $action);
         return new static();
     }
@@ -77,8 +86,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    public static function post(string $route, callable|array $action): self
+    public static function post(string $route, callable|array|string $action): self
     {
+       if(is_string($action)) {
+         $action = [self::$controller,$action];
+        }
         self::setRoutes($route, 'POST', $action);
         return new static();
     }
@@ -88,8 +100,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    public static function put(string $route, callable|array $action): self
+    public static function put(string $route, callable|array|string $action): self
     {
+      if(is_string($action)) {
+         $action = [self::$controller,$action];
+        }
         self::setRoutes($route, 'PUT', $action);
         return new static();
     }
@@ -99,8 +114,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    public static function patch(string $route, callable|array $action): self
+    public static function patch(string $route, callable|array|string $action): self
     {
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
+        }
         self::setRoutes($route, 'PATCH', $action);
         return new static();
     }
@@ -110,8 +128,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    public static function delete(string $route, callable|array $action): self
+    public static function delete(string $route, callable|array|string $action): self
     {
+        if(is_string($action)) {
+         $action = [self::$controller,$action];
+        }
         self::setRoutes($route, 'DELETE', $action);
         return new static();
     }
@@ -136,7 +157,7 @@ class Router implements RouterInterface
      */
     public static function name(string $name): self
     {
-        self::$names[$name] = self::$name;
+        self::$names[$name] = self::$path;
         return new static();
     }
     /**
@@ -168,9 +189,9 @@ class Router implements RouterInterface
      *
      * @return null
      */
-    protected static function renderView(string $action): null
+    protected static function renderView(string $file): null
     {
-        return View::render($action);
+        return View::render($file);
     }
     /**
      * proceeds the route to run
@@ -186,5 +207,18 @@ class Router implements RouterInterface
      public static function run($uri, $method): mixed
      {
          return Action::tryRun($uri, $method);
+     }
+    /**
+     * route controller grouping
+     *
+     * @param  string  $controller
+     * @param  \Closure  $callback
+     *
+     * @return none
+     */
+     public static function controller(string $controller,\Closure $callback): void
+     {
+       self::$controller = $controller;
+       $callback();
      }
 }

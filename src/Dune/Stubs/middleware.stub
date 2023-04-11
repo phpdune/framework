@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Middleware;
+
+use Dune\Middleware\MiddlewareInterface;
+
+class {{ Middleware }} implements MiddlewareInterface
+{
+    public function handle()
+    {
+        //
+    }
+}

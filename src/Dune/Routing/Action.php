@@ -60,9 +60,9 @@ class Action extends Router
                     $middleware = self::getMiddleware(self::$middlewares[$route['route']]);
                     self::callMiddleware($middleware);
                 }
-             foreach ($matches as $key => $value) {
-                 self::$params[$key] = $value;
-            }
+                foreach ($matches as $key => $value) {
+                    self::$params[$key] = $value;
+                }
                 if (is_callable($action)) {
                     return self::runCallable($action);
                 }
@@ -97,10 +97,9 @@ class Action extends Router
             throw new NotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
-            
-              $request = new Request();
-              $request->setParams(self::$params);
-              
+            $request = new Request();
+            $request->setParams(self::$params);
+
             return call_user_func_array([$class, $method], [$request]);
         }
         throw new NotFound("Exception : Method {$method} Not Found");

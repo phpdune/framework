@@ -135,68 +135,66 @@ class Request implements RequestInterface
      * @param  array|object $rules
      *
      * @return none|null
-     */   
+     */
      public function validate(array|object $data)
      {
-       if(is_array($data)) {
-         $rules = $data;
-       } else {
-         $rules = $data->validation();
-       }
-       foreach($rules as $field => $rule) {
-         foreach($rule as $ruleName => $ruleValue) {
-           
-           $this->oldInputs['old_'.$field] = $this->get($field);
-           
-           ($ruleName ? $this->checkValidation($ruleName,$ruleValue,$field) : $this->checkValidation($ruleValue,$ruleValue,$field));
-           
+         if (is_array($data)) {
+             $rules = $data;
+         } else {
+             $rules = $data->validation();
          }
-       }
-       if(!empty($this->errors)) {
-         return redirect()->back()->withArray(array_merge($this->errors,$this->oldInputs));
-       }
+         foreach ($rules as $field => $rule) {
+             foreach ($rule as $ruleName => $ruleValue) {
+                 $this->oldInputs['old_'.$field] = $this->get($field);
+
+                 ($ruleName ? $this->checkValidation($ruleName, $ruleValue, $field) : $this->checkValidation($ruleValue, $ruleValue, $field));
+             }
+         }
+         if (!empty($this->errors)) {
+             return redirect()->back()->withArray(array_merge($this->errors, $this->oldInputs));
+         }
      }
     /**
-     * @param  string $name 
+     * @param  string $name
      * @param mixed $ruleValue
      * @param string $field
      *
      * @return string
      */
-     public function checkValidation(string $name, mixed $ruleValue,string $field): void
+     public function checkValidation(string $name, mixed $ruleValue, string $field): void
      {
-       $value = $this->get($field) ?? '';
-       if($name == 'required') {
-         if(empty($value)) {
-           if(!$this->errors[$field]) {
-           $this->errors[$field] = "Field is required.";
-           }
-         }
-       } elseif($name == 'min') {
-         if(strlen($value) < $ruleValue) {
-           if(!$this->errors[$field]) {
-           $this->errors[$field] = "Field must be at least {$ruleValue} characters.";
-           }
-         }
-       } elseif($name == 'max') {
-         if(strlen($value) > $ruleValue) {
-           if(!$this->errors[$field]) {
-           $this->errors[$field] = "Field may not be greater than {$ruleValue} characters";
-           }
-         }
-       } elseif($name == 'email') {
-         if(!filter_var($value,FILTER_VALIDATE_EMAIL)) {
-           if(!$this->errors[$field]) {
-           $this->errors[$field] = "Field must be a valid email address";
+         $value = $this->get($field) ?? '';
+         if ($name == 'required') {
+             if (empty($value)) {
+                 if (!$this->errors[$field]) {
+                     $this->errors[$field] = "Field is required.";
+                 }
+             }
+         } elseif ($name == 'min') {
+             if (strlen($value) < $ruleValue) {
+                 if (!$this->errors[$field]) {
+                     $this->errors[$field] = "Field must be at least {$ruleValue} characters.";
+                 }
+             }
+         } elseif ($name == 'max') {
+             if (strlen($value) > $ruleValue) {
+                 if (!$this->errors[$field]) {
+                     $this->errors[$field] = "Field may not be greater than {$ruleValue} characters";
+                 }
+             }
+         } elseif ($name == 'email') {
+             if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                 if (!$this->errors[$field]) {
+                     $this->errors[$field] = "Field must be a valid email address";
+                 }
+             }
+         } elseif ($name == 'equal') {
+             if ($value !== $this->get($ruleValue)) {
+                 if (!$this->errors[$field]) {
+                     $this->errors[$field] = "Field must be equal to {$ruleValue}";
+                 }
              }
          }
-       } elseif($name == 'equal') {
-         if($value !== $this->get($ruleValue)) {
-           if(!$this->errors[$field]) {
-             $this->errors[$field] = "Field must be equal to {$ruleValue}";
-           }
-         }
-       }
      }
     /**
      * @param  string $key
@@ -206,7 +204,7 @@ class Request implements RequestInterface
      */
      public function setParams(array $params): void
      {
-        $this->params = $params;
+         $this->params = $params;
      }
     /**
      * @param  string $key
@@ -215,6 +213,6 @@ class Request implements RequestInterface
      */
      public function param(string $key): mixed
      {
-        return (isset($this->params[$key]) ? $this->params[$key] : null);
+         return (isset($this->params[$key]) ? $this->params[$key] : null);
      }
 }

@@ -79,14 +79,20 @@ function abort(int $code = 404, string $message = null)
  *
  * @return Route|Error
  */
-function route(string $key)
+function route(string $key, array $values = [])
 {
     $array = Route::$names;
     if (array_key_exists($key, $array)) {
-        return Route::$names[$key];
-    } else {
-        trigger_error("Route Not Found With Name {$key}");
+        $route = Route::$names[$key];
+        if(str_contains($route,'{') && str_contains($route,'}')) {
+          $route = str_replace(array_keys($values), array_values($values), $route);
+          $route = str_replace('{','',$route);
+          $route = str_replace('}','',$route);
+          return $route;
+        }
+        return $route;
     }
+    return null;
 }
 /**
  * asset function will return the file path from public/asset dir
@@ -151,7 +157,7 @@ function env($key)
  */
 function errorHandler($errno, $errstr, $errfile, $errline)
 {
-    return Error::handle($errno, $errstr, $errfile, $errline);
+    return Error::handle($errno,$errstr, $errfile, $errline);
 }
 /**
  * app custom exception handler
@@ -240,7 +246,40 @@ function logs(mixed $message): void
 */
 function memory(): string
 {
-    $size = memory_get_usage(true);
-    $unit = array('b','kb','mb','gb','tb','pb');
-    return @round($size/pow(1024, ($i=floor(log($size, 1024)))), 2).' '.$unit[$i];
+  $size = memory_get_usage(true);
+  $unit = ['b','kb','mb','gb','tb','pb'];
+return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+}
+/**
+* get error message of the form field by session
+*
+* @param string $key
+*
+* @return mixed
+*/
+function error(string $key): mixed
+{
+     return Session::get($key);
+}
+/**
+* check error message of the form field by session
+*
+* @param string $key
+*
+* @return bool
+*/
+function errorHas(string $key): bool
+{
+     return (Session::has($key) ? true : false);
+}
+/**
+* return the old value of input fields of form
+*
+* @param string $key
+*
+* @return mixed
+*/
+function old(string $key): mixed 
+{
+  return Session::get('old_'.$key);
 }

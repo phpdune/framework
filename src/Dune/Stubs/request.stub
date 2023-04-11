@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Request;
+
+use Dune\Http\ValidaterInterface;
+
+class {{ Request }} implements ValidaterInterface
+{
+  public function validation(): ?array
+  {
+    return [
+         //
+      ];
+  }
+}

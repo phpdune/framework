@@ -18,11 +18,11 @@ class Command extends CommandHandler implements CommandInterface
     {
         if ($command == "create:controller") {
             return $this->createController($arg);
-          } elseif($command == "create:middleware") {
+        } elseif ($command == "create:middleware") {
             return $this->createMiddleware($arg);
-          } elseif($command == "create:request") {
+        } elseif ($command == "create:request") {
             return $this->createRequest($arg);
-          }
+        }
         return 'Invalid Command'.PHP_EOL;
     }
 }

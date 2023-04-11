@@ -78,8 +78,8 @@ class CommandHandler
         //getting stub
         $stub = $this->getStubRequest($name);
         //creating file
-        if(!file_exists(PATH.'/app/request')){
-          mkdir(PATH.'/app/request');
+        if (!file_exists(PATH.'/app/request')) {
+            mkdir(PATH.'/app/request');
         }
         ($file = fopen("app/request/{$name}.php", "w")) or
             die("Unable to open file!");

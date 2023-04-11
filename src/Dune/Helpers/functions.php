@@ -63,7 +63,7 @@ function runRoutes()
  */
 function abort(int $code = 404, string $message = null)
 {
-    $file = PATH . '/app/views/errors/error.view.php';
+    $file = PATH . '/app/views/errors/error.pine.php';
     if (file_exists($file)) {
         return view('errors/error', [
           'code' => $code,

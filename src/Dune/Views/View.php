@@ -39,7 +39,7 @@ class View extends Compiler implements ViewInterface
      */
     public static function render(string $view, array $data = []): ?string
     {
-        $viewFile = $view . ".view.php";
+        $viewFile = $view . ".pine.php";
         self::$file = PATH . "/app/views/" . $viewFile;
         self::$var = $data;
 
@@ -69,10 +69,10 @@ class View extends Compiler implements ViewInterface
             )
         ) {
             self::$layout =
-                PATH . "/app/views/layouts/" . $matches[1][0] . ".view.php";
+                PATH . "/app/views/layouts/" . $matches[1][0] . ".pine.php";
             if (!file_exists(self::$layout)) {
                 throw new NotFound(
-                    "Exception : {$matches[1][0]}.view.php File Not Found In views/layouts Directory"
+                    "Exception : {$matches[1][0]}.pine.php File Not Found In views/layouts Directory"
                 );
             }
             $template = self::compileExtends($template, $matches[0][0]);

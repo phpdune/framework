@@ -29,8 +29,10 @@ class Action extends Router
         $url = parse_url($uri);
 
         foreach (self::$routes as $route) {
+            $regex = preg_replace('/\{([a-z]+)\}/', '(?P<$1>[a-zA-Z0-9]+)', $route['route']);
+            $regex = str_replace('/', '\/', $regex);
             if (
-                $route["route"] == $url["path"] &&
+                preg_match('/^' . $regex . '$/', $url['path'], $matches) &&
                 $route["method"] != $requestMethod
             ) {
                 throw new MethodNotSupported(
@@ -38,7 +40,7 @@ class Action extends Router
                 );
             }
             if (
-                $route["route"] == $url["path"] &&
+                preg_match('/^' . $regex . '$/', $url['path'], $matches) &&
                 $route["method"] == $requestMethod
             ) {
                 if ($requestMethod != "GET") {
@@ -54,9 +56,12 @@ class Action extends Router
                     }
                 }
                 $action = $route["action"];
-                if (isset(self::$middlewares[$url['path']])) {
-                    $middleware = self::getMiddleware(self::$middlewares[$url['path']]);
+                if (isset(self::$middlewares[$route['route']])) {
+                    $middleware = self::getMiddleware(self::$middlewares[$route['route']]);
                     self::callMiddleware($middleware);
+                }
+                foreach ($matches as $key => $value) {
+                    self::$params[$key] = $value;
                 }
                 if (is_callable($action)) {
                     return self::runCallable($action);
@@ -92,7 +97,7 @@ class Action extends Router
             throw new NotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
-            return call_user_func_array([$class, $method], [new Request()]);
+            return call_user_func_array([$class, $method], [new Request(),self::$params]);
         }
         throw new NotFound("Exception : Method {$method} Not Found");
     }

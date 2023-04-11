@@ -40,7 +40,12 @@ class Router implements RouterInterface
      * @var array
      */
     protected static array $middlewares;
-
+    /**
+     * route parama storred here
+     *
+     * @var array
+     */
+    protected static array $params = [];
     /**
      * @param  string  $route
      * @param  string  $method

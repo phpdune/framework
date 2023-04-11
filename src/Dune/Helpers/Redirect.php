@@ -60,6 +60,19 @@ class Redirect
         Session::set('__'.$key, $value);
     }
       /**
+       * can access this value through session
+       *
+       * @param  array  $data
+       *
+       * @return none
+       */
+    public function withArray(array $data): void
+    {
+        foreach($data as $key => $value) {
+        Session::set('__'.$key, $value);
+        }
+    }
+      /**
        * redirection
        *
        * @param  none

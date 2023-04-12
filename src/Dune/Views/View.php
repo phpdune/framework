@@ -6,7 +6,7 @@ namespace Dune\Views;
 
 use Dune\Exception\NotFound;
 
-class View extends Compiler implements ViewInterface
+class View extends PineCompiler implements ViewInterface
 {
     /**
      * The view file.

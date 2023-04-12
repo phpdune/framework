@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dune\Views;
 
-class Compiler
+class PineCompiler
 {
     /**
      * @param  string  $template

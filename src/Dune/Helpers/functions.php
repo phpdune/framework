@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Dune\Views\View;
 use Dune\Routing\Router as Route;
+use Dune\Routing\RouteHandler;
 use Dune\ErrorHandler\Error;
 use Dune\Http\Request;
 use Dune\Session\Session;
@@ -24,11 +25,12 @@ use Dune\ErrorHandler\Logger;
  */
 function view(string $view, array $data = null)
 {
+     $pine = new View();
     try {
         if (!empty($data)) {
-            return  View::render($view, $data);
+            return $pine->render($view, $data);
         } else {
-            return View::render($view);
+            return $pine->render($view);
         }
     } catch (\Exception $e) {
         return Error::handleException($e);
@@ -81,14 +83,14 @@ function abort(int $code = 404, string $message = null)
  */
 function route(string $key, array $values = [])
 {
-    $array = Route::$names;
+    $array = RouteHandler::$names;
     if (array_key_exists($key, $array)) {
-        $route = Route::$names[$key];
-        if (str_contains($route, '{') && str_contains($route, '}')) {
-            $route = str_replace(array_keys($values), array_values($values), $route);
-            $route = str_replace('{', '', $route);
-            $route = str_replace('}', '', $route);
-            return $route;
+        $route = RouteHandler::$names[$key];
+        if(str_contains($route,'{') && str_contains($route,'}')) {
+          $route = str_replace(array_keys($values), array_values($values), $route);
+          $route = str_replace('{','',$route);
+          $route = str_replace('}','',$route);
+          return $route;
         }
         return $route;
     }
@@ -157,7 +159,7 @@ function env($key)
  */
 function errorHandler($errno, $errstr, $errfile, $errline)
 {
-    return Error::handle($errno, $errstr, $errfile, $errline);
+    return Error::handle($errno,$errstr, $errfile, $errline);
 }
 /**
  * app custom exception handler
@@ -246,9 +248,9 @@ function logs(mixed $message): void
 */
 function memory(): string
 {
-    $size = memory_get_usage(true);
-    $unit = ['b','kb','mb','gb','tb','pb'];
-    return @round($size/pow(1024, ($i=floor(log($size, 1024)))), 2).' '.$unit[$i];
+  $size = memory_get_usage(true);
+  $unit = ['b','kb','mb','gb','tb','pb'];
+return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
 }
 /**
 * get error message of the form field by session
@@ -259,7 +261,7 @@ function memory(): string
 */
 function error(string $key): mixed
 {
-    return Session::get($key);
+     return Session::get($key);
 }
 /**
 * check error message of the form field by session
@@ -270,7 +272,7 @@ function error(string $key): mixed
 */
 function errorHas(string $key): bool
 {
-    return (Session::has($key) ? true : false);
+     return (Session::has($key) ? true : false);
 }
 /**
 * return the old value of input fields of form
@@ -279,7 +281,7 @@ function errorHas(string $key): bool
 *
 * @return mixed
 */
-function old(string $key): mixed
+function old(string $key): mixed 
 {
-    return Session::get('old_'.$key);
+  return Session::get('old_'.$key);
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dune\Http;
 
-interface ValidaterInterface
+interface ValidaterInterface 
 {
-    public function validation(): ?array;
+  public function validation(): ?array;
 }

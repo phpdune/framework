@@ -7,20 +7,6 @@ namespace Dune\Routing;
 interface RouterInterface
 {
     /**
-     * All route will register here
-     *
-     * @param  string  $route
-     * @param  string  $method
-     * @param callable|string $action
-     *
-     * @return none
-     */
-    public static function setRoutes(
-        string $route,
-        string $method,
-        callable|array|string $action
-    ): void;
-    /**
      * Register the GET route
      *
      * @param  string  $route
@@ -82,12 +68,4 @@ interface RouterInterface
      * @return static
      */
     public static function name(string $name): self;
-    /**
-     * route middleware registering will happen here
-     *
-     * @param  string  $key
-     *
-     * @return static
-     */
-    public function middleware(string $key): self;
 }

@@ -9,10 +9,17 @@ use Dune\Exception\NotFound;
 use Dune\Exception\MethodNotSupported;
 use Dune\Csrf\Csrf;
 use Dune\Session\Session;
-use Dune\Container\Container;
+use Dune\Routing\RouteActionCaller;
 
-class Action extends Router
+class RouteResolver extends RouteActionCaller
 {
+    /**
+     * route parama storred here
+     *
+     * @var array
+     */
+     public static array $params = [];
+     
     /**
      * Check the route exist and pass to other method to run,
      *
@@ -24,11 +31,11 @@ class Action extends Router
      *
      * @return string|null
      */
-    protected static function tryRun($uri, $requestMethod): mixed
+    public function resolve(string $uri, string $requestMethod): mixed
     {
         $url = parse_url($uri);
 
-        foreach (self::$routes as $route) {
+        foreach (RouteHandler::$routes as $route) {
             $regex = preg_replace('/\{([a-z]+)\}/', '(?P<$1>[a-zA-Z0-9]+)', $route['route']);
             $regex = str_replace('/', '\/', $regex);
             if (
@@ -56,53 +63,28 @@ class Action extends Router
                     }
                 }
                 $action = $route["action"];
-                if (isset(self::$middlewares[$route['route']])) {
-                    $middleware = self::getMiddleware(self::$middlewares[$route['route']]);
-                    self::callMiddleware($middleware);
+                if (RouteHandler::$middlewares[$route['route']]) {
+                    $middleware = $this->getMiddleware(RouteHandler::$middlewares[
+                      $route['route']]);
+                    $this->callMiddleware($middleware);
                 }
-                foreach ($matches as $key => $value) {
-                    self::$params[$key] = $value;
-                }
+             foreach ($matches as $key => $value) {
+                 self::$params[$key] = $value;
+            }
                 if (is_callable($action)) {
-                    return self::runCallable($action);
+                    return $this->runCallable($action);
                 }
                 if (is_array($action)) {
-                    return self::runMethod($action);
+                    return $this->runMethod($action);
                 }
                 if (is_string($action)) {
-                    return self::renderView($action);
+                    return $this->renderView($action);
                 }
             }
         }
         throw new NotFound(
             "Exception : Route Not Found By This URI {$url["path"]}"
         );
-    }
-    /**
-     * will run method in route
-     *
-     * @param  array  $action
-     *
-     * @throw \NotFound
-     *
-     * @return string|null
-     */
-    protected static function runMethod(array $action): mixed
-    {
-        [$class, $method] = $action;
-        if (class_exists($class)) {
-            $container = new Container();
-            $class = $container->get($class);
-        } else {
-            throw new NotFound("Exception : Class {$class} Not Found");
-        }
-        if (method_exists($class, $method)) {
-            $request = new Request();
-            $request->setParams(self::$params);
-
-            return call_user_func_array([$class, $method], [$request]);
-        }
-        throw new NotFound("Exception : Method {$method} Not Found");
     }
     /**
      * get the middleware
@@ -112,7 +94,7 @@ class Action extends Router
      *
      * @return string|null
      */
-    protected static function getMiddleware(string $middleware): ?string
+    public function getMiddleware(string $middleware): ?string
     {
         $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
         if (!$middleware) {
@@ -121,5 +103,27 @@ class Action extends Router
             );
         }
         return $middleware;
+    }
+    /**
+     * return params
+     *
+     * @param none
+     *
+     * @return array|null
+     */ 
+     public function getParams(): ?array
+     {
+       return self::$params;
+     }
+    /**
+     * middleware calling method
+     *
+     * @param  string  $middleware.
+     *
+     * @return none
+     */
+    public function callMiddleware(string $middleware): void
+    {
+        (new $middleware())->handle();
     }
 }

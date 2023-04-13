@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dune\Helpers;
 
-use Dune\Routing\Router as Route;
+use Dune\Routing\RouteHandler;
 use Dune\ErrorHandler\Error;
 use Dune\Session\Session;
 
@@ -25,9 +25,9 @@ class Redirect
      */
     public function route(string $key): self
     {
-        $array = Route::$names;
+        $array = RouteHandler::$names;
         if (array_key_exists($key, $array)) {
-            $routeUri = Route::$names[$key];
+            $routeUri = RouteHandler::$names[$key];
             $this->uri = $routeUri;
             $this->redirect();
             return $this;
@@ -68,8 +68,8 @@ class Redirect
        */
     public function withArray(array $data): void
     {
-        foreach ($data as $key => $value) {
-            Session::set('__'.$key, $value);
+        foreach($data as $key => $value) {
+        Session::set('__'.$key, $value);
         }
     }
       /**

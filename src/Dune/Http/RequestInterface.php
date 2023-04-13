@@ -62,7 +62,7 @@ interface RequestInterface
     *
     * @return string
     */
-    public function getHeaders(): string;
+    public function getHeaders(string $uri): string;
     /**
     * @param  none
     *

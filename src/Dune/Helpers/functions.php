@@ -119,18 +119,7 @@ function method(string $method)
 {
     return '<input type="hidden" name="_method" value="' . $method . '"/>';
 }
-/**
- * dd function will die and dump
- *
- * @param mixed $data.
- *
- * @return none
- */
-function dd($data)
-{
-    dump($data);
-    exit();
-}
+
 /**
  * env function will return the value from .env file
  *

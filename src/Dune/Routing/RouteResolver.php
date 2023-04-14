@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Dune\Routing;
 
 use Dune\Http\Request;
-use Dune\Exception\NotFound;
-use Dune\Exception\MethodNotSupported;
+use Dune\Routing\Exception\RouteNotFound;
+use Dune\Routing\Exception\MethodNotSupported;
 use Dune\Csrf\Csrf;
 use Dune\Session\Session;
 use Dune\Routing\RouteActionCaller;
@@ -27,7 +27,7 @@ class RouteResolver extends RouteActionCaller
      * @param  string  $requestMethod
      *
      * @throw \MethodNotSupported
-     * @throw \NotFound
+     * @throw \RouteNotFoundException
      *
      * @return string|null
      */
@@ -82,7 +82,7 @@ class RouteResolver extends RouteActionCaller
                 }
             }
         }
-        throw new NotFound(
+        throw new RouteNotFound(
             "Exception : Route Not Found By This URI {$url["path"]}"
         );
     }
@@ -98,7 +98,7 @@ class RouteResolver extends RouteActionCaller
     {
         $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
         if (!$middleware) {
-            throw new NotFound(
+            throw new RouteNotFound(
                 "Exception : Middleware {$route["middleware"]} Not Found"
             );
         }

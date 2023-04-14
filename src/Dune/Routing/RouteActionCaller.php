@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dune\Routing;
 
 use Dune\Routing\RouterTrait;
-use Dune\Exception\NotFound;
+use Dune\Routing\Exception\RouteNotFound;
 use Dune\Container\Container;
 use Dune\Views\View;
 use Dune\Http\Request;
@@ -69,7 +69,7 @@ class RouteActionCaller
             $container = new Container();
             $class = $container->get($class);
         } else {
-            throw new NotFound("Exception : Class {$class} Not Found");
+            throw new RouteNotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
               $request = new Request();
@@ -77,6 +77,6 @@ class RouteActionCaller
               
             return call_user_func_array([$class, $method], [$request]);
         }
-        throw new NotFound("Exception : Method {$method} Not Found");
+        throw new RouteNotFound("Exception : Method {$method} Not Found");
     }
 }

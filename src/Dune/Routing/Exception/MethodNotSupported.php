@@ -1,6 +1,8 @@
 <?php
 
-namespace Dune\Routing\Exception;
+//global exception
+
+namespace Dune\Exception;
 
 class MethodNotSupported extends \Exception
 {

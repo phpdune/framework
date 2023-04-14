@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
-use Dune\Views\View;
-
 class RouteHandler
 {
     /**

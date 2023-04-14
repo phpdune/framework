@@ -58,7 +58,7 @@ class RouteActionCaller
      *
      * @param  array  $action
      *
-     * @throw \NotFound
+     * @throw \Dune\Routing\Exception\NotFound
      *
      * @return string|null
      */

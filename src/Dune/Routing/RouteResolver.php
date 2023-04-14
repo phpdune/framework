@@ -26,8 +26,8 @@ class RouteResolver extends RouteActionCaller
      * @param  string  $uri
      * @param  string  $requestMethod
      *
-     * @throw \MethodNotSupported
-     * @throw \RouteNotFoundException
+     * @throw \Dune\Routing\Exception\MethodNotSupported
+     * @throw \Dune\Routing\Exception\RouteNotFound
      *
      * @return string|null
      */

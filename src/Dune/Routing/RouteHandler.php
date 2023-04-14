@@ -44,8 +44,8 @@ class RouteHandler
      *
      * @var array
      */
-     private ?RouteResolver $resolver = null;
-     
+    private ?RouteResolver $resolver = null;
+
     /**
      * @param \Dune\Views\View
      * @param  \Dune\Routing\RouteResolver
@@ -54,8 +54,7 @@ class RouteHandler
      */
     public function __construct(RouteResolver $resolver)
     {
-      $this->resolver = $resolver;
-   
+        $this->resolver = $resolver;
     }
     /**
      * @param  string  $route
@@ -63,7 +62,7 @@ class RouteHandler
      * @param callable|string $action
      *
      * @return none
-     */    
+     */
     public function setRoutes(
         string $route,
         string $method,
@@ -84,10 +83,10 @@ class RouteHandler
      */
      public function getHandler(string $route, callable|array|string $action): void
      {
-       if(is_string($action)) {
-         $action = [$this->controller,$action];
-        }
-        $this->setRoutes($route, 'GET', $action);
+         if (is_string($action)) {
+             $action = [$this->controller,$action];
+         }
+         $this->setRoutes($route, 'GET', $action);
      }
     /**
      * @param  string  $route
@@ -95,9 +94,9 @@ class RouteHandler
      *
      * @return none
      */
-    public function viewHandler(string $route, string $view): void 
+    public function viewHandler(string $route, string $view): void
     {
-      $this->setRoutes($route, 'GET', $view);
+        $this->setRoutes($route, 'GET', $view);
     }
     /**
      * @param  string  $route
@@ -107,10 +106,10 @@ class RouteHandler
      */
      public function postHandler(string $route, callable|array|string $action): void
      {
-       if(is_string($action)) {
-         $action = [$this->controller,$action];
-        }
-        $this->setRoutes($route, 'POST', $action);
+         if (is_string($action)) {
+             $action = [$this->controller,$action];
+         }
+         $this->setRoutes($route, 'POST', $action);
      }
     /**
      * @param  string  $route
@@ -120,10 +119,10 @@ class RouteHandler
      */
      public function putHandler(string $route, callable|array|string $action): void
      {
-       if(is_string($action)) {
-         $action = [$this->controller,$action];
-        }
-        $this->setRoutes($route, 'PUT', $action);
+         if (is_string($action)) {
+             $action = [$this->controller,$action];
+         }
+         $this->setRoutes($route, 'PUT', $action);
      }
     /**
      * @param  string  $route
@@ -133,10 +132,10 @@ class RouteHandler
      */
      public function patchHandler(string $route, callable|array|string $action): void
      {
-       if(is_string($action)) {
-         $action = [$this->controller,$action];
-        }
-        $this->setRoutes($route, 'PATCH', $action);
+         if (is_string($action)) {
+             $action = [$this->controller,$action];
+         }
+         $this->setRoutes($route, 'PATCH', $action);
      }
     /**
      * @param  string  $route
@@ -146,12 +145,12 @@ class RouteHandler
      */
      public function deleteHandler(string $route, callable|array|string $action): void
      {
-       if(is_string($action)) {
-         $action = [$this->controller,$action];
-        }
-        $this->setRoutes($route, 'DELETE', $action);
+         if (is_string($action)) {
+             $action = [$this->controller,$action];
+         }
+         $this->setRoutes($route, 'DELETE', $action);
      }
-     
+
     /**
      *
      * @param  string  $name
@@ -160,7 +159,7 @@ class RouteHandler
      */
     public function setName(string $name): void
     {
-      self::$names[$name] = self::$path;
+        self::$names[$name] = self::$path;
     }
     /**
      *
@@ -170,7 +169,7 @@ class RouteHandler
      */
     public function setMiddleware(string $key): void
     {
-      self::$middlewares[self::$path] = $key;
+        self::$middlewares[self::$path] = $key;
     }
 
     /**
@@ -196,10 +195,10 @@ class RouteHandler
      *
      * @return none
      */
-     public function setControllerPrefix(string $controller,\Closure $callback): void 
+     public function setControllerPrefix(string $controller, \Closure $callback): void
      {
-       $this->controller = $controller;
-       $callback();
+         $this->controller = $controller;
+         $callback();
      }
 
     /**
@@ -208,10 +207,10 @@ class RouteHandler
      * @param none
      *
      * @return array|null
-     */     
+     */
      public function getRoutes(): ?array
      {
-       return self::$routes;
+         return self::$routes;
      }
     /**
      * return path
@@ -219,10 +218,10 @@ class RouteHandler
      * @param none
      *
      * @return string|null
-     */     
+     */
      public function getPath(): ?string
      {
-       return self::$path;
+         return self::$path;
      }
     /**
      * return names
@@ -230,10 +229,10 @@ class RouteHandler
      * @param none
      *
      * @return array|null
-     */     
+     */
      public function getNames(): ?array
      {
-       return self::$names;
+         return self::$names;
      }
     /**
      * return middleware
@@ -241,10 +240,10 @@ class RouteHandler
      * @param string $middleware
      *
      * @return string|null
-     */ 
+     */
      public function getMiddleware(string $middleware): ?string
      {
-       return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
+         return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
      }
 
     /**
@@ -253,9 +252,9 @@ class RouteHandler
      * @param string $middleware
      *
      * @return bool
-     */ 
+     */
      public function hasMiddleware(string $middleware): bool
      {
-       return (isset(self::$middlewares[$middleware]) ? true : false);
+         return (isset(self::$middlewares[$middleware]) ? true : false);
      }
 }

@@ -18,8 +18,8 @@ class RouteResolver extends RouteActionCaller
      *
      * @var array
      */
-     public static array $params = [];
-     
+    public static array $params = [];
+
     /**
      * Check the route exist and pass to other method to run,
      *
@@ -68,9 +68,9 @@ class RouteResolver extends RouteActionCaller
                       $route['route']]);
                     $this->callMiddleware($middleware);
                 }
-             foreach ($matches as $key => $value) {
-                 self::$params[$key] = $value;
-            }
+                foreach ($matches as $key => $value) {
+                    self::$params[$key] = $value;
+                }
                 if (is_callable($action)) {
                     return $this->runCallable($action);
                 }
@@ -110,10 +110,10 @@ class RouteResolver extends RouteActionCaller
      * @param none
      *
      * @return array|null
-     */ 
+     */
      public function getParams(): ?array
      {
-       return self::$params;
+         return self::$params;
      }
     /**
      * middleware calling method

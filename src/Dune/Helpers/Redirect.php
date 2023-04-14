@@ -68,8 +68,8 @@ class Redirect
        */
     public function withArray(array $data): void
     {
-        foreach($data as $key => $value) {
-        Session::set('__'.$key, $value);
+        foreach ($data as $key => $value) {
+            Session::set('__'.$key, $value);
         }
     }
       /**

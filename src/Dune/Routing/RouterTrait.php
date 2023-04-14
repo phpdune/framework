@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
-trait RouterTrait 
+trait RouterTrait
 {
-   protected static function initHandler()
-   {
-      return new \Dune\Routing\RouteHandler(
-        new \Dune\Routing\RouteResolver()
+    protected static function initHandler()
+    {
+        return new \Dune\Routing\RouteHandler(
+            new \Dune\Routing\RouteResolver()
         );
-   }
-   protected function initActionCaller()
-   {
-     return new \Dune\Views\View();
-   }
+    }
+    protected function initActionCaller()
+    {
+        return new \Dune\Views\View();
+    }
 }

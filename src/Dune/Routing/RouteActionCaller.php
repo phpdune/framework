@@ -10,34 +10,34 @@ use Dune\Container\Container;
 use Dune\Views\View;
 use Dune\Http\Request;
 
-class RouteActionCaller 
+class RouteActionCaller
 {
     use RouterTrait;
-    
+
     /**
      * view instance
      *
      * @var array
      */
-     private ?View $view = null;
+    private ?View $view = null;
     /**
      * @param  none
      *
      * @return none
-     */     
-     public function __construct()
-     {
-       if(is_null($this->view)) {
-         $this->view = self::initActionCaller();
-       }
-     }
-    /**
-     * will run callable action in route
-     *
-     * @param  callable  $action
-     *
-     * @return string|null
      */
+    public function __construct()
+    {
+        if (is_null($this->view)) {
+            $this->view = self::initActionCaller();
+        }
+    }
+    /**
+    * will run callable action in route
+    *
+    * @param  callable  $action
+    *
+    * @return string|null
+    */
     protected function runCallable(callable $action): mixed
     {
         return call_user_func($action);
@@ -72,9 +72,9 @@ class RouteActionCaller
             throw new RouteNotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
-              $request = new Request();
-              $request->setParams(RouteResolver::$params);
-              
+            $request = new Request();
+            $request->setParams(RouteResolver::$params);
+
             return call_user_func_array([$class, $method], [$request]);
         }
         throw new RouteNotFound("Exception : Method {$method} Not Found");

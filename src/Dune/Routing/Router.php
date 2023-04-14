@@ -11,7 +11,7 @@ use Dune\Routing\RouterTrait;
 class Router implements RouterInterface
 {
     use RouterTrait;
-    
+
     /**
      * \Dune\Routing\RouteHandler instance
      *
@@ -24,11 +24,11 @@ class Router implements RouterInterface
      *
      * @return static
      */
-    
+
     public static function get(string $route, callable|array|string $action): self
     {
         self::init();
-        self::$route->getHandler($route,$action);
+        self::$route->getHandler($route, $action);
         return new static();
     }
     /**
@@ -40,7 +40,7 @@ class Router implements RouterInterface
     public static function view(string $route, string $view): self
     {
         self::init();
-        self::$route->viewHandler($route,$view);
+        self::$route->viewHandler($route, $view);
         return new static();
     }
     /**
@@ -51,8 +51,8 @@ class Router implements RouterInterface
      */
     public static function post(string $route, callable|array|string $action): self
     {
-       self::init();
-       self::$route->postHandler($route,$action);
+        self::init();
+        self::$route->postHandler($route, $action);
         return new static();
     }
     /**
@@ -64,7 +64,7 @@ class Router implements RouterInterface
     public static function put(string $route, callable|array|string $action): self
     {
         self::init();
-        self::$route->putHandler($route,$action);
+        self::$route->putHandler($route, $action);
         return new static();
     }
     /**
@@ -76,7 +76,7 @@ class Router implements RouterInterface
     public static function patch(string $route, callable|array|string $action): self
     {
         self::init();
-        self::$route->patchHandler($route,$action);
+        self::$route->patchHandler($route, $action);
         return new static();
     }
     /**
@@ -88,7 +88,7 @@ class Router implements RouterInterface
     public static function delete(string $route, callable|array|string $action): self
     {
         self::init();
-        self::$route->deleteHandler($route,$action);
+        self::$route->deleteHandler($route, $action);
         return new static();
     }
 
@@ -116,7 +116,7 @@ class Router implements RouterInterface
         self::$route->setMiddleware($key);
         return new static();
     }
-    
+
     /**
      * route controller grouping
      *
@@ -125,24 +125,24 @@ class Router implements RouterInterface
      *
      * @return none
      */
-     public static function controller(string $controller,\Closure $callback): void
+     public static function controller(string $controller, \Closure $callback): void
      {
-       self::init();
-       self::$route->setControllerPrefix($controller,$callback);
+         self::init();
+         self::$route->setControllerPrefix($controller, $callback);
      }
-    
+
     /**
      * route handling
      *
      * @param string $uri
      * @param string $method
-     * 
+     *
      * @return none
      */
-     public static function run(string $uri,string $method): mixed
+     public static function run(string $uri, string $method): mixed
      {
-       self::init();
-       return self::$route->run($uri,$method);
+         self::init();
+         return self::$route->run($uri, $method);
      }
     /**
      * \Dune\Routing\RouteHandler initialzation
@@ -153,9 +153,8 @@ class Router implements RouterInterface
      */
      public static function init(): void
      {
-        if(is_null(self::$route)) {
-          self::$route = self::initHandler ();
-        }
+         if (is_null(self::$route)) {
+             self::$route = self::initHandler();
+         }
      }
-
 }

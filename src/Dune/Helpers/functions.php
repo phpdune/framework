@@ -128,10 +128,8 @@ function method(string $method)
  */
 function dd($data)
 {
-    echo "<pre>";
-    var_dump($data);
-    echo "</pre>";
-    die();
+    dump($data);
+    exit();
 }
 /**
  * env function will return the value from .env file

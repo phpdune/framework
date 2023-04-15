@@ -94,7 +94,7 @@ class RouteResolver extends RouteActionCaller
      *
      * @return string|null
      */
-    public function getMiddleware(string $middleware): ?string
+    protected function getMiddleware(string $middleware): ?string
     {
         $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
         if (!$middleware) {
@@ -111,7 +111,7 @@ class RouteResolver extends RouteActionCaller
      *
      * @return array|null
      */
-     public function getParams(): ?array
+     protected function getParams(): ?array
      {
          return self::$params;
      }
@@ -122,7 +122,7 @@ class RouteResolver extends RouteActionCaller
      *
      * @return none
      */
-    public function callMiddleware(string $middleware): void
+    protected function callMiddleware(string $middleware): void
     {
         (new $middleware())->handle();
     }

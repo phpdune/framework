@@ -47,7 +47,6 @@ class RouteHandler
     private ?RouteResolver $resolver = null;
 
     /**
-     * @param \Dune\Views\View
      * @param  \Dune\Routing\RouteResolver
      *
      * @return none
@@ -63,7 +62,7 @@ class RouteHandler
      *
      * @return none
      */
-    public function setRoutes(
+    protected function setRoutes(
         string $route,
         string $method,
         callable|array|string $action
@@ -195,7 +194,7 @@ class RouteHandler
      *
      * @return none
      */
-     public function setControllerPrefix(string $controller, \Closure $callback): void
+     protected function setControllerPrefix(string $controller, \Closure $callback): void
      {
          $this->controller = $controller;
          $callback();
@@ -208,7 +207,7 @@ class RouteHandler
      *
      * @return array|null
      */
-     public function getRoutes(): ?array
+     protected function getRoutes(): ?array
      {
          return self::$routes;
      }
@@ -219,7 +218,7 @@ class RouteHandler
      *
      * @return string|null
      */
-     public function getPath(): ?string
+     protected function getPath(): ?string
      {
          return self::$path;
      }
@@ -230,7 +229,7 @@ class RouteHandler
      *
      * @return array|null
      */
-     public function getNames(): ?array
+     protected function getNames(): ?array
      {
          return self::$names;
      }
@@ -241,7 +240,7 @@ class RouteHandler
      *
      * @return string|null
      */
-     public function getMiddleware(string $middleware): ?string
+     protected function getMiddleware(string $middleware): ?string
      {
          return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
      }
@@ -253,7 +252,7 @@ class RouteHandler
      *
      * @return bool
      */
-     public function hasMiddleware(string $middleware): bool
+     protected function hasMiddleware(string $middleware): bool
      {
          return (isset(self::$middlewares[$middleware]) ? true : false);
      }

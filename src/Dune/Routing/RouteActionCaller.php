@@ -12,8 +12,6 @@ use Dune\Http\Request;
 
 class RouteActionCaller
 {
-    use RouterTrait;
-
     /**
      * view instance
      *
@@ -25,10 +23,10 @@ class RouteActionCaller
      *
      * @return none
      */
-    public function __construct()
+    public function __construct(View $view)
     {
         if (is_null($this->view)) {
-            $this->view = self::initActionCaller();
+            $this->view = $view;
         }
     }
     /**

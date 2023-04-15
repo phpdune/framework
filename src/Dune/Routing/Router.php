@@ -10,7 +10,7 @@ use Dune\Routing\RouterTrait;
 
 class Router implements RouterInterface
 {
-    use RouterTrait;
+    use RouterContainer;
 
     /**
      * \Dune\Routing\RouteHandler instance
@@ -143,18 +143,5 @@ class Router implements RouterInterface
      {
          self::init();
          return self::$route->run($uri, $method);
-     }
-    /**
-     * \Dune\Routing\RouteHandler initialzation
-     *
-     * @param none
-     *
-     * @return none
-     */
-     public static function init(): void
-     {
-         if (is_null(self::$route)) {
-             self::$route = self::initHandler();
-         }
      }
 }

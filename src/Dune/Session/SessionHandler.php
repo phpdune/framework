@@ -17,7 +17,18 @@ class SessionHandler
      *
      * @var SessionEncrypter
      */
-    protected static SessionEncrypter $encrypter;
+    protected SessionEncrypter $encrypter;
+
+    /**
+     * @param  \Dune\Session\SessionEncrypter
+     *
+     * @return none
+     */
+    public function __construct(SessionEncrypter $encrypter)
+    {
+        $this->encrypter = $encrypter;
+        $this->start();
+    }
 
     /**
      * Setting Session
@@ -27,12 +38,11 @@ class SessionHandler
      *
      * @return none
      */
-    protected static function setSession(string $key, string $value): void
+    public function setSession(string $key, string $value): void
     {
-        self::start();
         if (!isset($_SESSION[$key])) {
-            if (self::sessionNameisValid($key)) {
-                $value = config('session.encrypt') ? self::sessionEncrypt($value) : $value;
+            if ($this->sessionNameisValid($key)) {
+                $value = config('session.encrypt') ? $this->sessionEncrypt($value) : $value;
                 $_SESSION[$key] = $value;
             }
         }
@@ -45,11 +55,10 @@ class SessionHandler
      *
      * @return none
      */
-    protected static function setArraySession(string $key, array $value): void
+    public function setArraySession(string $key, array $value): void
     {
-        self::start();
         if (!isset($_SESSION[$key])) {
-            if (self::sessionNameisValid($key)) {
+            if ($this->sessionNameisValid($key)) {
                 $_SESSION[$key] = $value;
             }
         }
@@ -61,18 +70,17 @@ class SessionHandler
      *
      * @return string|null
      */
-    protected static function getSession(string $key): mixed
+    public function getSession(string $key): mixed
     {
-        self::start();
         if (isset($_SESSION[$key])) {
             if (is_array($_SESSION[$key])) {
                 return $_SESSION[$key];
             }
-            $getValue = config('session.encrypt') ? self::sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
+            $getValue = config('session.encrypt') ? $this->sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
             return $getValue;
         } elseif (isset($_SESSION['__'.$key])) {
             $value = $_SESSION['__'.$key];
-            self::unsetSession('__'.$key);
+            $this->unsetSession('__'.$key);
             return $value;
         }
         return null;
@@ -85,7 +93,7 @@ class SessionHandler
      *
      * @return bool
      */
-    protected static function sessionNameisValid(string $key): bool
+    protected function sessionNameisValid(string $key): bool
     {
         return (preg_match(self::SESSION_PATTERN, $key) === 1);
     }
@@ -97,10 +105,9 @@ class SessionHandler
      *
      * @return string
      */
-    protected static function sessionEncrypt(string $key): string
+    protected function sessionEncrypt(string $key): string
     {
-        self::$encrypter = new SessionEncrypter();
-        return self::$encrypter->encrypt($key);
+        return $this->encrypter->encrypt($key);
     }
     /**
      * Session decryption
@@ -109,10 +116,9 @@ class SessionHandler
      *
      * @return string
      */
-    protected static function sessionDecrypt(string $key): string
+    protected function sessionDecrypt(string $key): string
     {
-        self::$encrypter = new SessionEncrypter();
-        return self::$encrypter->decrypt($key);
+        return $this->encrypter->decrypt($key);
     }
      /**
      * set session_start() if it doesn't exist
@@ -121,7 +127,7 @@ class SessionHandler
      *
      * @return none
      */
-    protected static function start(): void
+    protected function start(): void
     {
         if (session_status() == PHP_SESSION_NONE) {
             \session_name(config('session.session_name'));
@@ -137,7 +143,7 @@ class SessionHandler
      *
      * @return none
      */
-    protected static function flushSession(): void
+    public function flushSession(): void
     {
         if (!session_status() == PHP_SESSION_NONE) {
             \session_unset();
@@ -151,9 +157,8 @@ class SessionHandler
      *
      * @return string
      */
-    protected static function unsetSession(string $key): void
+    public function unsetSession(string $key): void
     {
-        self::start();
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
@@ -165,14 +170,12 @@ class SessionHandler
      *
      * @return null|array
      */
-    protected static function getAllSession(): ?array
+    public function getAllSession(): ?array
     {
-        self::start();
-        self::$encrypter = new SessionEncrypter();
         $data = [];
         if (isset($_SESSION)) {
             foreach ($_SESSION as $key => $value) {
-                $data[$key] = self::sessionDecrypt($value);
+                $data[$key] = $this->sessionDecrypt($value);
             }
             return $data;
         }
@@ -185,9 +188,8 @@ class SessionHandler
      *
      * @return bool
      */
-    protected static function sessionHas(string $key): bool
+    public function sessionHas(string $key): bool
     {
-        self::start();
         if (isset($_SESSION[$key]) || isset($_SESSION['__'.$key])) {
             return true;
         }
@@ -201,9 +203,8 @@ class SessionHandler
      *
      * @return bool|null
      */
-    protected static function sessionOverwrite(string $key, string $value): void
+    public function sessionOverwrite(string $key, string $value): void
     {
-        self::start();
-        (!self::sessionHas($key) ? self::setSession($key, $value) : $_SESSION[$key] = $value);
+        (!$this->sessionHas($key) ? $this->setSession($key, $value) : $_SESSION[$key] = $value);
     }
 }

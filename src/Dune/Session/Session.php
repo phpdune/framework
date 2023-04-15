@@ -13,7 +13,7 @@ class Session implements SessionInterface
     use SessionContainer;
 
     /**
-     * Session pattern regex
+     * \Dune\Session\SessionHandler instance
      *
      * @var SessionHandler
      */

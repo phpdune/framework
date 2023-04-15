@@ -28,7 +28,7 @@ interface CookieInterface
      *
      * @param string $key
      *
-     * @return none
+     * @return bool
      */
     public static function unset(string $key): void;
     /**

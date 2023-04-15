@@ -4,8 +4,20 @@ declare(strict_types=1);
 
 namespace Dune\Cookie;
 
-class Cookie extends CookieHandler implements CookieInterface
+use Dune\Cookie\CookieHandler;
+use Dune\Cookie\CookieContainer;
+use Dune\Cookie\Exception\InvalidMethod;
+
+class Cookie implements CookieInterface
 {
+    use CookieContainer;
+
+    /**
+     * \Dune\Cookie\CookieHandler instance
+     *
+     * @var CookieHandler
+     */
+    private static ?CookieHandler $handler = null;
     /**
      *
      * @param string $key
@@ -15,7 +27,8 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function set(string $key, mixed $value): void
     {
-        self::setCookie($key, $value);
+        self::init();
+        self::$handler->setCookie($key, $value);
     }
     /**
      *
@@ -25,7 +38,8 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function get(string $key): mixed
     {
-        return self::getCookie($key);
+        self::init();
+        return self::$handler->getCookie($key);
     }
     /**
      *
@@ -35,7 +49,8 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function unset(string $key): void
     {
-        self::unsetCookie($key);
+        self::init();
+        self::$handler->unsetCookie($key);
     }
     /**
      *
@@ -45,7 +60,8 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function has(string $key): bool
     {
-        return self::hasCookie($key);
+        self::init();
+        return self::$handler->hasCookie($key);
     }
     /**
      *
@@ -55,7 +71,8 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function flush(): void
     {
-        self::flushCookie();
+        self::init();
+        self::$handler->flushCookie();
     }
     /**
      *
@@ -65,6 +82,24 @@ class Cookie extends CookieHandler implements CookieInterface
      */
     public static function all(): ?array
     {
-        return self::allCookie();
+        self::init();
+        return self::$handler->allCookie();
     }
+    /**
+     *
+     * @param ?string $method
+     * @param ?array $array
+     *
+     * @throw \Dune\Cookie\InvalidMethod
+     *
+     *  @return none
+     */
+     public static function __callStatic($method, $args)
+     {
+         if ($method == 'add' || $method == 'put') {
+             self::set($args[0], $args[1]);
+         } else {
+             throw new InvalidMethod("Method {$method} is invalid");
+         }
+     }
 }

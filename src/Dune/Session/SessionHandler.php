@@ -18,7 +18,7 @@ class SessionHandler
      * @var SessionEncrypter
      */
     protected SessionEncrypter $encrypter;
-
+    
     /**
      * @param  \Dune\Session\SessionEncrypter
      *
@@ -29,7 +29,7 @@ class SessionHandler
         $this->encrypter = $encrypter;
         $this->start();
     }
-
+    
     /**
      * Setting Session
      *
@@ -40,28 +40,36 @@ class SessionHandler
      */
     public function setSession(string $key, string $value): void
     {
-        if (!isset($_SESSION[$key])) {
+      
             if ($this->sessionNameisValid($key)) {
-                $value = config('session.encrypt') ? $this->sessionEncrypt($value) : $value;
+                if(config('session.encrypt') && $key != '_token') {
+                  
+                  $value = $this->sessionEncrypt($value);
+                }
                 $_SESSION[$key] = $value;
-            }
         }
     }
     /**
-     * Setting Session
+     * Setting Array Session
      *
      * @param  string  $key
      * @param array $value
      *
      * @return none
      */
-    public function setArraySession(string $key, array $value): void
+    public function setArraySession(string $key, array $values): void
     {
-        if (!isset($_SESSION[$key])) {
+            $data = [];
             if ($this->sessionNameisValid($key)) {
-                $_SESSION[$key] = $value;
+               if(config('session.encrypt')) {
+                 foreach($values as $vkey => $value) {
+                   $data[$vkey] = $this->sessionEncrypt($value);
+                 }
+                 
+               }
+               $value = (($data) ? $data : $values);
+               $_SESSION[$key] = $value;
             }
-        }
     }
     /**
      * getSession process goes here
@@ -72,11 +80,12 @@ class SessionHandler
      */
     public function getSession(string $key): mixed
     {
+        
         if (isset($_SESSION[$key])) {
             if (is_array($_SESSION[$key])) {
-                return $_SESSION[$key];
+                return $this->getArraySession($key);
             }
-            $getValue = config('session.encrypt') ? $this->sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
+            $getValue = config('session.encrypt') && $key != '_token' ? $this->sessionDecrypt($_SESSION[$key]) : $_SESSION[$key];
             return $getValue;
         } elseif (isset($_SESSION['__'.$key])) {
             $value = $_SESSION['__'.$key];
@@ -85,7 +94,26 @@ class SessionHandler
         }
         return null;
     }
-
+    /**
+     * getting Array Session
+     *
+     * @param  string  $key
+     *
+     * @return array|null
+     */
+     private function getArraySession($key): ?array
+     {
+       $data = [];
+       $values = $_SESSION[$key];
+       if(config('session.encrypt')) {
+         foreach($values as $vkey => $value)
+         {
+           $data[$vkey] = $this->sessionDecrypt($value);
+         }
+         return $data;
+       }
+       return $values;
+     }
     /**
      * Check session name is a valid one by regex
      *
@@ -107,6 +135,7 @@ class SessionHandler
      */
     protected function sessionEncrypt(string $key): string
     {
+ 
         return $this->encrypter->encrypt($key);
     }
     /**
@@ -118,6 +147,7 @@ class SessionHandler
      */
     protected function sessionDecrypt(string $key): string
     {
+   
         return $this->encrypter->decrypt($key);
     }
      /**
@@ -145,7 +175,7 @@ class SessionHandler
      */
     public function flushSession(): void
     {
-        if (!session_status() == PHP_SESSION_NONE) {
+        if (session_status() != PHP_SESSION_NONE) {
             \session_unset();
             \session_destroy();
         }
@@ -159,6 +189,7 @@ class SessionHandler
      */
     public function unsetSession(string $key): void
     {
+        
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
@@ -172,6 +203,7 @@ class SessionHandler
      */
     public function getAllSession(): ?array
     {
+        
         $data = [];
         if (isset($_SESSION)) {
             foreach ($_SESSION as $key => $value) {
@@ -190,6 +222,7 @@ class SessionHandler
      */
     public function sessionHas(string $key): bool
     {
+       
         if (isset($_SESSION[$key]) || isset($_SESSION['__'.$key])) {
             return true;
         }
@@ -205,6 +238,18 @@ class SessionHandler
      */
     public function sessionOverwrite(string $key, string $value): void
     {
+    
         (!$this->sessionHas($key) ? $this->setSession($key, $value) : $_SESSION[$key] = $value);
+    }
+     /**
+     * return $_SESSION
+     *
+     * @param none
+     *
+     * @return array|null
+     */
+    public function allSession(): ?array
+    {
+       return (empty($_SESSION) ? null : $_SESSION);
     }
 }

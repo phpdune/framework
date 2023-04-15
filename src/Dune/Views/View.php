@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace Dune\Views;
 
-use Dune\Exception\NotFound;
+use Dune\Views\Exception\ViewNotFound;
+use Dune\Views\Exception\LayoutNotFound;
 
-class View extends PineCompiler implements ViewInterface
+class View implements ViewInterface
 {
+    use ViewTrait;
+
     /**
      * The view file.
      *
      * @var string
      */
-    private static string $file;
+    private string $file;
     /**
      * The layout file.
      *
      * @var string
      */
-    private static string $layout;
+    private string $layout;
 
     /**
      * store the data passing by the view.
@@ -27,26 +30,44 @@ class View extends PineCompiler implements ViewInterface
      * @var array
      */
 
-    private static array $var;
+    private array $var;
+    /**
+     * \Dune\Views\PineCompiler instance
+     *
+     * @var PineCompiler
+     */
+    private ?PineCompiler $pine = null;
+
+    /**
+     * @param none
+     *
+     * @return none
+     */
+    public function __construct()
+    {
+        if (is_null($this->pine)) {
+            $this->pine = $this->initView();
+        }
+    }
 
     /**
      * @param  string  $view
      * @param  array  $data
      *
-     * @throw \NotFound
+     * @throw \Dune\Views\Exception\ViewNotFound
      *
      * @return string|null
      */
-    public static function render(string $view, array $data = []): ?string
+    public function render(string $view, array $data = []): ?string
     {
         $viewFile = $view . ".pine.php";
-        self::$file = PATH . "/app/views/" . $viewFile;
-        self::$var = $data;
+        $this->file = PATH . "/app/views/" . $viewFile;
+        $this->var = $data;
 
-        if (file_exists(self::$file)) {
-            return self::loadFile();
+        if (file_exists($this->file)) {
+            return $this->loadFile();
         }
-        throw new NotFound(
+        throw new ViewNotFound(
             "Exception : {$viewFile} File Not Found In Views Directory"
         );
     }
@@ -57,10 +78,10 @@ class View extends PineCompiler implements ViewInterface
      *
      * @return none
      */
-    private static function loadFile(): ?string
+    private function loadFile(): ?string
     {
-        $template = file_get_contents(self::$file);
-        $template = self::compile($template);
+        $template = file_get_contents($this->file);
+        $template = $this->pine->compile($template);
         if (
             preg_match_all(
                 "/{[\s]?extends\.(\w{1,})[\s]?}/",
@@ -68,21 +89,21 @@ class View extends PineCompiler implements ViewInterface
                 $matches
             )
         ) {
-            self::$layout =
+            $this->layout =
                 PATH . "/app/views/layouts/" . $matches[1][0] . ".pine.php";
-            if (!file_exists(self::$layout)) {
-                throw new NotFound(
+            if (!file_exists($this->layout)) {
+                throw new LayoutNotFound(
                     "Exception : {$matches[1][0]}.pine.php File Not Found In views/layouts Directory"
                 );
             }
-            $template = self::compileExtends($template, $matches[0][0]);
-            $layoutTemplate = file_get_contents(self::$layout);
-            $layoutTemplate = self::compile($layoutTemplate);
+            $template = $this->pine->compileExtends($template, $matches[0][0]);
+            $layoutTemplate = file_get_contents($this->layout);
+            $layoutTemplate = $this->pine->compile($layoutTemplate);
         }
 
-        return isset(self::$layout)
-            ? self::renderFiles($template, $layoutTemplate)
-            : self::renderFiles($template);
+        return isset($this->layout)
+            ? $this->renderFiles($template, $layoutTemplate)
+            : $this->renderFiles($template);
     }
     /**
      * render the layout and view files
@@ -91,11 +112,11 @@ class View extends PineCompiler implements ViewInterface
      *
      * @return none
      */
-    private static function renderFiles(
+    private function renderFiles(
         string $template,
         string $layoutTemplate = null
     ): void {
-        if (empty(self::$var) && isset(self::$layout)) {
+        if (empty($this->var) && isset($this->layout)) {
             ob_start();
             eval(" ?>" . $template . "<?php ");
             $content = ob_get_clean();
@@ -103,7 +124,7 @@ class View extends PineCompiler implements ViewInterface
             eval(" ?>" . $layoutTemplate . "<?php ");
             echo ob_get_clean();
         } else {
-            foreach (self::$var as $key => $value) {
+            foreach ($this->var as $key => $value) {
                 $$key = $value;
             }
             if ($layoutTemplate) {

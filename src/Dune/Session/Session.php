@@ -10,14 +10,14 @@ use Dune\Session\Exception\InvalidMethod;
 
 class Session implements SessionInterface
 {
-     use SessionContainer;
-     
+    use SessionContainer;
+
     /**
      * Session pattern regex
      *
      * @var SessionHandler
      */
-     private static ?SessionHandler $handler = null;
+    private static ?SessionHandler $handler = null;
     /**
      * @param  string  $key
      * @param  string  $value
@@ -26,7 +26,7 @@ class Session implements SessionInterface
      */
     public static function set(string $key, string|array $value): void
     {
-         self::init();
+        self::init();
         (is_array($value) ? self::$handler->setArraySession($key, $value) : self::$handler->setSession($key, $value));
     }
     /**
@@ -111,21 +111,21 @@ class Session implements SessionInterface
          self::init();
          self::$handler->sessionOverwrite($key, $value);
      }
-     
+
      /**
      * @param ?string $method
      * @param ?array $args
-     * 
+     *
      * @throw \Dune\Session\Exception\InvalidMethod
      *
      * @return none
      */
-     public static function __callStatic($method,$args) 
+     public static function __callStatic($method, $args)
      {
-        if($method == 'put' | $method == 'add') {
-          self::set($args[0],$args[1]);
-        } else {
-          throw new InvalidMethod("Method not found with name {$method}");
-        }
+         if ($method == 'put' | $method == 'add') {
+             self::set($args[0], $args[1]);
+         } else {
+             throw new InvalidMethod("Method not found with name {$method}");
+         }
      }
 }

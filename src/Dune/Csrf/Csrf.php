@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace Dune\Csrf;
 
-class Csrf extends CsrfHandler implements CsrfInterface
+use Dune\Csrf\CsrfContainer;
+
+class Csrf implements CsrfInterface
 {
+    use CsrfContainer;
+    /**
+     * \Dune\Csrf\CsrfHandler instance
+     *
+     * @var CsrfHandler
+     */
+    private static ?CsrfHandler $handler = null;
     /**
      * @param  none
      *
@@ -13,7 +22,8 @@ class Csrf extends CsrfHandler implements CsrfInterface
      */
     public static function generate(): ?string
     {
-        return self::setCsrfToken();
+        self::init();
+        return self::$handler->setCsrfToken();
     }
      /**
       * @param  none
@@ -22,7 +32,8 @@ class Csrf extends CsrfHandler implements CsrfInterface
       */
     public static function get(): ?string
     {
-        return self::getCurrentToken();
+         self::init();
+        return self::$handler->getCurrentToken();
     }
      /**
       * @param  none
@@ -31,7 +42,8 @@ class Csrf extends CsrfHandler implements CsrfInterface
       */
     public static function reGenerate(): ?string
     {
-        return self::tokenRegenerate();
+        self::init();
+        return self::$handler->tokenRegenerate();
     }
      /**
       * @param  string $token
@@ -41,6 +53,7 @@ class Csrf extends CsrfHandler implements CsrfInterface
       */
   public static function validate(string|null $token, string|null $id): bool
   {
-      return self::tokenValidate($token, $id);
+      self::init();
+      return self::$handler->tokenValidate($token, $id);
   }
 }

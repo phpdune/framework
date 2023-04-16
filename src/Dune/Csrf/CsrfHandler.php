@@ -16,7 +16,7 @@ class CsrfHandler
      *
      * @return null|string
      */
-    protected static function setCsrfToken(): ?string
+    public function setCsrfToken(): ?string
     {
         $key = bin2hex(random_bytes(32));
         $token = hash_hmac("sha256", base64_encode($key), $key);
@@ -32,11 +32,11 @@ class CsrfHandler
      *
      * @return null|string
      */
-    protected static function getCurrentToken(): ?string
+    public function getCurrentToken(): ?string
     {
         return Session::has("_token")
             ? Session::get("_token")
-            : self::setCsrfToken();
+            : $this->setCsrfToken();
     }
     /**
      * regenerate new csrf token
@@ -45,9 +45,9 @@ class CsrfHandler
      *
      * @return null|string
      */
-    protected static function tokenRegenerate(): ?string
+    public function tokenRegenerate(): ?string
     {
-        return self::setCsrfToken();
+        return $this->setCsrfToken();
     }
     /**
      * validating csrf token
@@ -57,7 +57,7 @@ class CsrfHandler
      *
      * @return null|string
      */
-    protected static function tokenValidate(string|null $token, string|null $id): bool
+    public function tokenValidate(string|null $token, string|null $id): bool
     {
         if (!$token) {
             return false;

@@ -12,6 +12,7 @@ use Dune\Csrf\Csrf;
 use Dune\Helpers\Response;
 use Dune\Helpers\Redirect;
 use Dune\ErrorHandler\Logger;
+use Dune\Support\Twig;
 
 /**
  * view() function, to render the view from controller and to pass data to view via array
@@ -119,7 +120,6 @@ function method(string $method)
 {
     return '<input type="hidden" name="_method" value="' . $method . '"/>';
 }
-
 /**
  * env function will return the value from .env file
  *
@@ -271,4 +271,29 @@ function errorHas(string $key): bool
 function old(string $key): mixed
 {
     return Session::get('old_'.$key);
+}
+/**
+* return the old value of input fields of form
+*
+* @param string $file
+* @param array $data
+*
+* @return none
+*/
+function twig(string $file, array $data = []) 
+{
+  $path = config('twig.twig_path');
+  
+  $config = [
+    'debug' => config('twig.debug'),
+    
+    'cache' => config('twig.cache'),
+    
+    'auto_reload' => config('twig.auto_reload'),
+    
+    'strict_variables' => config('twig.strict_variables')
+    
+    ];
+  $twig = new Twig($path,$config);
+  echo $twig->render($file,$data);
 }

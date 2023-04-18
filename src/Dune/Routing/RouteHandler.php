@@ -207,7 +207,7 @@ class RouteHandler
      *
      * @return array|null
      */
-     protected function getRoutes(): ?array
+     public function getRoutes(): ?array
      {
          return self::$routes;
      }
@@ -218,7 +218,7 @@ class RouteHandler
      *
      * @return string|null
      */
-     protected function getPath(): ?string
+     public function getPath(): ?string
      {
          return self::$path;
      }
@@ -229,7 +229,7 @@ class RouteHandler
      *
      * @return array|null
      */
-     protected function getNames(): ?array
+     public function getNames(): ?array
      {
          return self::$names;
      }
@@ -240,7 +240,7 @@ class RouteHandler
      *
      * @return string|null
      */
-     protected function getMiddleware(string $middleware): ?string
+     public function getMiddleware(string $middleware): ?string
      {
          return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
      }
@@ -252,7 +252,7 @@ class RouteHandler
      *
      * @return bool
      */
-     protected function hasMiddleware(string $middleware): bool
+     public function hasMiddleware(string $middleware): bool
      {
          return (isset(self::$middlewares[$middleware]) ? true : false);
      }

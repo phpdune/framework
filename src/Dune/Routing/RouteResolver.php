@@ -111,7 +111,7 @@ class RouteResolver extends RouteActionCaller
      *
      * @return array|null
      */
-     protected function getParams(): ?array
+     public function getParams(): ?array
      {
          return self::$params;
      }

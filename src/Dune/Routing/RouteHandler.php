@@ -31,13 +31,13 @@ class RouteHandler
      *
      * @var array
      */
-    public static array $names;
+    public static array $names = [];
     /**
      * route middlewares storred here
      *
      * @var array
      */
-    public static array $middlewares;
+    public static array $middlewares = [];
 
     /**
      * route resolver instance

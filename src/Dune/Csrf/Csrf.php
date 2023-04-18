@@ -32,7 +32,7 @@ class Csrf implements CsrfInterface
       */
     public static function get(): ?string
     {
-         self::init();
+        self::init();
         return self::$handler->getCurrentToken();
     }
      /**

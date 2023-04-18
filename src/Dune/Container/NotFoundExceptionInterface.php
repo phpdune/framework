@@ -1,12 +1,12 @@
 <?php
 
- /*-- By PSR --*/
+/*-- By PSR --*/
 
- namespace Dune\Container;
+namespace Dune\Container;
 
- /**
-  * No entry was found in the container.
-  */
- interface NotFoundExceptionInterface extends ContainerExceptionInterface
- {
- }
+/**
+ * No entry was found in the container.
+ */
+interface NotFoundExceptionInterface extends ContainerExceptionInterface
+{
+}

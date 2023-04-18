@@ -6,5 +6,5 @@ namespace Dune\Views\Exception;
 
 class ViewNotFound extends \Exception
 {
-   //
+    //
 }

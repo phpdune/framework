@@ -6,13 +6,13 @@ namespace Dune\Csrf;
 
 use Dune\Csrf\CsrfHandler;
 
-trait CsrfContainer 
+trait CsrfContainer
 {
-  protected static function init()
-  {
-    $container = new \Dune\Container\Container();
-     if(is_null(self::$handler)) {
-       self::$handler = $container->get(CsrfHandler::class);
-     }
-  }
+    protected static function init()
+    {
+        $container = new \Dune\Container\Container();
+        if(is_null(self::$handler)) {
+            self::$handler = $container->get(CsrfHandler::class);
+        }
+    }
 }

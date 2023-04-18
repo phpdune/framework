@@ -280,20 +280,20 @@ function old(string $key): mixed
 *
 * @return none
 */
-function twig(string $file, array $data = []) 
+function twig(string $file, array $data = [])
 {
-  $path = config('twig.twig_path');
-  
-  $config = [
-    'debug' => config('twig.debug'),
-    
-    'cache' => config('twig.cache'),
-    
-    'auto_reload' => config('twig.auto_reload'),
-    
-    'strict_variables' => config('twig.strict_variables')
-    
-    ];
-  $twig = new Twig($path,$config);
-  echo $twig->render($file,$data);
+    $path = config('twig.twig_path');
+
+    $config = [
+      'debug' => config('twig.debug'),
+
+      'cache' => config('twig.cache'),
+
+      'auto_reload' => config('twig.auto_reload'),
+
+      'strict_variables' => config('twig.strict_variables')
+
+      ];
+    $twig = new Twig($path, $config);
+    echo $twig->render($file, $data);
 }

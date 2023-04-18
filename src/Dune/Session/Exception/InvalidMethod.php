@@ -6,5 +6,5 @@ namespace Dune\Session\Exception;
 
 class InvalidArgument extends \Exception
 {
-  //
+    //
 }

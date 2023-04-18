@@ -6,5 +6,5 @@ namespace Dune\Cookie\Exception;
 
 class InvalidMethod extends \Exception
 {
-  //
+    //
 }

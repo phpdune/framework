@@ -6,5 +6,5 @@ namespace Dune\Routing;
 
 class RouteMiddleware
 {
-   //
+    //
 }

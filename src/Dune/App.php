@@ -11,26 +11,19 @@ final class App
     /**
      * load the env variables and set custom error handling
      *
-     * @param  none
-     *
-     * @return none
      */
     public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(PATH);
-        $dotenv->load();
         set_error_handler('errorHandler', E_ALL);
         set_exception_handler('exceptionHandler');
     }
        /**
         * load apo configuration
         *
-        * @param  none
-        *
-        * @return none
         */
     public function load(): void
     {
+        $this->loadEnv();
         $this->loadAppConfig();
         require PATH.'/routes/web.php';
         echo runRoutes();
@@ -38,12 +31,19 @@ final class App
        /**
         * load apo configuration
         *
-        * @param  none
-        *
-        * @return none
         */
     public function loadAppConfig(): void
     {
         date_default_timezone_set(config('app.timezone'));
+    }
+    /**
+     * env loading
+     */
+    public function loadEnv(): void
+    {
+        if(class_exists(Dotenv::class)) {
+            $env = Dotenv::createImmutable(PATH);
+            $env->load();
+        }
     }
 }

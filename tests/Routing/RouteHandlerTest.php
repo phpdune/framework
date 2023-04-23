@@ -8,7 +8,7 @@ use Dune\Container\Container;
 
 class RouteHandlerTest extends TestCase
 {
-    protected $handler;
+    protected RouteHandler $handler;
 
     protected function setUp(): void
     {

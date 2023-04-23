@@ -11,7 +11,7 @@ use Dune\Routing\Router as Route;
 
 class RouteResolverTest extends TestCase
 {
-    protected $resolver;
+    protected RouteResolver $resolver;
 
     protected function setUp(): void
     {

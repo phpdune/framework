@@ -15,106 +15,106 @@ class Router implements RouterInterface
     /**
      * \Dune\Routing\RouteHandler instance
      *
-     * @var string
+     * @var ?RouteHandler
      */
     private static ?RouteHandler $route = null;
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
 
     public static function get(string $route, callable|array|string $action): self
     {
         self::init();
         self::$route->getHandler($route, $action);
-        return new static();
+        return new self();
     }
     /**
      * @param  string  $route
      * @param  string  $view
      *
-     * @return static
+     * @return self
      */
     public static function view(string $route, string $view): self
     {
         self::init();
         self::$route->viewHandler($route, $view);
-        return new static();
+        return new self();
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
     public static function post(string $route, callable|array|string $action): self
     {
         self::init();
         self::$route->postHandler($route, $action);
-        return new static();
+        return new self();
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
     public static function put(string $route, callable|array|string $action): self
     {
         self::init();
         self::$route->putHandler($route, $action);
-        return new static();
+        return new self();
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
     public static function patch(string $route, callable|array|string $action): self
     {
         self::init();
         self::$route->patchHandler($route, $action);
-        return new static();
+        return new self();
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
     public static function delete(string $route, callable|array|string $action): self
     {
         self::init();
         self::$route->deleteHandler($route, $action);
-        return new static();
+        return new self();
     }
 
     /**
      *
      * @param  string  $name
      *
-     * @return static
+     * @return self
      */
     public static function name(string $name): self
     {
         self::init();
         self::$route->setName($name);
-        return new static();
+        return new self();
     }
     /**
      *
      * @param  string  $key
      *
-     * @return static
+     * @return self
      */
     public function middleware(string $key): self
     {
         self::init();
         self::$route->setMiddleware($key);
-        return new static();
+        return new self();
     }
 
     /**
@@ -123,7 +123,6 @@ class Router implements RouterInterface
      * @param  string  $controller
      * @param  \Closure  $callback
      *
-     * @return none
      */
      public static function controller(string $controller, \Closure $callback): void
      {
@@ -137,7 +136,7 @@ class Router implements RouterInterface
      * @param string $uri
      * @param string $method
      *
-     * @return none
+     * @return mixed
      */
      public static function run(string $uri, string $method): mixed
      {

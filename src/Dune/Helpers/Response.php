@@ -6,6 +6,14 @@ namespace Dune\Helpers;
 
 class Response
 {
+    /**
+     * array to json format
+     *
+     * @param array<mixed> $data
+     * @param int $code
+     *
+     * @return null|string
+     */
     public function json(array $data, int $code = 200): ?string
     {
         $data = json_encode($data);

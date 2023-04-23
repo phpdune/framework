@@ -16,7 +16,7 @@ class RouteResolver extends RouteActionCaller
     /**
      * route parama storred here
      *
-     * @var array
+     * @var array<string,mixed>
      */
     public static array $params = [];
 
@@ -96,10 +96,12 @@ class RouteResolver extends RouteActionCaller
      */
     protected function getMiddleware(string $middleware): ?string
     {
-        $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
+        if(class_exists(RegisterMiddleware::class)) {
+            $middleware = \App\Middleware\RegisterMiddleware::MAP[$middleware] ?? null;
+        }
         if (!$middleware) {
             throw new RouteNotFound(
-                "Exception : Middleware {$route["middleware"]} Not Found"
+                "Exception : Middleware {$middleware} Not Found"
             );
         }
         return $middleware;
@@ -107,9 +109,8 @@ class RouteResolver extends RouteActionCaller
     /**
      * return params
      *
-     * @param none
      *
-     * @return array|null
+     * @return array<string,string>|null
      */
      public function getParams(): ?array
      {
@@ -120,7 +121,6 @@ class RouteResolver extends RouteActionCaller
      *
      * @param  string  $middleware.
      *
-     * @return none
      */
     protected function callMiddleware(string $middleware): void
     {

@@ -8,9 +8,9 @@ use Dune\Routing\RouteHandler;
 
 trait RouterContainer
 {
-    protected static function init()
+    protected static function init(): void
     {
-        if (!self::$route) {
+        if (is_null(self::$route)) {
             $container = new \Dune\Container\Container();
             self::$route = $container->get(RouteHandler::class);
         }

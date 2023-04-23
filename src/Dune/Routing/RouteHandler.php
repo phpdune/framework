@@ -9,7 +9,7 @@ class RouteHandler
     /**
      * The all routes stored here.
      *
-     * @var array
+     * @var array<mixed>
      */
     public static array $routes;
     /**
@@ -29,27 +29,26 @@ class RouteHandler
     /**
      * The routes name stored here
      *
-     * @var array
+     * @var array<string,string>
      */
     public static array $names = [];
     /**
      * route middlewares storred here
      *
-     * @var array
+     * @var array<string,string>
      */
     public static array $middlewares = [];
 
     /**
      * route resolver instance
      *
-     * @var array
+     * @var ?RouteResolver
      */
     private ?RouteResolver $resolver = null;
 
     /**
-     * @param  \Dune\Routing\RouteResolver
+     * resolver instance setting
      *
-     * @return none
      */
     public function __construct(RouteResolver $resolver)
     {
@@ -58,9 +57,8 @@ class RouteHandler
     /**
      * @param  string  $route
      * @param  string  $method
-     * @param callable|string $action
+     * @param callable|string|array<string,string> $action
      *
-     * @return none
      */
     protected function setRoutes(
         string $route,
@@ -76,9 +74,8 @@ class RouteHandler
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return none
      */
      public function getHandler(string $route, callable|array|string $action): void
      {
@@ -91,7 +88,6 @@ class RouteHandler
      * @param  string  $route
      * @param  string  $view
      *
-     * @return none
      */
     public function viewHandler(string $route, string $view): void
     {
@@ -99,9 +95,8 @@ class RouteHandler
     }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return none
      */
      public function postHandler(string $route, callable|array|string $action): void
      {
@@ -112,9 +107,8 @@ class RouteHandler
      }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return none
      */
      public function putHandler(string $route, callable|array|string $action): void
      {
@@ -125,9 +119,8 @@ class RouteHandler
      }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return none
      */
      public function patchHandler(string $route, callable|array|string $action): void
      {
@@ -138,9 +131,8 @@ class RouteHandler
      }
     /**
      * @param  string  $route
-     * @param  callable|array|string  $action
+     * @param  callable|array<string,string>|string  $action
      *
-     * @return none
      */
      public function deleteHandler(string $route, callable|array|string $action): void
      {
@@ -154,7 +146,6 @@ class RouteHandler
      *
      * @param  string  $name
      *
-     * @return void
      */
     public function setName(string $name): void
     {
@@ -164,7 +155,6 @@ class RouteHandler
      *
      * @param  string  $key
      *
-     * @return void
      */
     public function setMiddleware(string $key): void
     {
@@ -192,9 +182,8 @@ class RouteHandler
      * @param  string  $controller
      * @param  \Closure  $callback
      *
-     * @return none
      */
-     protected function setControllerPrefix(string $controller, \Closure $callback): void
+     public function setControllerPrefix(string $controller, \Closure $callback): void
      {
          $this->controller = $controller;
          $callback();
@@ -203,9 +192,7 @@ class RouteHandler
     /**
      * return routes
      *
-     * @param none
-     *
-     * @return array|null
+     * @return array<string,string>|null
      */
      public function getRoutes(): ?array
      {
@@ -213,8 +200,6 @@ class RouteHandler
      }
     /**
      * return path
-     *
-     * @param none
      *
      * @return string|null
      */
@@ -225,9 +210,7 @@ class RouteHandler
     /**
      * return names
      *
-     * @param none
-     *
-     * @return array|null
+     * @return array<string,string>|null
      */
      public function getNames(): ?array
      {

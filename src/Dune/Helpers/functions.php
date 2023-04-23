@@ -18,13 +18,13 @@ use Dune\Support\Twig;
  * view() function, to render the view from controller and to pass data to view via array
  *
  * @param  string $view
- * @param array|null $data
+ * @param array<string,mixed>|null $data
  *
  * @throw \Exception
  *
- * @return View|Error
+ * @return null|string
  */
-function view(string $view, array $data = null)
+function view(string $view, array $data = null): ?string
 {
     $pine = new View();
     try {
@@ -34,17 +34,16 @@ function view(string $view, array $data = null)
             return $pine->render($view);
         }
     } catch (\Exception $e) {
-        return Error::handleException($e);
+        Error::handleException($e);
     }
+    return null;
 }
 /**
  * runRoutes will run all the routes from public folder
  *
- * @param  none
- *
  * @throw \Exception
  *
- * @return Route|Error
+ * @return ?Route
  */
 function runRoutes()
 {
@@ -53,18 +52,18 @@ function runRoutes()
         $method = $request->get('_method') ?? $request->method();
         return Route::run($request->server('request_uri'), $method);
     } catch (\Exception $e) {
-        return Error::handleException($e);
+        Error::handleException($e);
     }
+    return null;
 }
 /**
  * abort function, will abort and load a error file from view/errors
  *
- * @param int @code
+ * @param int $code
  *
- *
- * @return none
+ * @return ?string
  */
-function abort(int $code = 404, string $message = null)
+function abort(int $code = 404, string $message = null): ?string
 {
     $file = PATH . '/app/views/errors/error.pine.php';
     if (file_exists($file)) {
@@ -73,16 +72,17 @@ function abort(int $code = 404, string $message = null)
           'message' => $message
           ]);
     }
+    return null;
 }
 /**
  * route function will return the route path by its name
  *
  * @param  string $key
+ * @param array<mixed> $values
  *
- *
- * @return Route|Error
+ * @return ?string
  */
-function route(string $key, array $values = [])
+function route(string $key, array $values = []): ?string
 {
     $array = RouteHandler::$names;
     if (array_key_exists($key, $array)) {
@@ -101,7 +101,6 @@ function route(string $key, array $values = [])
  * asset function will return the file path from public/asset dir
  *
  * @param  string $file
- *
  *
  * @return string
  */
@@ -139,25 +138,23 @@ function env($key)
  *
  * @param string $errno
  * @param string $errstr
- * @param string @$errfile
- * @param string @$errline
+ * @param string $errfile
+ * @param string $errline
  *
- * @return Error
  */
-function errorHandler($errno, $errstr, $errfile, $errline)
+function errorHandler($errno, $errstr, $errfile, $errline): void
 {
-    return Error::handle($errno, $errstr, $errfile, $errline);
+    Error::handle($errno, $errstr, $errfile, $errline);
 }
 /**
  * app custom exception handler
  *
  * @param mixed $e
  *
- * @return Error
  */
-function exceptionHandler($e)
+function exceptionHandler(mixed $e): void
 {
-    return Error::handleException($e);
+    Error::handleException($e);
 }
 /**
  * return config values
@@ -181,11 +178,9 @@ function config(string $string): mixed
 /**
  * generate a csrf/xsrf token
  *
- * @param none
- *
- * @return null|string
+ * @return string
  */
-function csrf(): ?string
+function csrf(): string
 {
     $csrfToken = Csrf::generate();
     $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
@@ -194,9 +189,7 @@ function csrf(): ?string
 /**
  * return Response
  *
- * @param none
- *
- * @return string|null
+ * @return Response
  */
 function response(): Response
 {
@@ -205,9 +198,7 @@ function response(): Response
 /**
  * return Redirect
  *
- * @param none
- *
- * @return string|null
+ * @return Redirect
  */
 
 function redirect(): Redirect
@@ -219,7 +210,6 @@ function redirect(): Redirect
 *
 * @param mixed $message
 *
-* @return none
 */
 function logs(mixed $message): void
 {
@@ -228,8 +218,6 @@ function logs(mixed $message): void
 }
 /**
 * return current memory usage
-*
-* @param none
 *
 * @return string
 */
@@ -276,11 +264,10 @@ function old(string $key): mixed
 * return the old value of input fields of form
 *
 * @param string $file
-* @param array $data
+* @param array<string,mixed> $data
 *
-* @return none
 */
-function twig(string $file, array $data = [])
+function twig(string $file, array $data = []): void
 {
     $path = config('twig.twig_path');
 
@@ -294,6 +281,8 @@ function twig(string $file, array $data = [])
       'strict_variables' => config('twig.strict_variables')
 
       ];
-    $twig = new Twig($path, $config);
-    echo $twig->render($file, $data);
+    if(class_exists(Twig::class)) {
+        $twig = new Twig($path, $config);
+        echo $twig->render($file, $data);
+    }
 }

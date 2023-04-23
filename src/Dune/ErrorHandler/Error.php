@@ -13,32 +13,32 @@ class Error
         register_shutdown_function(function () {
             $error = error_get_last();
             if ($error) {
-                throw new \Exception($error['message'], -1, $error['type'], $error['file'], $error['line']);
+                throw new \Exception($error['message'], -1);
             }
         });
     }
     /**
      * will handle the custom error message
      *
-     * @param string $message
-     * @param string|null $file
-     * @param string|null @line
+     * @param string|null $errno
+     * @param string|null $errstr
+     * @param string|null $errfile
+     * @param string|null $errline
      *
-     * @return none
+     * @throw \Exception
      */
-    public static function handle($errno, $errstr, $errfile, $errline): void
+    public static function handle(?string $errno, ?string $errstr, ?string $errfile, ?string $errline): void
     {
-        if (error_reporting() & $errno) {
+        if (error_reporting() && $errno) {
             return;
         }
-        throw new \Exception($errstr, 0, $errno, $errfile, $errline);
+        throw new \Exception($errstr, 0);
     }
     /**
      * will handle the custom exception
      *
      * @param mixed $e
      *
-     * @return none
      */
     public static function handleException($e): void
     {
@@ -56,8 +56,6 @@ class Error
     /**
      * return error page path
      *
-     * @param none
-     *
      * @return null|string
      */
     private static function getErrorPage(): ?string
@@ -69,8 +67,6 @@ class Error
     }
     /**
      * check if the app enabled debug mode
-     *
-     * @param none
      *
      * @return bool
      */
@@ -86,7 +82,6 @@ class Error
      *
      * @param string $message
      *
-     * @return none
      */
     private static function logMessage(string $message): void
     {

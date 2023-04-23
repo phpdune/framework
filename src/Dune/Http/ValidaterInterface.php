@@ -6,5 +6,9 @@ namespace Dune\Http;
 
 interface ValidaterInterface
 {
+    /**
+     *
+     * @return null|array<mixed>
+     */
     public function validation(): ?array;
 }

@@ -9,23 +9,17 @@ interface CsrfInterface
     /**
      * get the csrf token
      *
-     * @param  none
-     *
      * @return null|string
      */
     public static function get(): ?string;
     /**
       * generate a csrf token
       *
-      * @param  none
-      *
       * @return null|string
       */
     public static function generate(): ?string;
     /**
      * regenerate csrf token
-     *
-     * @param  none
      *
      * @return null|string
      */

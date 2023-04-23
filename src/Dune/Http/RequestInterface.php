@@ -18,15 +18,11 @@ interface RequestInterface
     /**
      * will return everything from $this->data
      *
-     * @param  none
-     *
-     * @return array
+     * @return array<mixed>
      */
     public function all(): array;
     /**
     * will return request method
-    *
-    * @param  none
     *
     * @return string
     */
@@ -34,15 +30,11 @@ interface RequestInterface
     /**
     * will return server values
     *
-    * @param  none
-    *
-    * @return string
+    * @return string $key
     */
-    public function server($key): ?string;
+    public function server(string $key): ?string;
     /**
     * return true if request method is GET
-    *
-    * @param  none
     *
     * @return bool
     */
@@ -50,22 +42,16 @@ interface RequestInterface
     /**
     * return true if request method is POST
     *
-    * @param  none
-    *
     * @return bool
     */
     public function isPost(): bool;
     /**
     * return all headers
     *
-    * @param  none
-    *
-    * @return string
+    * @return string|bool|array<string,mixed>
     */
-    public function getHeaders(string $uri): string;
+    public function getHeaders(string $uri): array|bool|string;
     /**
-    * @param  none
-    *
     * @return string
     */
     public function getIp(): string;

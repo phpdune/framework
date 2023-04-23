@@ -7,17 +7,10 @@ namespace Dune\Views;
 interface ViewInterface
 {
     /**
-     * @param none
-     *
-     * @return none
-     */
-    public function __construct();
-
-    /**
      * Check the view file exist else throw an exception
      *
      * @param  string  $view
-     * @param  array  $data
+     * @param  array<string,mixed> $data
      *
      * @throw \NotFound
      *

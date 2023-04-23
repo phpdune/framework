@@ -1,9 +1,13 @@
-<?php http_response_code($code); ?>
+<?php
+if(isset($code)) {
+    http_response_code($code);
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Error</title>
+    <title> <?php echo isset($code) ? $code : '' ?> | Error</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
@@ -41,6 +45,12 @@ body {
 }
     </style>
     <h1 class="title">Error</h1>
-  <h2 class="exception"><?= $message ?></h2>
+  <h2 class="exception">
+    <?php
+    if(isset($message)) {
+        echo $message;
+    }
+?>
+    </h2>
   </body>
 </html>

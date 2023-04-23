@@ -12,8 +12,6 @@ class CsrfHandler
     /**
      * set the csrf token
      *
-     * @param  none
-     *
      * @return null|string
      */
     public function setCsrfToken(): ?string
@@ -28,8 +26,6 @@ class CsrfHandler
      /**
      * get the current csrf token
      *
-     * @param  none
-     *
      * @return null|string
      */
     public function getCurrentToken(): ?string
@@ -40,8 +36,6 @@ class CsrfHandler
     }
     /**
      * regenerate new csrf token
-     *
-     * @param  none
      *
      * @return null|string
      */
@@ -55,7 +49,7 @@ class CsrfHandler
      * @param  string|null $token
      * @param string|null $id
      *
-     * @return null|string
+     * @return bool
      */
     public function tokenValidate(string|null $token, string|null $id): bool
     {

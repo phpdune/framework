@@ -15,17 +15,16 @@ class Cookie implements CookieInterface
     /**
      * \Dune\Cookie\CookieHandler instance
      *
-     * @var CookieHandler
+     * @var ?CookieHandler
      */
     private static ?CookieHandler $handler = null;
     /**
      *
      * @param string $key
-     * @param mixed $value
+     * @param string $value
      *
-     * @return none
      */
-    public static function set(string $key, mixed $value): void
+    public static function set(string $key, string $value): void
     {
         self::init();
         self::$handler->setCookie($key, $value);
@@ -45,7 +44,6 @@ class Cookie implements CookieInterface
      *
      * @param string $key
      *
-     * @return none
      */
     public static function unset(string $key): void
     {
@@ -64,10 +62,7 @@ class Cookie implements CookieInterface
         return self::$handler->hasCookie($key);
     }
     /**
-     *
-     * @param none
-     *
-     * @return none
+     * flush method
      */
     public static function flush(): void
     {
@@ -76,9 +71,7 @@ class Cookie implements CookieInterface
     }
     /**
      *
-     * @param none
-     *
-     * @return null|array
+     * @return null|array<string,mixed>
      */
     public static function all(): ?array
     {
@@ -88,16 +81,17 @@ class Cookie implements CookieInterface
     /**
      *
      * @param ?string $method
-     * @param ?array $array
+     * @param ?array<string> $args
      *
      * @throw \Dune\Cookie\InvalidMethod
      *
-     *  @return none
      */
-     public static function __callStatic($method, $args)
+     public static function __callStatic(?string $method, ?array $args): void
      {
+         $key = (isset($args[0]) ? $args[0] : '');
+         $value = (isset($args[1]) ? $args[1] : '');
          if ($method == 'add' || $method == 'put') {
-             self::set($args[0], $args[1]);
+             self::set($key, $value);
          } else {
              throw new InvalidMethod("Method {$method} is invalid");
          }

@@ -20,9 +20,7 @@ class SessionHandler
     protected SessionEncrypter $encrypter;
 
     /**
-     * @param  \Dune\Session\SessionEncrypter
-     *
-     * @return none
+     * session encrypter instance setting
      */
     public function __construct(SessionEncrypter $encrypter)
     {
@@ -36,7 +34,6 @@ class SessionHandler
      * @param  string  $key
      * @param string $value
      *
-     * @return none
      */
     public function setSession(string $key, string $value): void
     {
@@ -51,9 +48,8 @@ class SessionHandler
      * Setting Array Session
      *
      * @param  string  $key
-     * @param array $value
+     * @param array<mixed> $values
      *
-     * @return none
      */
     public function setArraySession(string $key, array $values): void
     {
@@ -73,7 +69,7 @@ class SessionHandler
      *
      * @param  string  $key
      *
-     * @return string|null
+     * @return mixed
      */
     public function getSession(string $key): mixed
     {
@@ -95,7 +91,7 @@ class SessionHandler
      *
      * @param  string  $key
      *
-     * @return array|null
+     * @return array<mixed>|null
      */
      private function getArraySession($key): ?array
      {
@@ -146,9 +142,6 @@ class SessionHandler
      /**
      * set session_start() if it doesn't exist
      *
-     * @param  string  none
-     *
-     * @return none
      */
     protected function start(): void
     {
@@ -162,9 +155,6 @@ class SessionHandler
     /**
      * delete all session
      *
-     * @param  string  none
-     *
-     * @return none
      */
     public function flushSession(): void
     {
@@ -178,7 +168,6 @@ class SessionHandler
      *
      * @param  string  $key
      *
-     * @return string
      */
     public function unsetSession(string $key): void
     {
@@ -189,9 +178,7 @@ class SessionHandler
     /**
      * return all current session
      *
-     * @param  string none
-     *
-     * @return null|array
+     * @return null|array<mixed>
      */
     public function getAllSession(): ?array
     {
@@ -224,7 +211,6 @@ class SessionHandler
      * @param string $key
      * @param string $value
      *
-     * @return bool|null
      */
     public function sessionOverwrite(string $key, string $value): void
     {
@@ -233,9 +219,8 @@ class SessionHandler
      /**
      * return $_SESSION
      *
-     * @param none
      *
-     * @return array|null
+     * @return array<mixed>|null
      */
     public function allSession(): ?array
     {

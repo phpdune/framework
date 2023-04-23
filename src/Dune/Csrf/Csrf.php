@@ -16,7 +16,6 @@ class Csrf implements CsrfInterface
      */
     private static ?CsrfHandler $handler = null;
     /**
-     * @param  none
      *
      * @return null|string
      */
@@ -26,7 +25,6 @@ class Csrf implements CsrfInterface
         return self::$handler->setCsrfToken();
     }
      /**
-      * @param  none
       *
       * @return null|string
       */
@@ -36,7 +34,6 @@ class Csrf implements CsrfInterface
         return self::$handler->getCurrentToken();
     }
      /**
-      * @param  none
       *
       * @return null|string
       */

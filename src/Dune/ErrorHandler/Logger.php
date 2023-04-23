@@ -9,9 +9,6 @@ class Logger
     /**
      * error log file setting
      *
-     * @param none
-     *
-     * @return none
      */
     public function __construct()
     {
@@ -23,7 +20,6 @@ class Logger
       *
       * @param string $message
       *
-      * @return none
       */
     public function put(string $message): void
     {
@@ -31,8 +27,6 @@ class Logger
     }
      /**
       * return app.log path
-      *
-      * @param none
       *
       * @return string
       */

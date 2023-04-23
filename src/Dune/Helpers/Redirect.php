@@ -19,11 +19,11 @@ class Redirect
     /**
      * getting route uri from its name
      *
-     * @param  string  $key
+     * @param string $key
      *
-     * @return self
+     * @return self|null|Redirect
      */
-    public function route(string $key): self
+    public function route(string $key): self|null|Redirect
     {
         $array = RouteHandler::$names;
         if (array_key_exists($key, $array)) {
@@ -37,8 +37,6 @@ class Redirect
       /**
        * will redirect to the back page
        *
-       * @param  none
-       *
        * @return self
        */
     public function back(): self
@@ -50,34 +48,32 @@ class Redirect
       /**
        * can access this value through session
        *
-       * @param  string  $key
+       * @param string $key
        * @param mixed $value
        *
-       * @return none
+       * @return self
        */
-    public function with(string $key, mixed $value): void
+    public function with(string $key, mixed $value): self
     {
         Session::set('__'.$key, $value);
+        return $this;
     }
       /**
        * can access this value through session
        *
-       * @param  array  $data
+       * @param array<string,mixed> $data
        *
-       * @return none
+       * @return self
        */
-    public function withArray(array $data): void
+    public function withArray(array $data): self
     {
         foreach ($data as $key => $value) {
             Session::set('__'.$key, $value);
         }
+        return $this;
     }
       /**
        * redirection
-       *
-       * @param  none
-       *
-       * @return none
        */
     private function redirect(): void
     {

@@ -11,17 +11,16 @@ class CookieHandler
      *
      * @var const
      */
-    protected const COOKIE_PATTERN = '^[a-zA-Z0-9_\.]{1,64}$^';
+    protected const COOKIE_PATTERN = "^[a-zA-Z0-9_\.]{1,64}$^";
 
     /**
      * cookie setting handler
      *
      * @param string $key
-     * @param mixed $value
+     * @param string $value
      *
-     * @return none
      */
-    public function setCookie(string $key, mixed $value): void
+    public function setCookie(string $key, string $value): void
     {
         if ($this->validName($key)) {
             setcookie($key, $value, time() + config('cookie.time'), config('cookie.path'), config('cookie.domain'), config('cookie.secure'), config('cookie.http_only'));
@@ -43,7 +42,6 @@ class CookieHandler
         *
         * @param string $key
         *
-        * @return none
         */
        public function unsetCookie(string $key): void
        {
@@ -76,9 +74,6 @@ class CookieHandler
        /**
         * delete all cookies that are currently active
         *
-        * @param none
-        *
-        * @return none
         */
        public function flushCookie(): void
        {
@@ -89,9 +84,8 @@ class CookieHandler
        /**
         * show all the cookies that are currently active
         *
-        * @param none
         *
-        * @return null|array
+        * @return null|array<string,string>
         */
        public function allCookie(): ?array
        {

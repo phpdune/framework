@@ -15,13 +15,11 @@ class RouteActionCaller
     /**
      * view instance
      *
-     * @var array
+     * @var ?View
      */
     private ?View $view = null;
     /**
-     * @param  none
-     *
-     * @return none
+     * view instance setting
      */
     public function __construct(View $view)
     {
@@ -43,7 +41,7 @@ class RouteActionCaller
     /**
      * will render the view calling from the route
      *
-     * @param  string  $mi.
+     * @param  string  $file.
      *
      * @return null
      */
@@ -54,7 +52,7 @@ class RouteActionCaller
     /**
      * will run method in route
      *
-     * @param  array  $action
+     * @param  array<string,string> $action
      *
      * @throw \Dune\Routing\Exception\NotFound
      *

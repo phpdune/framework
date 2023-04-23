@@ -9,7 +9,7 @@ use Dune\Views\Exception\LayoutNotFound;
 
 class View implements ViewInterface
 {
-    use ViewTrait;
+    use ViewContainer;
 
     /**
      * The view file.
@@ -27,7 +27,7 @@ class View implements ViewInterface
     /**
      * store the data passing by the view.
      *
-     * @var array
+     * @var array<string,mixed>
      */
 
     private array $var;
@@ -39,20 +39,16 @@ class View implements ViewInterface
     private ?PineCompiler $pine = null;
 
     /**
-     * @param none
-     *
-     * @return none
+     * pine compiler instance
      */
     public function __construct()
     {
-        if (is_null($this->pine)) {
-            $this->pine = $this->initView();
-        }
+        $this->init();
     }
 
     /**
      * @param  string  $view
-     * @param  array  $data
+     * @param  array<string,mixed>  $data
      *
      * @throw \Dune\Views\Exception\ViewNotFound
      *
@@ -74,12 +70,11 @@ class View implements ViewInterface
     /**
      * compile the layout file if exists
      *
-     * @param  none
-     *
-     * @return none
+     * @return mixed
      */
-    private function loadFile(): ?string
+    private function loadFile(): mixed
     {
+        $layoutTemplate = '';
         $template = file_get_contents($this->file);
         $template = $this->pine->compile($template);
         if (
@@ -108,14 +103,15 @@ class View implements ViewInterface
     /**
      * render the layout and view files
      *
-     * @param  none
+     * @param string $template
+     * @param ?string $layoutTemplate
      *
-     * @return none
+     * @return mixed
      */
     private function renderFiles(
         string $template,
         string $layoutTemplate = null
-    ): void {
+    ): mixed {
         if (empty($this->var) && isset($this->layout)) {
             ob_start();
             eval(" ?>" . $template . "<?php ");
@@ -140,5 +136,6 @@ class View implements ViewInterface
                 echo ob_get_clean();
             }
         }
+        return null;
     }
 }

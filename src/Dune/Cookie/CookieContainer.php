@@ -8,9 +8,9 @@ use Dune\Cookie\CookieHandler;
 
 trait CookieContainer
 {
-    public static function init()
+    public static function init(): void
     {
-        if (!self::$handler) {
+        if (is_null(self::$handler)) {
             $container = new \Dune\Container\Container();
             self::$handler = $container->get(CookieHandler::class);
         }

@@ -4,38 +4,37 @@ declare(strict_types=1);
 
 namespace Dune\Http;
 
+use Dune\Helpers\Redirect;
+
 class Request implements RequestInterface
 {
     /**
       * All data from $_REQUEST and $_SERVER
       *
-      * @var array
+      * @var array<string,mixed>
       */
     private array $data = [];
     /**
       * Validation error message storred here
       *
-      * @var array
+      * @var array<string,string>
       */
     private array $errors = [];
     /**
       * old value of form fields stored here
       *
-      * @var array
+      * @var array<string,mixed>
       */
     private array $oldInputs = [];
     /**
       * route params
       *
-      * @var array
+      * @var array<string,mixed>
       */
     public array $params = [];
     /**
      * All data from $_GET and $_POST will stored from this constructer
      *
-     * @param  none
-     *
-     * @return none
      */
     public function __construct()
     {
@@ -62,17 +61,13 @@ class Request implements RequestInterface
     }
     /**
      *
-     * @param  none
-     *
-     * @return array
+     * @return array<mixed>
      */
     public function all(): array
     {
         return $this->data;
     }
      /**
-     * @param  none
-     *
      * @return string
      */
     public function method(): string
@@ -81,17 +76,15 @@ class Request implements RequestInterface
     }
 
      /**
-     * @param  none
      *
-     * @return string
+     * @return string $key
      */
-     public function server($key): ?string
+     public function server(string $key): ?string
      {
          $value = $_SERVER[strtoupper($key)] ?? null;
          return $value;
      }
      /**
-     * @param  none
      *
      * @return bool
      */
@@ -104,8 +97,6 @@ class Request implements RequestInterface
      }
     /**
      *
-     * @param  none
-     *
      * @return bool
      */
      public function isPost(): bool
@@ -116,17 +107,13 @@ class Request implements RequestInterface
          return false;
      }
      /**
-     * @param  none
-     *
-     * @return string
+     * @return array<string,mixed>|bool|string
      */
-     public function getHeaders(string $uri): string
+     public function getHeaders(string $uri): array|bool|string
      {
          return get_headers($uri);
      }
      /**
-     * @param  none
-     *
      * @return string
      */
      public function getIp(): string
@@ -134,11 +121,11 @@ class Request implements RequestInterface
          return $this->server('remote_addr');
      }
     /**
-     * @param  array|object $rules
+     * @param  array<mixed>|object $data
      *
-     * @return none|null
+     * @return ?Redirect
      */
-     public function validate(array|object $data)
+     public function validate(array|object $data): ?Redirect
      {
          if (is_array($data)) {
              $rules = $data;
@@ -158,16 +145,16 @@ class Request implements RequestInterface
              if (!$this->oldInputs) {
                  return redirect()->back()->withArray($this->errors);
              }
-             dd($this->oldInputs);
+
              return redirect()->back()->withArray(array_merge($this->errors, $this->oldInputs));
          }
+         return null;
      }
     /**
      * @param  string $name
      * @param mixed $ruleValue
      * @param string $field
      *
-     * @return string
      */
      public function checkValidation(string $name, mixed $ruleValue, string $field): void
      {
@@ -218,10 +205,8 @@ class Request implements RequestInterface
          }
      }
     /**
-     * @param  string $key
-     * @param mixed $value
+     * @param array<string,mixed> $params
      *
-     * @return none
      */
      public function setParams(array $params): void
      {
@@ -230,7 +215,6 @@ class Request implements RequestInterface
     /**
      * @param  string $key
      *
-     * @return none
      */
      public function param(string $key): mixed
      {

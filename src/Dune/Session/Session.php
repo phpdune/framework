@@ -20,9 +20,8 @@ class Session implements SessionInterface
     private static ?SessionHandler $handler = null;
     /**
      * @param  string  $key
-     * @param  string  $value
+     * @param  string|array<mixed>  $value
      *
-     * @return none
      */
     public static function set(string $key, string|array $value): void
     {
@@ -31,10 +30,8 @@ class Session implements SessionInterface
     }
     /**
      * @param  string  $key
-     * @param  string  $method
-     * @param callable|string $action
      *
-     * @return string|null
+     * @return string|null|array<mixed>
      */
 
     public static function get(string $key): string|array|null
@@ -43,9 +40,8 @@ class Session implements SessionInterface
         return self::$handler->getSession($key);
     }
     /**
-     * @param  string  $key
+     * @param string $key
      *
-     * @return none
      */
     public static function unset(string $key): void
     {
@@ -53,9 +49,7 @@ class Session implements SessionInterface
         self::$handler->unsetSession($key);
     }
     /**
-     * @param none
-     *
-     * @return none
+     * flush method
      */
     public static function flush(): void
     {
@@ -73,7 +67,6 @@ class Session implements SessionInterface
         return self::$handler->sessionHas($key);
     }
      /**
-     * @param none
      *
      * @return string|int
      */
@@ -82,7 +75,6 @@ class Session implements SessionInterface
         return session_id();
     }
     /**
-     * @param none
      *
      * @return string|null
      */
@@ -91,9 +83,8 @@ class Session implements SessionInterface
         return session_name();
     }
     /**
-     * @param none
      *
-     * @return array|null
+     * @return array<mixed>|null
      */
      public static function all(): ?array
      {
@@ -104,7 +95,6 @@ class Session implements SessionInterface
      * @param string $key
      * @param string $value
      *
-     * @return mixed
      */
      public static function overwrite(string $key, string $value): void
      {
@@ -114,13 +104,12 @@ class Session implements SessionInterface
 
      /**
      * @param ?string $method
-     * @param ?array $args
+     * @param ?array<int,string> $args
      *
      * @throw \Dune\Session\Exception\InvalidMethod
      *
-     * @return none
      */
-     public static function __callStatic($method, $args)
+     public static function __callStatic($method, $args): void
      {
          if ($method == 'put' | $method == 'add') {
              self::set($args[0], $args[1]);

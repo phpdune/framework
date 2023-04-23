@@ -9,6 +9,9 @@ use Dune\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
+    /**
+     * @var array<mixed>
+     */
     private array $entries = [];
 
     public function get(string $id)
@@ -32,7 +35,7 @@ class Container implements ContainerInterface
         $this->entries[$id] = $concrete;
     }
 
-    public function resolve(string $id)
+    public function resolve(string $id): mixed
     {
         $reflectionClass = new \ReflectionClass($id);
 

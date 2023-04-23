@@ -1,0 +1,11 @@
+parameters:
+	level: 6
+	paths:
+		- src
+	ignoreErrors:
+	  - "#Access to constant MAP on an unknown class [a-zA-Z0-9\\\\_]+.#"
+	  - "#Offset [0-9] does not exist on array(.*).#"
+	  - "#Parameter (.*) of function (session_set_cookie_params|setcookie|set_exception_handler|set_error_handler) expects (.*), (.*) given.#"
+	  - "#PHPDoc tag @var for constant (.*) with type [a-zA-Z0-9\\\\_]+ is incompatible with value (.*)#"
+	  - "#Constant (.*) not found.#"
+	  - "#Parameter (.*) of echo cannot be converted to string.#"

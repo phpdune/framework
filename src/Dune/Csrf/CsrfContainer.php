@@ -8,7 +8,7 @@ use Dune\Csrf\CsrfHandler;
 
 trait CsrfContainer
 {
-    protected static function init()
+    protected static function init(): void
     {
         $container = new \Dune\Container\Container();
         if(is_null(self::$handler)) {

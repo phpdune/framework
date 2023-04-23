@@ -6,5 +6,9 @@ namespace Dune\Middleware;
 
 interface MiddlewareInterface
 {
-    public function handle();
+    /**
+     * array of rules and values to validate the input requests
+     * @return null|array<mixed>
+     */
+    public function handle(): ?array;
 }

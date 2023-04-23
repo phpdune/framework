@@ -8,18 +8,17 @@ interface SessionInterface
 {
     /**
      * will set the session with given name and value
-     * @param  string  $key
-     * @param  string  $value
+     * @param string $key
+     * @param string|array<mixed> $value
      *
-     * @return none
      */
-    public static function set(string $key, string $value): void;
+    public static function set(string $key, string|array $value): void;
     /**
      * get the session by given $key
      *
-     * @param  string  $value
+     * @param  string  $key
      *
-     * @return null|string
+     * @return null|string|array<mixed>
      */
     public static function get(string $key): string|array|null;
     /**
@@ -27,7 +26,6 @@ interface SessionInterface
      *
      * @param  string  $key
      *
-     * @return none
      */
     public static function has(string $key): bool;
     /**
@@ -35,21 +33,16 @@ interface SessionInterface
      *
      * @param  string  $key
      *
-     * @return none
      */
     public static function unset(string $key): void;
     /**
      * delete all sessions
      *
-     * @param  none
-     *
-     * @return none
      */
     public static function flush(): void;
     /**
      * will return the id of the session
      *
-     * @param none
      *
      * @return string|int
      */
@@ -57,7 +50,6 @@ interface SessionInterface
     /**
      * will return the name of the session
      *
-     * @param none
      *
      * @return null|string
      */
@@ -65,9 +57,8 @@ interface SessionInterface
     /**
      * will return session global variable values
      *
-     * @param none
      *
-     * @return array|null
+     * @return array<mixed>|null
      */
     public static function all(): ?array;
     /**
@@ -76,7 +67,6 @@ interface SessionInterface
     * @param string $key
     * @param string $value
     *
-    * @return mixed
     */
     public static function overwrite(string $key, string $value): void;
 }

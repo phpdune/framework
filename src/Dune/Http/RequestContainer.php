@@ -10,9 +10,6 @@ trait RequestContainer
 {
     protected function init(): void
     {
-        if (is_null($this->validater)) {
-            $container = new \Dune\Container\Container();
-            $this->validater = $container->get(Validater::class);
-        }
+        //
     }
 }

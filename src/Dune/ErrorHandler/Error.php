@@ -20,14 +20,14 @@ class Error
     /**
      * will handle the custom error message
      *
-     * @param string|null $errno
+     * @param string|int|null $errno
      * @param string|null $errstr
      * @param string|null $errfile
-     * @param string|null $errline
+     * @param string|int|null $errline
      *
      * @throw \Exception
      */
-    public static function handle(?string $errno, ?string $errstr, ?string $errfile, ?string $errline): void
+    public static function handle(int|null|string $errno, ?string $errstr, ?string $errfile, int|null|string $errline): void
     {
         if (error_reporting() && $errno) {
             return;

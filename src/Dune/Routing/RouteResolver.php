@@ -68,8 +68,12 @@ class RouteResolver extends RouteActionCaller
                       $route['route']]);
                     $this->callMiddleware($middleware);
                 }
+
                 foreach ($matches as $key => $value) {
-                    self::$params[$key] = $value;
+                    if(is_string($key)) {
+                        self::$params[$key] = $value;
+                    }
+
                 }
                 if (is_callable($action)) {
                     return $this->runCallable($action);

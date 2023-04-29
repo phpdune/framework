@@ -38,8 +38,8 @@ class RouteActionCaller
     protected function runCallable(callable $action): mixed
     {
         $container = App::container();
-        return $container->call($action);
-
+        $params = RouteResolver::$params;
+        return $container->call($action, $params);
     }
     /**
      * will render the view calling from the route
@@ -71,11 +71,9 @@ class RouteActionCaller
             throw new ClassNotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
-            $request = new Request();
-            $request->setParams(RouteResolver::$params);
-            $dependencies = $container->call([$class,$method]);
+            $params = RouteResolver::$params;
+            return $container->call([$class,$method], $params);
 
-            return call_user_func_array([$class, $method], [$dependencies]);
         }
         throw new MethodNotFound("Exception : Method {$method} Not Found");
     }

@@ -5,9 +5,17 @@ declare(strict_types=1);
 namespace Dune;
 
 use Dotenv\Dotenv;
+use DI\Container;
 
 final class App
 {
+    /**
+     * php-di Container
+     *
+     * @var Container
+     */
+    private static Container $container;
+
     /**
      * load the env variables and set custom error handling
      *
@@ -45,5 +53,24 @@ final class App
             $env = Dotenv::createImmutable(PATH);
             $env->load();
         }
+    }
+    /**
+     * php-di container setter
+     *
+     * @param Container $container
+     *
+     */
+    public function setContainer(Container $container): void
+    {
+        self::$container = $container;
+    }
+    /**
+     * php-di container getter
+     *
+     * @return Container
+     */
+    public static function container(): Container
+    {
+        return self::$container;
     }
 }

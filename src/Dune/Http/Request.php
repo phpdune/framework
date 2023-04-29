@@ -33,12 +33,6 @@ class Request implements RequestInterface
     private array $data = [];
 
     /**
-      * route params
-      *
-      * @var array<string,mixed>
-      */
-    public array $params = [];
-    /**
      * All data from $_GET and $_POST will stored from this constructer
      *
      */
@@ -127,22 +121,6 @@ class Request implements RequestInterface
          return $this->server('remote_addr');
      }
 
-    /**
-     * @param array<string,mixed> $params
-     *
-     */
-     public function setParams(array $params): void
-     {
-         $this->params = $params;
-     }
-    /**
-     * @param  string $key
-     *
-     */
-     public function param(string $key): mixed
-     {
-         return (isset($this->params[$key]) ? $this->params[$key] : null);
-     }
     /**
     * request validation
     * request input validation

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Dune\Routing;
 
 use Dune\Routing\RouterTrait;
-use Dune\Routing\Exception\RouteNotFound;
-use Dune\Container\Container;
+use Dune\Routing\Exception\ClassNotFound;
+use Dune\Routing\Exception\MethodNotFound;
 use Dune\Views\View;
 use Dune\Http\Request;
+use Dune\App;
 
 class RouteActionCaller
 {
@@ -36,7 +37,9 @@ class RouteActionCaller
     */
     protected function runCallable(callable $action): mixed
     {
-        return call_user_func($action);
+        $container = App::container();
+        return $container->call($action);
+
     }
     /**
      * will render the view calling from the route
@@ -62,17 +65,18 @@ class RouteActionCaller
     {
         [$class, $method] = $action;
         if (class_exists($class)) {
-            $container = new Container();
+            $container = App::container();
             $class = $container->get($class);
         } else {
-            throw new RouteNotFound("Exception : Class {$class} Not Found");
+            throw new ClassNotFound("Exception : Class {$class} Not Found");
         }
         if (method_exists($class, $method)) {
             $request = new Request();
             $request->setParams(RouteResolver::$params);
+            $dependencies = $container->call([$class,$method]);
 
-            return call_user_func_array([$class, $method], [$request]);
+            return call_user_func_array([$class, $method], [$dependencies]);
         }
-        throw new RouteNotFound("Exception : Method {$method} Not Found");
+        throw new MethodNotFound("Exception : Method {$method} Not Found");
     }
 }

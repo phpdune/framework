@@ -6,33 +6,46 @@ namespace Dune;
 
 use Dotenv\Dotenv;
 use DI\Container;
+use Dune\Console\ConsoleInterface;
 
 final class App
 {
     /**
-     * php-di Container
+     * Dune Framework Version
+     *
+     * @var const
+     */
+    public const VERSION = '1.1.6';
+    /**
+     * \Di\Container instance
      *
      * @var Container
      */
     private static Container $container;
+    /**
+     * \Dune\Console\ConsoleInterface
+     *
+     * @var ConsoleInterface
+     */
+    private ConsoleInterface $console;
 
     /**
-     * load the env variables and set custom error handling
+     * load the env variables and app configs
      *
      */
     public function __construct()
     {
-        set_error_handler('errorHandler', E_ALL);
-        set_exception_handler('exceptionHandler');
+        $this->loadEnv();
+        $this->loadAppConfig();
     }
        /**
-        * load apo configuration
-        *
+        * load app configuration
+        * set custom error handlers
         */
     public function load(): void
     {
-        $this->loadEnv();
-        $this->loadAppConfig();
+        set_error_handler('errorHandler', E_ALL);
+        set_exception_handler('exceptionHandler');
         require PATH.'/routes/web.php';
         echo runRoutes();
     }
@@ -72,5 +85,22 @@ final class App
     public static function container(): Container
     {
         return self::$container;
+    }
+    /**
+     * Initializing ConsoleInterface
+     *
+     * @param ConsoleInterface $console
+     */
+    public function console(ConsoleInterface $console): void
+    {
+        $this->console = $console;
+    }
+    /**
+     * running the console
+     *
+     */
+    public function loadConsole(): int
+    {
+        return $this->console->run();
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Request;
+namespace App\Validation;
 
 use Dune\Http\ValidaterInterface;
 
-class {{ Request }} implements ValidaterInterface
+class {{ Validation }} implements ValidaterInterface
 {
   public function validation(): ?array
   {

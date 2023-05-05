@@ -41,11 +41,13 @@ class View implements ViewInterface
     public FileMapper $mapper;
 
     /**
-     * @param FileMapper $mapper
-     * @param CaptureLayout $capture
-     * @param ProcceserEngine $engine
+     * FileMapper $mapper
+     * CaptureLayout $capture
+     * ProcceserEngine $engine
+     * 
+     * instance setting
      */
-    public function __construct(FileMapper $mapper, CaptureLayout $capture, ProcceserEngine $engine)
+    public function __construct(FileMapper $mapper, ProcceserEngine $engine)
     {
         $this->mapper = $mapper;
         $this->engine = $engine;

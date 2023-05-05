@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dune\Views\Exception;
+namespace Dune\Pine\Exception;
 
 class ViewNotFound extends \Exception
 {

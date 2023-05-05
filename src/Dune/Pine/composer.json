@@ -1,0 +1,30 @@
+{
+   "name":"dune/pine",
+   "description":"Template Engine for PHP - Dune framework component",
+   "type":"library",
+   "license":"MIT",
+   "support":{
+      "issues":"https://github.com/phpdune/framework/issues",
+      "source":"https://github.com/dune/framework"
+   },
+   "authors":[
+      {
+         "name":"Abhishek B",
+         "email":"phpdune@gmail.com"
+      }
+   ],
+   "require":{
+      "php":"^8.1",
+      "ext-tokenizer":"*",
+      "nikic/php-parser":"^4.15"
+   },
+   "autoload":{
+      "psr-4":{
+         "Dune\\Pine\\":""
+      }
+   },
+   "config":{
+      "sort-packages":true
+   },
+   "minimum-stability":"dev"
+}

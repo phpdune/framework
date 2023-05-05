@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Dune\Views\View;
+use Dune\Pine\ViewLoader;
 use Dune\Routing\Router as Route;
 use Dune\Routing\RouteHandler;
 use Dune\ErrorHandler\Error;
@@ -18,21 +18,19 @@ use Dune\Support\Twig;
  * view() function, to render the view from controller and to pass data to view via array
  *
  * @param  string $view
- * @param array<string,mixed>|null $data
+ * @param array<string,mixed> $data
  *
  * @throw \Exception
  *
- * @return null|string
+ * @return null|bool
  */
-function view(string $view, array $data = null): ?string
+function view(string $view, array $data = []): ?bool
 {
-    $pine = new View();
+    $pine = new ViewLoader(config('pine.pine_path'), config('pine.cache'), config('pine.cache_path'));
+    $pine = $pine->load();
     try {
-        if (!empty($data)) {
-            return $pine->render($view, $data);
-        } else {
-            return $pine->render($view);
-        }
+        echo $pine->render($view, $data);
+        return true;
     } catch (\Exception $e) {
         Error::handleException($e);
     }
@@ -61,9 +59,9 @@ function runRoutes()
  *
  * @param int $code
  *
- * @return ?string
+ * @return ?bool
  */
-function abort(int $code = 404, string $message = null): ?string
+function abort(int $code = 404, string $message = null): ?bool
 {
     $file = PATH . '/app/views/errors/error.pine.php';
     if (file_exists($file)) {

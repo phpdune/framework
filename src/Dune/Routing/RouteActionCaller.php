@@ -14,21 +14,6 @@ use Dune\App;
 class RouteActionCaller
 {
     /**
-     * view instance
-     *
-     * @var ?View
-     */
-    private ?View $view = null;
-    /**
-     * view instance setting
-     */
-    public function __construct(View $view)
-    {
-        if (is_null($this->view)) {
-            $this->view = $view;
-        }
-    }
-    /**
     * will run callable action in route
     *
     * @param  callable  $action
@@ -50,7 +35,7 @@ class RouteActionCaller
      */
     protected function renderView(string $file): null
     {
-        return $this->view->render($file);
+        return view($file);
     }
     /**
      * will run method in route

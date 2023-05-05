@@ -1,5 +1,5 @@
 {
-   "name":"phpdune/framework",
+   "name":"dune/framework",
    "description":"The PHP Dune Framework !",
    "type":"library",
    "license":"MIT",
@@ -10,13 +10,13 @@
    ],
    "authors":[
       {
-         "name":"coderswat",
-         "email":"phpdune@gmail.com"
+         "name": "Abhishek B",
+         "email": "phpdune@gmail.com"
       }
    ],
    "autoload":{
       "psr-4":{
-         "Dune\\":"src/Dune/"
+         "Dune\\": "src/Dune/"
       },
       "files":[
          "src/Dune/Helpers/functions.php"
@@ -24,17 +24,20 @@
    },
    "autoload-dev":{
       "psr-4":{
-         "Dune\\Tests\\":"tests/"
+         "Dune\\Tests\\": "tests/"
       }
    },
    "require":{
-      "php":"^8.0",
-      "symfony/var-dumper":"^6.2",
+      "php": "^8.0",
+      "symfony/var-dumper": "^6.2",
       "php-di/php-di": "^7.0",
       "symfony/console": "^6.2"
    },
+   "replace": {
+     "dune/pine": "self.version"
+   },
    "require-dev":{
-      "phpunit/phpunit":"^10.1",
+      "phpunit/phpunit": "^10.1",
       "phpstan/phpstan": "^1.10"
    }
 }

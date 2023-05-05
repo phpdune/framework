@@ -15,7 +15,7 @@ final class App
      *
      * @var const
      */
-    public const VERSION = '1.1.7';
+    public const VERSION = '1.1.8';
     /**
      * \Di\Container instance
      *

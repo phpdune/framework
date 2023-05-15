@@ -32,15 +32,15 @@
       }
    },
    "require":{
-      "php":"^8.0",
+      "php": "^8.0",
       "ext-ctype": "*",
-      "ext-tokenizer":"*",
-      "ext-session": "*",
       "ext-openssl": "*",
-      "symfony/var-dumper":"^6.2",
-      "php-di/php-di":"^7.0",
-      "symfony/console":"^6.2",
-      "nikic/php-parser":"^4.15"
+      "ext-session": "*",
+      "ext-tokenizer": "*",
+      "nikic/php-parser": "^4.15",
+      "php-di/php-di": "^7.0",
+      "symfony/console": "^6.2",
+      "symfony/var-dumper": "^6.2"
    },
    "replace":{
       "dune/pine":"self.version"

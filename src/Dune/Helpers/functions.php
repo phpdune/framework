@@ -30,7 +30,6 @@ function view(string $view, array $data = []): ?bool
     $pine = $pine->load();
     try {
         echo $pine->render($view, $data);
-        return true;
     } catch (\Exception $e) {
         Error::handleException($e);
     }

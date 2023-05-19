@@ -35,11 +35,7 @@ class ViewLoader
             $mappper,
             new ProcceserEngine(
                 new PineCompiler(
-                    new CaptureLayout($mappper),
-                    new Parser(
-                        new PhpParser(),
-                        new PineParser()
-                    )
+                    new CaptureLayout($mappper)
                 ),
                 $mappper,
                 new CacheController($mappper)

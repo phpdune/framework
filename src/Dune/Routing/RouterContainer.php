@@ -4,16 +4,31 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
-use Dune\Routing\RouteHandler;
 use Dune\App;
+use DI\Container;
+use DI\ContainerBuilder;
 
 trait RouterContainer
 {
-    protected static function init(): void
+    /**
+     * \DI\Container instance
+     *
+     * @var ?Container
+     */
+    protected ?Container $container = null;
+    /**
+     * setting up the container instance
+     */
+    public function __setUp()
     {
-        if (is_null(self::$route)) {
-            $container = App::container();
-            self::$route = $container->get(RouteHandler::class);
+        if(!$this->container) {
+            if(class_exists(App::class)) {
+                $container = App::container();
+            } else {
+                $containerBuilder = new ContainerBuilder();
+                $container = $containerBuilder->build();
+            }
+            $this->container = $container;
         }
     }
 }

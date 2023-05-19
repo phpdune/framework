@@ -3,16 +3,18 @@
 declare(strict_types=1);
 
 use Dune\Pine\ViewLoader;
-use Dune\Routing\Router as Route;
-use Dune\Routing\RouteHandler;
+use Dune\Routing\RouteLoader;
+use Dune\Routing\Router;
 use Dune\ErrorHandler\Error;
 use Dune\Http\Request;
-use Dune\Session\Session;
-use Dune\Csrf\Csrf;
-use Dune\Helpers\Response;
-use Dune\Helpers\Redirect;
+use Dune\Facades\Session;
+use Dune\Facades\Csrf;
+use Dune\Http\Response;
+use Dune\Http\Redirect;
 use Dune\ErrorHandler\Logger;
 use Dune\Support\Twig;
+use Dune\App;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * view() function, to render the view from controller and to pass data to view via array
@@ -30,30 +32,12 @@ function view(string $view, array $data = []): ?bool
     $pine = $pine->load();
     try {
         echo $pine->render($view, $data);
-        return true;
     } catch (\Exception $e) {
         Error::handleException($e);
     }
     return null;
 }
-/**
- * runRoutes will run all the routes from public folder
- *
- * @throw \Exception
- *
- * @return ?Route
- */
-function runRoutes()
-{
-    try {
-        $request = new Request();
-        $method = $request->get('_method') ?? $request->method();
-        return Route::run($request->server('request_uri'), $method);
-    } catch (\Exception $e) {
-        Error::handleException($e);
-    }
-    return null;
-}
+
 /**
  * abort function, will abort and load a error file from view/errors
  *
@@ -82,9 +66,9 @@ function abort(int $code = 404, string $message = null): ?bool
  */
 function route(string $key, array $values = []): ?string
 {
-    $array = RouteHandler::$names;
+    $array = Router::$names;
     if (array_key_exists($key, $array)) {
-        $route = RouteHandler::$names[$key];
+        $route = Router::$names[$key];
         if (str_contains($route, '{') && str_contains($route, '}')) {
             $route = str_replace(array_keys($values), array_values($values), $route);
             $route = str_replace('{', '', $route);
@@ -191,7 +175,8 @@ function csrf(): string
  */
 function response(): Response
 {
-    return new Response();
+    $container = App::container();
+    return $container->get(Response::class);
 }
 /**
  * return Redirect
@@ -201,7 +186,7 @@ function response(): Response
 
 function redirect(): Redirect
 {
-    return new Redirect();
+    return new Redirect(new RedirectResponse('/fake'));
 }
 /**
 * for logging message

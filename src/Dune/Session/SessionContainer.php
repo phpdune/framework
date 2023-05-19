@@ -4,16 +4,31 @@ declare(strict_types=1);
 
 namespace Dune\Session;
 
-use Dune\Session\SessionHandler;
 use Dune\App;
+use DI\Container;
+use DI\ContainerBuilder;
 
 trait SessionContainer
 {
-    public static function init(): void
+    /**
+     * \DI\Container instance
+     *
+     * @var ?Container
+     */
+    protected ?Container $container = null;
+    /**
+     * setting up the container instance
+     */
+    public function __setUp()
     {
-        if (!self::$handler) {
-            $container = App::container();
-            self::$handler = $container->get(SessionHandler::class);
+        if(!$this->container) {
+            if(class_exists(App::class)) {
+                $container = App::container();
+            } else {
+                $containerBuilder = new ContainerBuilder();
+                $container = $containerBuilder->build();
+            }
+            $this->container = $container;
         }
     }
 }

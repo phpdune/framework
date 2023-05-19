@@ -15,13 +15,14 @@ class PineCompiler
      * @var CaptureLayout
      */
     protected CaptureLayout $layoutCompiler;
+
     /**
      * CaptureLayout
      * Parser
      *
      * instance setting
      */
-    public function __construct(CaptureLayout $capture, Parser $parser)
+    public function __construct(CaptureLayout $capture)
     {
         $this->layoutCompiler = $capture;
     }

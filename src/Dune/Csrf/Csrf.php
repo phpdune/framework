@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dune\Csrf;
 
-use Dune\Facades\Session;
 use Dune\Http\Request;
 use Dune\Csrf\CsrfInterface;
 use Dune\Csrf\CsrfContainer;

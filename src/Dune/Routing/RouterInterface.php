@@ -4,68 +4,70 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
+use Closure;
+
 interface RouterInterface
 {
     /**
      * Register the GET route
      *
      * @param  string  $route
-     * @param  array<string,string>|callable|string $action
+     * @param  array<string,string>|Closure|string $action
      *
-     * @return static
+     * @return self
      */
-    public static function get(string $route, callable|array|string $action): self;
+    public function get(string $route, Closure|array|string $action): self;
     /**
      * Register the POST route
      *
      * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param  Closure|array<string,string>|string  $action
      *
-     * @return static
+     * @return self
      */
-    public static function post(string $route, callable|array|string $action): self;
+    public function post(string $route, Closure|array|string $action): self;
     /**
      * Register the PUT route
      *
      * @param  string  $route
-     * @param  callable|string|array<string,string>  $action
+     * @param  Closure|string|array<string,string>  $action
      *
-     * @return static
+     * @return self
      */
-    public static function put(string $route, callable|array|string $action): self;
+    public function put(string $route, Closure|array|string $action): self;
     /**
      * Register the PACTH route
      *
      * @param  string  $route
-     * @param  callable|string|array<string,string> $action
+     * @param  Closure|string|array<string,string> $action
      *
-     * @return static
+     * @return self
      */
-    public static function patch(string $route, callable|array|string $action): self;
+    public function patch(string $route, Closure|array|string $action): self;
     /**
      * Register the DELETE route
      *
      * @param  string  $route
-     * @param  callable|string|array<string,string> $action
+     * @param  Closure|string|array<string,string> $action
      *
-     * @return static
+     * @return self
      */
-    public static function delete(string $route, callable|string|array $action): self;
+    public function delete(string $route, Closure|string|array $action): self;
     /**
      * Register the view route, method will be GET
      *
      * @param  string  $route
      * @param  string  $view
      *
-     * @return static
+     * @return self
      */
-    public static function view(string $route, string $view): self;
+    public function view(string $route, string $view): self;
     /**
      * route name registering will happen here
      *
      * @param  string  $name
      *
-     * @return static
+     * @return self
      */
-    public static function name(string $name): self;
+    public function name(string $name): self;
 }

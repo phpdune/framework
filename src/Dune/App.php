@@ -15,7 +15,7 @@ final class App
      *
      * @var const
      */
-    public const VERSION = '1.1.8';
+    public const VERSION = '1.1.9';
     /**
      * \Di\Container instance
      *
@@ -35,8 +35,8 @@ final class App
      */
     public function __construct()
     {
-        $this->loadEnv();
-        $this->loadAppConfig();
+        $env = Dotenv::createImmutable(PATH);
+        $env->load();
     }
        /**
         * load app configuration
@@ -44,29 +44,17 @@ final class App
         */
     public function load(): void
     {
-        set_error_handler('errorHandler', E_ALL);
-        set_exception_handler('exceptionHandler');
-        require PATH.'/routes/web.php';
-        echo runRoutes();
+        $this->loadAppConfig();
     }
        /**
-        * load apo configuration
+        * load app configuration
         *
         */
     public function loadAppConfig(): void
     {
         date_default_timezone_set(config('app.timezone'));
     }
-    /**
-     * env loading
-     */
-    public function loadEnv(): void
-    {
-        if(class_exists(Dotenv::class)) {
-            $env = Dotenv::createImmutable(PATH);
-            $env->load();
-        }
-    }
+
     /**
      * php-di container setter
      *
@@ -97,10 +85,24 @@ final class App
     }
     /**
      * running the console
-     *
      */
     public function loadConsole(): int
     {
         return $this->console->run();
+    }
+    /**
+     * check the app is local
+     * getting APP_ENV from .env file
+     */
+    public function isLocal()
+    {
+        return (env('APP_ENV') == 'local' ? true : false);
+    }
+    /**
+     * checks the app is in maintenance mode or not
+     */
+    public function isMaintenance()
+    {
+        //
     }
 }

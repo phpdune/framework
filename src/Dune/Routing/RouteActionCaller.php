@@ -4,62 +4,73 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
-use Dune\Routing\RouterTrait;
+use Dune\Routing\RouterContainer;
 use Dune\Routing\Exception\ClassNotFound;
 use Dune\Routing\Exception\MethodNotFound;
 use Dune\Views\View;
 use Dune\Http\Request;
-use Dune\App;
+use Dune\Routing\Controller;
+use Dune\Routing\Exception\InvalidController;
 
 class RouteActionCaller
 {
+    use RouterContainer;
+
     /**
-    * will run callable action in route
-    *
-    * @param  callable  $action
-    *
-    * @return string|null
-    */
-    protected function runCallable(callable $action): mixed
-    {
-        $container = App::container();
-        $params = RouteResolver::$params;
-        return $container->call($action, $params);
-    }
-    /**
-     * will render the view calling from the route
-     *
-     * @param  string  $file.
-     *
-     * @return null
+     * calling trait method
      */
-    protected function renderView(string $file): null
+    public function __construct()
     {
-        return view($file);
+        $this->__setUp();
     }
-    /**
-     * will run method in route
+     /**
+     * will run callable action in route
      *
-     * @param  array<string,string> $action
-     *
-     * @throw \Dune\Routing\Exception\NotFound
+     * @param  callable  $action
      *
      * @return string|null
      */
-    protected function runMethod(array $action): mixed
-    {
-        [$class, $method] = $action;
-        if (class_exists($class)) {
-            $container = App::container();
-            $class = $container->get($class);
-        } else {
-            throw new ClassNotFound("Exception : Class {$class} Not Found");
-        }
-        if (method_exists($class, $method)) {
-            $params = RouteResolver::$params;
-            return $container->call([$class,$method], $params);
+     protected function runCallable(callable $action): mixed
+     {
+         $params = RouteResolver::$params;
+         return $this->container->call($action, $params);
+     }
+     /**
+      * will render the view calling from the route
+      *
+      * @param  string  $file.
+      *
+      * @return null
+      */
+     protected function renderView(string $file): null
+     {
+         return view($file);
+     }
+     /**
+      * will run method in route
+      *
+      * @param  array<string,string> $action
+      *
+      * @throw \Dune\Routing\Exception\NotFound
+      *
+      * @return string|null
+      */
+     protected function runMethod(array $action): mixed
+     {
+         [$class, $method] = $action;
+         if (class_exists($class)) {
+             $class = $this->container->get($class);
+             if(!$class instanceof Controller) {
+                 throw new InvalidController("Cannot resolve this class, this class must implements routing controller interface");
+             }
+         } else {
+             throw new ClassNotFound("Exception : Class {$class} Not Found");
+         }
+         if (method_exists($class, $method)) {
+             $params = RouteResolver::$params;
+             return $this->container->call([$class,$method], $params);
 
-        }
-        throw new MethodNotFound("Exception : Method {$method} Not Found");
-    }
+         }
+         throw new MethodNotFound("Exception : Method {$method} Not Found");
+     }
 }

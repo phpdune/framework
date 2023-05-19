@@ -4,53 +4,44 @@ declare(strict_types=1);
 
 namespace Dune\Csrf;
 
+use Dune\Facades\Session;
+use Dune\Http\Request;
+use Dune\Csrf\CsrfInterface;
 use Dune\Csrf\CsrfContainer;
 
 class Csrf implements CsrfInterface
 {
     use CsrfContainer;
+
     /**
-     * \Dune\Csrf\CsrfHandler instance
-     *
-     * @var CsrfHandler
+     * container instance
      */
-    private static ?CsrfHandler $handler = null;
+    public function __construct()
+    {
+        $this->__setUp();
+    }
     /**
+     * set the csrf token
      *
      * @return null|string
      */
-    public static function generate(): ?string
+    public function generate(): ?string
     {
-        self::init();
-        return self::$handler->setCsrfToken();
+        $request = $this->container->get(Request::class);
+        $key = bin2hex(random_bytes(32));
+        $token = hash_hmac("sha256", base64_encode($key), $key);
+        $request->session()->has('_token')
+        ? $request->session()->overwrite("_token", $token)
+        : $request->session()->set("_token", $token);
+        return $token;
     }
-     /**
-      *
-      * @return null|string
-      */
-    public static function get(): ?string
+    /**
+     * regenerate new csrf token
+     *
+     * @return null|string
+     */
+    public function reGenerate(): ?string
     {
-        self::init();
-        return self::$handler->getCurrentToken();
+        return $this->generate();
     }
-     /**
-      *
-      * @return null|string
-      */
-    public static function reGenerate(): ?string
-    {
-        self::init();
-        return self::$handler->tokenRegenerate();
-    }
-     /**
-      * @param  string $token
-      * @param string $id
-      *
-      * @return bool
-      */
-  public static function validate(string|null $token, string|null $id): bool
-  {
-      self::init();
-      return self::$handler->tokenValidate($token, $id);
-  }
 }

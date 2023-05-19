@@ -66,8 +66,8 @@ class CaptureLayout
         foreach ($matches[1] as $key => $name) {
             $this->layoutData[$name] = $matches[2][$key];
         }
-        if(array_key_exists(0,$extends[1])) {
-        $this->layoutName = $extends[1][0];
+        if(array_key_exists(0, $extends[1])) {
+            $this->layoutName = $extends[1][0];
         }
     }
      /**

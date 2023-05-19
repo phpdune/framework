@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Dune\Csrf;
+namespace Dune\Routing;
 
-class CsrfMiddleware
+interface Controller
 {
     //
 }

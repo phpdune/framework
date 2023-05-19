@@ -8,8 +8,6 @@ use Dune\Http\Request;
 use Dune\Routing\Exception\RouteNotFound;
 use Dune\Routing\Exception\MethodNotSupported;
 use Dune\Routing\Exception\MiddlewareNotFound;
-use Dune\Csrf\CsrfMiddleware;
-use Dune\Session\Session;
 use Dune\Routing\RouteActionCaller;
 use Dune\Routing\Router as Route;
 use Dune\Http\Middleware\Middleware;

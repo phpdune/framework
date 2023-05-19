@@ -44,7 +44,9 @@
       "symfony/http-kernel":"^6.2"
    },
    "replace":{
-      "dune/pine":"self.version"
+      "dune/pine":"self.version",
+      "dune/routing":"self.version",
+      "dune/csrf":"self.version"
    },
    "require-dev":{
       "phpunit/phpunit":"^10.1",

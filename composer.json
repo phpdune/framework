@@ -46,7 +46,9 @@
    "replace":{
       "dune/pine":"self.version",
       "dune/routing":"self.version",
-      "dune/csrf":"self.version"
+      "dune/csrf":"self.version",
+      "dune/session":"self.version",
+      "dune/http":"self.version"
    },
    "require-dev":{
       "phpunit/phpunit":"^10.1",

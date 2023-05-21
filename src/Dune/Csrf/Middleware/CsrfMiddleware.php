@@ -35,13 +35,15 @@ class CsrfMiddleware implements MiddlewareInterface
      * @param \Dune\Http\Request $request
      * @param Closure $next
      *
+     * @throw TokenMismatched
+     * 
      * @return Closure
      */
     public function handle(Request $request, Closure $next): Request
     {
         $token = $request->session()->get('_token');
         if($this->checkRequired($request) && !hash_equals($this->getToken($request), $token)) {
-            throw new TokenMismatched("Csrf Token Mismatched!");
+            throw new TokenMismatched("Csrf Token Mismatched!",419);
         }
         return $next($request);
     }

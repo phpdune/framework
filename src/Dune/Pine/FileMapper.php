@@ -93,7 +93,7 @@ class FileMapper
          }
          throw new ViewNotFound(
              "Exception : {$file} File Not Found In Views Directory"
-         );
+         ,404);
      }
     /**
      * get the layout file path by file name
@@ -112,7 +112,7 @@ class FileMapper
          }
          throw new LayoutNotFound(
              "Exception : {$file} File Not Found In views/layouts Directory"
-         );
+         ,404);
      }
      /**
      * get cache file extension

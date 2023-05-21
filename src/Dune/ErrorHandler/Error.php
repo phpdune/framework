@@ -13,7 +13,7 @@ class Error
         register_shutdown_function(function () {
             $error = error_get_last();
             if ($error) {
-                throw new \Exception($error['message'], -1);
+                throw new \Exception($error['message'], 500);
             }
         });
     }
@@ -32,7 +32,7 @@ class Error
         if (error_reporting() && $errno) {
             return;
         }
-        throw new \Exception($errstr, 0);
+        throw new \Exception($errstr, 500);
     }
     /**
      * will handle the custom exception
@@ -42,7 +42,7 @@ class Error
      */
     public static function handleException($e): void
     {
-        $code = str_contains($e->getMessage(), 'Not Found') ? 404 : 500;
+        $code = $e->getCode() ?? 500;
         $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
 
         if (self::debugMode()) {

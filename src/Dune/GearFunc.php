@@ -15,6 +15,7 @@ use Dune\ErrorHandler\Logger;
 use Dune\Support\Twig;
 use Dune\App;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 /**
  * view() function, to render the view from controller and to pass data to view via array
@@ -28,7 +29,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 function view(string $view, array $data = []): ?bool
 {
-    $pine = new ViewLoader(config('pine.pine_path'), config('pine.cache'), config('pine.cache_path'));
+    $pine = new ViewLoader(
+        config("pine.pine_path"),
+        config("pine.cache"),
+        config("pine.cache_path")
+    );
     $pine = $pine->load();
     try {
         echo $pine->render($view, $data);
@@ -47,12 +52,13 @@ function view(string $view, array $data = []): ?bool
  */
 function abort(int $code = 404, string $message = null): ?bool
 {
-    $file = PATH . '/app/views/errors/error.pine.php';
+    $message = BaseResponse::$statusTexts[$code] ?? $message;
+    $file = PATH . "/app/views/errors/error.pine.php";
     if (file_exists($file)) {
-        return view('errors/error', [
-          'code' => $code,
-          'message' => $message
-          ]);
+        return view("errors/error", [
+            "code" => $code,
+            "message" => $message,
+        ]);
     }
     return null;
 }
@@ -69,10 +75,14 @@ function route(string $key, array $values = []): ?string
     $array = Router::$names;
     if (array_key_exists($key, $array)) {
         $route = Router::$names[$key];
-        if (str_contains($route, '{') && str_contains($route, '}')) {
-            $route = str_replace(array_keys($values), array_values($values), $route);
-            $route = str_replace('{', '', $route);
-            $route = str_replace('}', '', $route);
+        if (str_contains($route, "{") && str_contains($route, "}")) {
+            $route = str_replace(
+                array_keys($values),
+                array_values($values),
+                $route
+            );
+            $route = str_replace("{", "", $route);
+            $route = str_replace("}", "", $route);
             return $route;
         }
         return $route;
@@ -101,43 +111,23 @@ function method(string $method)
 {
     return '<input type="hidden" name="_method" value="' . $method . '"/>';
 }
-/**
- * env function will return the value from .env file
- *
- * @param string $key.
- *
- * @return string|null
- */
-function env($key)
-{
-    if (isset($_ENV[$key])) {
-        return $_ENV[$key];
+if (!function_exists("env")) {
+    /**
+     * env function will return the value from .env file
+     *
+     * @param string $key.
+     *
+     * @return string|null
+     */
+    function env($key)
+    {
+        if (isset($_ENV[$key])) {
+            return $_ENV[$key];
+        }
+        return null;
     }
-    return null;
 }
-/**
- * app custom error handler
- *
- * @param string $errno
- * @param string $errstr
- * @param string $errfile
- * @param string $errline
- *
- */
-function errorHandler($errno, $errstr, $errfile, $errline): void
-{
-    Error::handle($errno, $errstr, $errfile, $errline);
-}
-/**
- * app custom exception handler
- *
- * @param mixed $e
- *
- */
-function exceptionHandler(mixed $e): void
-{
-    Error::handleException($e);
-}
+
 /**
  * return config values
  *
@@ -147,13 +137,15 @@ function exceptionHandler(mixed $e): void
  */
 function config(string $string): mixed
 {
-    $path = PATH.'/config/';
-    $content = explode('.', $string);
-    $file = $content[0].'.php';
-    $key = $content[1];
-    if (file_exists($path.$file)) {
-        $data = include $path.$file;
-        return $data[$key];
+    $path = PATH . "/config/";
+    $content = explode(".", $string);
+    $file = $content[0] . ".php";
+    if (file_exists($path . $file)) {
+        $data = include $path . $file;
+        if (str_contains($string, ".")) {
+            return $data[$content[1]];
+        }
+        return $data;
     }
     return null;
 }
@@ -165,7 +157,10 @@ function config(string $string): mixed
 function csrf(): string
 {
     $csrfToken = Csrf::generate();
-    $csrfField = '<input type="hidden" id="_token" name="_token" value="'.Session::get('_token').'">';
+    $csrfField =
+        '<input type="hidden" id="_token" name="_token" value="' .
+        Session::get("_token") .
+        '">';
     return $csrfField;
 }
 /**
@@ -186,85 +181,86 @@ function response(): Response
 
 function redirect(): Redirect
 {
-    return new Redirect(new RedirectResponse('/fake'));
+    return new Redirect(new RedirectResponse("/fake"));
 }
 /**
-* for logging message
-*
-* @param mixed $message
-*
-*/
+ * for logging message
+ *
+ * @param mixed $message
+ *
+ */
 function logs(mixed $message): void
 {
     $logger = new Logger();
     $logger->put($message);
 }
 /**
-* return current memory usage
-*
-* @return string
-*/
+ * return current memory usage
+ *
+ * @return string
+ */
 function memory(): string
 {
     $size = memory_get_usage(true);
-    $unit = ['b','kb','mb','gb','tb','pb'];
-    return @round($size/pow(1024, ($i=floor(log($size, 1024)))), 2).' '.$unit[$i];
+    $unit = ["b", "kb", "mb", "gb", "tb", "pb"];
+    return @round($size / pow(1024, $i = floor(log($size, 1024))), 2) .
+        " " .
+        $unit[$i];
 }
 /**
-* get error message of the form field by session
-*
-* @param string $key
-*
-* @return mixed
-*/
+ * get error message of the form field by session
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
 function error(string $key): mixed
 {
     return Session::get($key);
 }
 /**
-* check error message of the form field by session
-*
-* @param string $key
-*
-* @return bool
-*/
+ * check error message of the form field by session
+ *
+ * @param string $key
+ *
+ * @return bool
+ */
 function errorHas(string $key): bool
 {
-    return (Session::has($key) ? true : false);
+    return Session::has($key) ? true : false;
 }
 /**
-* return the old value of input fields of form
-*
-* @param string $key
-*
-* @return mixed
-*/
+ * return the old value of input fields of form
+ *
+ * @param string $key
+ *
+ * @return mixed
+ */
 function old(string $key): mixed
 {
-    return Session::get('old_'.$key);
+    return Session::get("old_" . $key);
 }
 /**
-* return the old value of input fields of form
-*
-* @param string $file
-* @param array<string,mixed> $data
-*
-*/
+ * return the old value of input fields of form
+ *
+ * @param string $file
+ * @param array<string,mixed> $data
+ *
+ */
 function twig(string $file, array $data = []): void
 {
-    $path = config('twig.twig_path');
+    $path = config("twig.twig_path");
 
     $config = [
-      'debug' => config('twig.debug'),
+        "debug" => config("twig.debug"),
 
-      'cache' => config('twig.cache'),
+        "cache" => config("twig.cache"),
 
-      'auto_reload' => config('twig.auto_reload'),
+        "auto_reload" => config("twig.auto_reload"),
 
-      'strict_variables' => config('twig.strict_variables')
-
-      ];
-    if(class_exists(Twig::class)) {
+        "strict_variables" => config("twig.strict_variables"),
+    ];
+    if (class_exists(Twig::class)) {
         $twig = new Twig($path, $config);
         echo $twig->render($file, $data);
     }

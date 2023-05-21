@@ -60,8 +60,8 @@ class Error
      */
     private static function getErrorPage(): ?string
     {
-        if (file_exists(PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php')) {
-            return PATH.'/vendor/dune/framework/src/Dune/ErrorHandler/template.php';
+        if (file_exists(PATH.'/vendor/dune/framework/templates/template.php')) {
+            return PATH.'/vendor/dune/framework/templates/template.php';
         }
         return null;
     }

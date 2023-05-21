@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use Dune\Console\BootConsole;
+use Dune\App;
+use DI\ContainerBuilder;
+
+define('APP_START', microtime(true));
+define('PATH', __DIR__);
+
+require __DIR__ . "/vendor/autoload.php";
+
+$builder = new ContainerBuilder();
+$container = $builder->build();
+
+$app = new App();
+$app->setContainer($container);
+$app->console(
+  new BootConsole(new Application())
+  );
+$code = $app->loadConsole();
+
+exit($code);

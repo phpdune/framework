@@ -1,0 +1,29 @@
+{
+   "name":"dune/database",
+   "description":"Eloquent Orm for Dune Framework",
+   "type":"library",
+   "license":"MIT",
+   "support":{
+      "issues":"https://github.com/phpdune/framework/issues",
+      "source":"https://github.com/dune/framework"
+   },
+   "authors":[
+      {
+         "name":"Abhishek B",
+         "email":"phpdune@gmail.com"
+      }
+   ],
+   "require":{
+      "php":"^8.1",
+      "illuminate/database":"^10.11"
+   },
+   "autoload":{
+      "psr-4":{
+         "Dune\\Database\\":""
+      }
+   },
+   "config":{
+      "sort-packages":true
+   },
+   "minimum-stability":"dev"
+}

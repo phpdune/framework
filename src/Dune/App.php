@@ -7,6 +7,7 @@ namespace Dune;
 use Dotenv\Dotenv;
 use DI\Container;
 use Dune\Console\ConsoleInterface;
+use Dune\Database\EloquentBooter;
 
 final class App
 {
@@ -28,7 +29,12 @@ final class App
      * @var ConsoleInterface
      */
     private ConsoleInterface $console;
-
+    /**
+     * app is in testing or not
+     *
+     * @var bool
+     */
+    private bool $testing = false;
     /**
      * load the env variables and app configs
      *
@@ -45,6 +51,7 @@ final class App
     public function load(): void
     {
         $this->loadAppConfig();
+        $this->loadEloquent();
     }
        /**
         * load app configuration
@@ -88,15 +95,36 @@ final class App
      */
     public function loadConsole(): int
     {
+        $this->loadEloquent();
         return $this->console->run();
     }
     /**
      * check the app is local
      * getting APP_ENV from .env file
+     * 
+     * @return bool
      */
-    public function isLocal()
+    public function isLocal(): bool
     {
         return (env('APP_ENV') == 'local' ? true : false);
+    }
+    /**
+     * set the app testing mode
+     * 
+     * @return void
+     */
+    public function setTestingMode(bool $value): void
+    {
+      $this->testing = $value;
+    }
+    /**
+     * return app is on testing mode or not
+     * 
+     * @return bool
+     */
+    public function isTesting(): bool
+    {
+        return $this->testing;
     }
     /**
      * checks the app is in maintenance mode or not
@@ -104,5 +132,13 @@ final class App
     public function isMaintenance()
     {
         //
+    }
+    /**
+     * boot up the eloquent orm
+     */
+    public function loadEloquent()
+    {
+      $eloquent = new EloquentBooter();
+      $eloquent->boot();
     }
 }

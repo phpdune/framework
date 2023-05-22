@@ -3,8 +3,9 @@
 namespace App\Controllers;
 
 use Dune\Http\Request;
+use Dune\Routing\Controller;
 
-class {{ Controller }}
+class {{ Controller }} implements Controller
 {
 
   //

@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Dune\Console;
 
 use Symfony\Component\Console\Application;
-use Dune\Console\CreateController;
-use Dune\Console\CreateMiddleware;
-use Dune\Console\CreateValidation;
 use Dune\Console\ConsoleInterface;
 use Dune\App;
+use Dune\Console\BerryCommands;
 
-class BootConsole implements ConsoleInterface
+class BootConsole extends BerryCommands implements ConsoleInterface
 {
     /**
      * \Symfony\Component\Console\Application instance
@@ -32,9 +30,9 @@ class BootConsole implements ConsoleInterface
       */
     private function register(): void
     {
-        $this->console->add(new CreateController());
-        $this->console->add(new CreateMiddleware());
-        $this->console->add(new CreateValidation());
+        foreach ($this->commands as $command) {
+            $this->console->add(new $command());
+        }
     }
      /**
       * loading the configuration and console command registration

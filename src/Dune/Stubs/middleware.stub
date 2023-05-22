@@ -3,11 +3,13 @@
 namespace App\Middleware;
 
 use Dune\Middleware\MiddlewareInterface;
+use Dune\Http\Request;
+use Closure;
 
 class {{ Middleware }} implements MiddlewareInterface
 {
-    public function handle()
+    public function handle(Request $request, Closure $next)
     {
-        //
+        //$next($request);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dune\Console;
+namespace Dune\Console\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateMiddleware extends Command
+class CreateController extends Command
 {
     /**
      * command name
@@ -18,7 +18,7 @@ class CreateMiddleware extends Command
      * @var string
      */
 
-    protected static $defaultName = 'create:middleware';
+    protected static $defaultName = 'create:controller';
 
     /**
      * default symfony console configure method
@@ -28,12 +28,12 @@ class CreateMiddleware extends Command
     protected function configure(): void
     {
         $this
-        ->setDescription('Create a middleware file')
-        ->addArgument('name', InputArgument::REQUIRED, 'Middleware name');
+        ->setDescription('Create a controller file')
+        ->addArgument('name', InputArgument::REQUIRED, 'Controller name');
     }
     /**
      * main execute function
-     * create middleware by given name (argument)
+     * create controller by given name (argument)
      *
      * @param InputInterface $input
      * @param OutputInterface $output
@@ -46,9 +46,9 @@ class CreateMiddleware extends Command
             $input->getArgument('name')
         );
         $message = new SymfonyStyle($input, $output);
-        if(!$this->middlewareExist($name)) {
+        if(!$this->controllerExist($name)) {
             $stub = $this->getStub($name);
-            $file = fopen("app/middleware/" . $name . ".php", "w");
+            $file = fopen("app/controllers/" . $name . ".php", "w");
             fwrite($file, $stub);
             fclose($file);
             $message->success(sprintf('%s Created Successfully', $name));
@@ -58,18 +58,18 @@ class CreateMiddleware extends Command
         return Command::FAILURE;
     }
     /**
-     * check the middleware exists or not
+     * check the controller exists or not
      *
      * @param string $name
      *
      * @return bool
      */
-    protected function middlewareExist(string $name): bool
+    protected function controllerExist(string $name): bool
     {
-        return file_exists(PATH . "/app/middleware/" . $name . ".php");
+        return file_exists(PATH . "/app/controllers/" . $name . ".php");
     }
     /**
-     * return the middleware stub file
+     * return the controller stub file
      *
      * @param string $name
      *
@@ -77,13 +77,13 @@ class CreateMiddleware extends Command
      */
     protected function getStub(string $name): string
     {
-        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/middleware.stub";
+        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/controller.stub";
         $stub = file_get_contents($stub);
-        $stub = str_replace("{{ Middleware }}", $name, $stub);
+        $stub = str_replace("{{ Controller }}", $name, $stub);
         return $stub;
     }
     /**
-     * check the middleware name ends with 'Middleware' , if not then return middleware name + Middleware
+     * check the controller name ends with 'Controller' , if not then return controller name + Controller
      *
      * @param string $name
      *
@@ -91,8 +91,8 @@ class CreateMiddleware extends Command
      */
     protected function getPrefixName(string $name): string
     {
-        if(!str_ends_with($name, 'Middleware')) {
-            return $name.'Middleware';
+        if(!str_ends_with($name, 'Controller')) {
+            return $name.'Controller';
         }
         return $name;
     }

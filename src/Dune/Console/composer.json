@@ -1,0 +1,29 @@
+{
+   "name":"dune/console",
+   "description":"Dune Framework Cli",
+   "type":"library",
+   "license":"MIT",
+   "support":{
+      "issues":"https://github.com/phpdune/framework/issues",
+      "source":"https://github.com/dune/framework"
+   },
+   "authors":[
+      {
+         "name":"Abhishek B",
+         "email":"phpdune@gmail.com"
+      }
+   ],
+   "require":{
+      "php":"^8.1",
+      "symfony/console":"^6.2"
+   },
+   "autoload":{
+      "psr-4":{
+         "Dune\\Console\\":""
+      }
+   },
+   "config":{
+      "sort-packages":true
+   },
+   "minimum-stability":"dev"
+}

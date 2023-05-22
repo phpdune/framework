@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dune\Console;
+namespace Dune\Database\Console;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateController extends Command
+class CreateMigration extends Command
 {
     /**
      * command name
@@ -18,7 +18,7 @@ class CreateController extends Command
      * @var string
      */
 
-    protected static $defaultName = 'create:controller';
+    protected static $defaultName = 'create:migration';
 
     /**
      * default symfony console configure method
@@ -28,8 +28,8 @@ class CreateController extends Command
     protected function configure(): void
     {
         $this
-        ->setDescription('Create a controller file')
-        ->addArgument('name', InputArgument::REQUIRED, 'Controller name');
+        ->setDescription('Create a migration file')
+        ->addArgument('name', InputArgument::REQUIRED, 'table name');
     }
     /**
      * main execute function
@@ -46,9 +46,9 @@ class CreateController extends Command
             $input->getArgument('name')
         );
         $message = new SymfonyStyle($input, $output);
-        if(!$this->controllerExist($name)) {
+        if(!$this->migrationExist($name)) {
             $stub = $this->getStub($name);
-            $file = fopen("app/controllers/" . $name . ".php", "w");
+            $file = fopen("app/database/migration/" . $name . ".php", "w");
             fwrite($file, $stub);
             fclose($file);
             $message->success(sprintf('%s Created Successfully', $name));
@@ -64,9 +64,9 @@ class CreateController extends Command
      *
      * @return bool
      */
-    protected function controllerExist(string $name): bool
+    protected function migrationExist(string $name): bool
     {
-        return file_exists(PATH . "/app/controllers/" . $name . ".php");
+        return file_exists(PATH . "/app/database/migration/" . $name . ".php");
     }
     /**
      * return the controller stub file
@@ -77,9 +77,10 @@ class CreateController extends Command
      */
     protected function getStub(string $name): string
     {
-        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/controller.stub";
+        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/migration.stub";
+        $name = str_replace('migrate_', '', $name);
         $stub = file_get_contents($stub);
-        $stub = str_replace("{{ Controller }}", $name, $stub);
+        $stub = str_replace("{{ Table }}", $name, $stub);
         return $stub;
     }
     /**
@@ -91,9 +92,9 @@ class CreateController extends Command
      */
     protected function getPrefixName(string $name): string
     {
-        if(!str_ends_with($name, 'Controller')) {
-            return $name.'Controller';
+        if(str_starts_with($name, 'migrate_')) {
+            return $name;
         }
-        return $name;
+        return 'migrate_'.$name;
     }
 }

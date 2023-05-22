@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dune\Console;
+namespace Dune\Console\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateValidation extends Command
+class CreateMiddleware extends Command
 {
     /**
      * command name
@@ -18,7 +18,7 @@ class CreateValidation extends Command
      * @var string
      */
 
-    protected static $defaultName = 'create:validation';
+    protected static $defaultName = 'create:middleware';
 
     /**
      * default symfony console configure method
@@ -28,12 +28,12 @@ class CreateValidation extends Command
     protected function configure(): void
     {
         $this
-        ->setDescription('Create a validation file')
-        ->addArgument('name', InputArgument::REQUIRED, 'Validation name');
+        ->setDescription('Create a middleware file')
+        ->addArgument('name', InputArgument::REQUIRED, 'Middleware name');
     }
     /**
      * main execute function
-     * create validation by given name (argument)
+     * create middleware by given name (argument)
      *
      * @param InputInterface $input
      * @param OutputInterface $output
@@ -46,9 +46,9 @@ class CreateValidation extends Command
             $input->getArgument('name')
         );
         $message = new SymfonyStyle($input, $output);
-        if(!$this->validationExist($name)) {
+        if(!$this->middlewareExist($name)) {
             $stub = $this->getStub($name);
-            $file = fopen("app/validation/" . $name . ".php", "w");
+            $file = fopen("app/middleware/" . $name . ".php", "w");
             fwrite($file, $stub);
             fclose($file);
             $message->success(sprintf('%s Created Successfully', $name));
@@ -58,21 +58,18 @@ class CreateValidation extends Command
         return Command::FAILURE;
     }
     /**
-     * check the validation exists or not
+     * check the middleware exists or not
      *
      * @param string $name
      *
      * @return bool
      */
-    protected function validationExist(string $name): bool
+    protected function middlewareExist(string $name): bool
     {
-        if(!file_exists(PATH.'/app/validation')) {
-            mkdir(PATH.'/app/validation');
-        }
-        return file_exists(PATH . "/app/validation/" . $name . ".php");
+        return file_exists(PATH . "/app/middleware/" . $name . ".php");
     }
     /**
-     * return the validation stub file
+     * return the middleware stub file
      *
      * @param string $name
      *
@@ -80,13 +77,13 @@ class CreateValidation extends Command
      */
     protected function getStub(string $name): string
     {
-        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/validation.stub";
+        $stub = PATH . "/vendor/dune/framework/src/Dune/Stubs/middleware.stub";
         $stub = file_get_contents($stub);
-        $stub = str_replace("{{ Validation }}", $name, $stub);
+        $stub = str_replace("{{ Middleware }}", $name, $stub);
         return $stub;
     }
     /**
-     * check the validation name ends with 'Validation' , if not then return validation name + Validation
+     * check the middleware name ends with 'Middleware' , if not then return middleware name + Middleware
      *
      * @param string $name
      *
@@ -94,8 +91,8 @@ class CreateValidation extends Command
      */
     protected function getPrefixName(string $name): string
     {
-        if(!str_ends_with($name, 'Validation')) {
-            return $name.'Validation';
+        if(!str_ends_with($name, 'Middleware')) {
+            return $name.'Middleware';
         }
         return $name;
     }

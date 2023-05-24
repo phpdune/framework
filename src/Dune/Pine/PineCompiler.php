@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Dune\Pine;
@@ -61,7 +70,25 @@ class PineCompiler
      */
      public function compileError(string $template): string
      {
-         $template = preg_replace('/<p-error\s+([a-zA-Z0-9_-]+)>(.*?){{\s*\$message\s*}}(.*?)<\/p-error>/s', '<?php if (errorHas(\'$1\')) : ?>\n$2{{ error(\'$1\') }}$3\n<?php endif; ?>', $template);
+         $template = preg_replace('/<p-error\s+([a-zA-Z0-9_-]+)>(.*?){{\s*\$message\s*}}(.*?)<\/p-error>/s', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ if (errorHas(\'$1\')) : ?>\n$2{{ error(\'$1\') }}$3\n<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endif; ?>', $template);
          return $template;
      }
     /**
@@ -74,7 +101,25 @@ class PineCompiler
      */
      public function compileSession(string $template): string
      {
-         $template = preg_replace('/<p-session\s+([a-zA-Z0-9_-]+)>(.*?){{\s*\$value\s*}}(.*?)<\/p-session>/s', '<?php if (Session::has(\'$1\')) : ?>\n$2{{ Session::get(\'$1\') }}$3\n<?php endif; ?>', $template);
+         $template = preg_replace('/<p-session\s+([a-zA-Z0-9_-]+)>(.*?){{\s*\$value\s*}}(.*?)<\/p-session>/s', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ if (Session::has(\'$1\')) : ?>\n$2{{ Session::get(\'$1\') }}$3\n<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endif; ?>', $template);
          return $template;
      }
     /**
@@ -99,7 +144,16 @@ class PineCompiler
      */
     protected function varCompile(string $template): string
     {
-        $template = preg_replace('/{{/', '<?php echo htmlspecialchars(', $template);
+        $template = preg_replace('/{{/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ echo htmlspecialchars(', $template);
         $template = preg_replace('/}}/', ', ENT_QUOTES); ?>', $template);
         return $template;
     }
@@ -112,7 +166,16 @@ class PineCompiler
      */
     protected function varCompileReal(string $template): string
     {
-        $template = preg_replace('/{!/', '<?php echo ', $template);
+        $template = preg_replace('/{!/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ echo ', $template);
         $template = preg_replace('/!}/', '; ?>', $template);
         return $template;
     }
@@ -130,8 +193,26 @@ class PineCompiler
      protected function compileForeach(string $template): string
      {
 
-         $template = preg_replace('/<p-foreach\s+(\S+)\s+as\s+(\S+)\s*>/', '<?php foreach($1 as $2): ?>', $template);
-         $template = preg_replace('/<\/p-foreach>/', '<?php endforeach; ?>', $template);
+         $template = preg_replace('/<p-foreach\s+(\S+)\s+as\s+(\S+)\s*>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ foreach($1 as $2): ?>', $template);
+         $template = preg_replace('/<\/p-foreach>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endforeach; ?>', $template);
          return $template;
      }
     /**
@@ -141,9 +222,27 @@ class PineCompiler
      */
      protected function compileFor(string $template): string
      {
-         $template = preg_replace('/\{\s*for\(/', '<?php for(', $template);
+         $template = preg_replace('/\{\s*for\(/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ for(', $template);
          $template = preg_replace('/\)\s*\}/', '): ?>', $template);
-         $template = preg_replace('/\{\s*endfor\s*\}/', '<?php endfor; ?>', $template);
+         $template = preg_replace('/\{\s*endfor\s*\}/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endfor; ?>', $template);
 
          return $template;
      }
@@ -160,12 +259,39 @@ class PineCompiler
      */
      protected function compileWhile(string $template): string
      {
-         $template = preg_replace('/<p-while\s+(.*?)\s*>(.*?)<\/p-while>/s', '<?php while($1): ?>$2<?php endwhile; ?>', $template);
+         $template = preg_replace('/<p-while\s+(.*?)\s*>(.*?)<\/p-while>/s', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ while($1): ?>$2<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endwhile; ?>', $template);
 
          return $template;
      }
     /**
-     * <php></php> equivalent to <?php?>
+     * <php></php> equivalent to <?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */?>
      *
      * @param  string  $template
      *
@@ -173,7 +299,16 @@ class PineCompiler
      */
      protected function compilePHP(string $template): string
      {
-         $template = preg_replace('/<php>/', '<?php ', $template);
+         $template = preg_replace('/<php>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ ', $template);
          $template = preg_replace('/<\/php>/', ' ?>', $template);
 
          return $template;
@@ -192,9 +327,45 @@ class PineCompiler
      */
      protected function compileIf(string $template): string
      {
-         $template = preg_replace('/<p-if\s+(.*?)>\s*(.*?)\s*<\/p-if>/s', '<?php if($1): ?> $2 <?php endif; ?>', $template);
-         $template = preg_replace('/<p-elseif\s*(.*?)\s*>/', '<?php elseif($1): ?>', $template);
-         $template = preg_replace('/<p-else>/', '<?php else: ?>', $template);
+         $template = preg_replace('/<p-if\s+(.*?)>\s*(.*?)\s*<\/p-if>/s', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ if($1): ?> $2 <?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endif; ?>', $template);
+         $template = preg_replace('/<p-elseif\s*(.*?)\s*>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ elseif($1): ?>', $template);
+         $template = preg_replace('/<p-else>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ else: ?>', $template);
 
          return $template;
      }
@@ -226,8 +397,26 @@ class PineCompiler
      */
      public function compileIsset(string $template): string
      {
-         $template = preg_replace('/<p-isset\s+(\$\w+)\s*>/', '<?php if(isset($1)) : ?>', $template);
-         $template = preg_replace('/<\/p-isset>/', '<?php endif; ?>', $template);
+         $template = preg_replace('/<p-isset\s+(\$\w+)\s*>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ if(isset($1)) : ?>', $template);
+         $template = preg_replace('/<\/p-isset>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endif; ?>', $template);
          return $template;
      }
     /**
@@ -243,8 +432,26 @@ class PineCompiler
      */
      public function compileEmpty(string $template): string
      {
-         $template = preg_replace('/<p-empty\s+(\$\w+)\s*>/', '<?php if(empty($1)) : ?>', $template);
-         $template = preg_replace('/<\/p-empty>/', '<?php endif; ?>', $template);
+         $template = preg_replace('/<p-empty\s+(\$\w+)\s*>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ if(empty($1)) : ?>', $template);
+         $template = preg_replace('/<\/p-empty>/', '<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ endif; ?>', $template);
          return $template;
      }
 }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Dune\Pine\Engine;
@@ -53,7 +62,16 @@ class ProcceserEngine extends AbstractEngine
               require $view;
               return true;
             }
-            eval(" ?>" . $view . "<?php ");
+            eval(" ?>" . $view . "<?php
+
+/*
+ * This file is part of Dune Framework.
+ *
+ * (c) Abhishek B <phpdune@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ ");
         } catch (\Throwable $e) {
             while (ob_get_level() >= $outputLevel) {
                 ob_end_clean();

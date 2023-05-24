@@ -26,9 +26,9 @@ class SessionConfig
      * 
      * @param string $key
      * 
-     * @return bool|string|null
+     * @return mixed
      */
-    public function get(string $key): bool|string|null
+    public function get(string $key): mixed
     {
         if (array_key_exists($key, $this->config)) {
             return $this->config[$key];
@@ -36,6 +36,6 @@ class SessionConfig
         if (function_exists("config")) {
             return config("session." . $key);
         }
-        throw new \Exception("cannot retrieve config");
+        throw new \Exception("Cannot retrieve session config",500);
     }
 }

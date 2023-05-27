@@ -53,7 +53,7 @@ class View implements ViewInterface
      * FileMapper $mapper
      * CaptureLayout $capture
      * ProcceserEngine $engine
-     * 
+     *
      * instance setting
      */
     public function __construct(FileMapper $mapper, ProcceserEngine $engine)

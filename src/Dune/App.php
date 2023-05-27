@@ -110,7 +110,7 @@ final class App
     /**
      * check the app is local
      * getting APP_ENV from .env file
-     * 
+     *
      * @return bool
      */
     public function isLocal(): bool
@@ -119,16 +119,16 @@ final class App
     }
     /**
      * set the app testing mode
-     * 
+     *
      * @return void
      */
     public function setTestingMode(bool $value): void
     {
-      $this->testing = $value;
+        $this->testing = $value;
     }
     /**
      * return app is on testing mode or not
-     * 
+     *
      * @return bool
      */
     public function isTesting(): bool
@@ -147,7 +147,7 @@ final class App
      */
     public function loadEloquent()
     {
-      $eloquent = new EloquentBooter();
-      $eloquent->boot();
+        $eloquent = new EloquentBooter();
+        $eloquent->boot();
     }
 }

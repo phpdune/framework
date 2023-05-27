@@ -1,108 +1,123 @@
 <?php
 
-/*
- * This file is part of Dune Framework.
- *
- * (c) Abhishek B <phpdune@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Dune\Cookie;
 
-use Dune\Cookie\CookieHandler;
-use Dune\Cookie\CookieContainer;
-use Dune\Cookie\Exception\InvalidMethod;
+use Dune\Cookie\CookieInterface;
+use Dune\Cookie\Config\CookieConfig;
 
 class Cookie implements CookieInterface
 {
-    use CookieContainer;
+    /**
+     * cookie configuration
+     *
+     * @var CookieConfig
+     */
+    private CookieConfig $config;
+    /**
+     * cookie pattern regex
+     *
+     * @var const
+     */
+    private const COOKIE_PATTERN = "^[a-zA-Z0-9_\.]{1,64}$^";
 
     /**
-     * \Dune\Cookie\CookieHandler instance
+     * cookie configuration setting
      *
-     * @var ?CookieHandler
+     * @param CookieConfig $config
      */
-    private static ?CookieHandler $handler = null;
+    public function __construct(CookieConfig $config)
+    {
+        $this->config = $config;
+    }
     /**
+     * cookie setting handler
      *
      * @param string $key
      * @param string $value
      *
      */
-    public static function set(string $key, string $value): void
+    public function set(string $key, string $value): void
     {
-        self::init();
-        self::$handler->setCookie($key, $value);
+        if ($this->validName($key)) {
+            setcookie($key, $value, time() + $this->config->get('time'), $this->config->get('path'), $this->config->get('domain'), $this->config->get('secure'), $this->config->get('http_only'));
+        }
     }
-    /**
-     *
-     * @param string $key
-     *
-     * @return string|null
-     */
-    public static function get(string $key): mixed
-    {
-        self::init();
-        return self::$handler->getCookie($key);
-    }
-    /**
-     *
-     * @param string $key
-     *
-     */
-    public static function unset(string $key): void
-    {
-        self::init();
-        self::$handler->unsetCookie($key);
-    }
-    /**
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public static function has(string $key): bool
-    {
-        self::init();
-        return self::$handler->hasCookie($key);
-    }
-    /**
-     * flush method
-     */
-    public static function flush(): void
-    {
-        self::init();
-        self::$handler->flushCookie();
-    }
-    /**
-     *
-     * @return null|array<string,mixed>
-     */
-    public static function all(): ?array
-    {
-        self::init();
-        return self::$handler->allCookie();
-    }
-    /**
-     *
-     * @param ?string $method
-     * @param ?array<string> $args
-     *
-     * @throw \Dune\Cookie\InvalidMethod
-     *
-     */
-     public static function __callStatic(?string $method, ?array $args): void
-     {
-         $key = (isset($args[0]) ? $args[0] : '');
-         $value = (isset($args[1]) ? $args[1] : '');
-         if ($method == 'add' || $method == 'put') {
-             self::set($key, $value);
-         } else {
-             throw new InvalidMethod("Method {$method} is invalid");
-         }
-     }
+       /**
+       * get the cookie handler
+       *
+       * @param string $key
+       *
+       * @return mixed
+       */
+       public function get(string $key): mixed
+       {
+           return (isset($_COOKIE[$key]) ? $_COOKIE[$key] : null);
+       }
+       /**
+        * cookie unsetting handler
+        *
+        * @param string $key
+        *
+        */
+       public function unset(string $key): void
+       {
+           if ($this->has($key)) {
+               $params = session_get_cookie_params();
+               setcookie(
+                   $key,
+                   '',
+                   time() - 3600,
+                   $params['path'],
+                   $params['domain'],
+                   $params['secure'],
+                   $params['httponly']
+               );
+               unset($_COOKIE[$key]);
+           }
+       }
+
+       /**
+         * checking cookie available or not
+         *
+         * @param string $key
+         *
+         * @return bool
+         */
+       public function has(string $key): bool
+       {
+           return (isset($_COOKIE[$key]) ? true : false);
+       }
+       /**
+        * delete all cookies that are currently active
+        *
+        */
+       public function flush(): void
+       {
+           foreach ($_COOKIE as $key => $value) {
+               $this->unset($key);
+           }
+       }
+       /**
+        * show all the cookies that are currently active
+        *
+        *
+        * @return null|array<string,string>
+        */
+       public function all(): ?array
+       {
+           return $_COOKIE;
+       }
+       /**
+        * Check cookie name is a valid one by regex
+        *
+        * @param  string  $key
+        *
+        * @return bool
+        */
+       private function validName(string $key): bool
+       {
+           return (preg_match(self::COOKIE_PATTERN, $key) === 1);
+       }
 }

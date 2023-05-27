@@ -51,8 +51,9 @@ class RouteResolver extends RouteActionCaller
             $regex = str_replace('/', '\/', $regex);
             if (preg_match('/^' . $regex . '$/', $url['path'], $matches) && $route["method"] != $requestMethod) {
                 throw new MethodNotSupported(
-                    "Exception : {$requestMethod} Method Not Supported For This Route, Supported Method {$route["method"]}"
-                ,405);
+                    "Exception : {$requestMethod} Method Not Supported For This Route, Supported Method {$route["method"]}",
+                    405
+                );
             }
             if (preg_match('/^' . $regex . '$/', $url['path'], $matches) && $route["method"] == $requestMethod) {
                 $key = Route::$middlewares[$route['route']] ?? null;
@@ -79,8 +80,9 @@ class RouteResolver extends RouteActionCaller
             }
         }
         throw new RouteNotFound(
-            "Exception : Route Not Found By This URI {$url["path"]}"
-        ,404);
+            "Exception : Route Not Found By This URI {$url["path"]}",
+            404
+        );
     }
     /**
      * get the middleware
@@ -104,8 +106,9 @@ class RouteResolver extends RouteActionCaller
                     return array_merge($default, $value);
                 }
                 throw new MiddlewareNotFound(
-                    "Exception : Middleware {$middleware} Not Found"
-                ,404);
+                    "Exception : Middleware {$middleware} Not Found",
+                    404
+                );
             }
         }
         return null;

@@ -70,16 +70,16 @@ class RouteActionCaller
          if (class_exists($class)) {
              $class = $this->container->get($class);
              if(!$class instanceof Controller) {
-                 throw new InvalidController("Cannot resolve this class, this class must implements routing controller interface",500);
+                 throw new InvalidController("Cannot resolve this class, this class must implements routing controller interface", 500);
              }
          } else {
-             throw new ClassNotFound("Exception : Class {$class} Not Found",404);
+             throw new ClassNotFound("Exception : Class {$class} Not Found", 404);
          }
          if (method_exists($class, $method)) {
              $params = RouteResolver::$params;
              return $this->container->call([$class,$method], $params);
 
          }
-         throw new MethodNotFound("Exception : Method {$method} Not Found",404);
+         throw new MethodNotFound("Exception : Method {$method} Not Found", 404);
      }
 }

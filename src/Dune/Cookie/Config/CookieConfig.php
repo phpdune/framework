@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Dune\Session\Config;
+namespace Dune\Cookie\Config;
 
-class SessionConfig
+class CookieConfig
 {
     /**
-     * Session configuration
+     * Cookie configuration
      *
      * @var array
      */
@@ -43,8 +43,8 @@ class SessionConfig
             return $this->config[$key];
         }
         if (function_exists("config")) {
-            return config("session." . $key);
+            return config("cookie." . $key);
         }
-        throw new \Exception("Cannot retrieve session config", 500);
+        throw new \Exception("Cannot retrieve cookie config", 500);
     }
 }

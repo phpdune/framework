@@ -1,28 +1,34 @@
 <?php
 
-/*
- * This file is part of Dune Framework.
- *
- * (c) Abhishek B <phpdune@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Dune\Cookie;
 
-use Dune\Cookie\CookieHandler;
 use Dune\App;
+use DI\Container;
+use DI\ContainerBuilder;
 
 trait CookieContainer
 {
-    public static function init(): void
+    /**
+     * \DI\Container instance
+     *
+     * @var ?Container
+     */
+    protected ?Container $container = null;
+    /**
+     * setting up the container instance
+     */
+    public function __setUp()
     {
-        if (is_null(self::$handler)) {
-            $container = App::container();
-            self::$handler = $container->get(CookieHandler::class);
+        if(!$this->container) {
+            if(class_exists(App::class)) {
+                $container = App::container();
+            } else {
+                $containerBuilder = new ContainerBuilder();
+                $container = $containerBuilder->build();
+            }
+            $this->container = $container;
         }
     }
 }

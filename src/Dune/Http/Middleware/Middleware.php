@@ -1,38 +1,28 @@
 <?php
 
-/*
- * This file is part of Dune Framework.
- *
- * (c) Abhishek B <phpdune@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-declare(strict_types=1);
-
 namespace Dune\Http\Middleware;
 
-use Dune\Http\Middleware\MiddlewareStack;
 use Dune\Http\Middleware\MiddlewareInterface;
 use Dune\Http\Request;
+use Closure;
 
 class Middleware
 {
     /**
-     * Dune\Http\Middleware\MiddlewareStack instance
+     * next piece of middleware
      *
-     * @var MiddlewareStack
+     * @var Closure
      */
-    private MiddlewareStack $stack;
+    private Closure $next;
+
     /**
-     * Dune\Http\Middleware\MiddlewareStack instance setting
-     *
-     * @param MiddlewareStack $stack
+     * setting initial piece of middleware
      */
-    public function __construct(MiddlewareStack $stack)
+    public function __construct()
     {
-        $this->stack = $stack;
+        $this->next = function (Request $request) {
+             return $request;
+          };
     }
       /**
        * for adding middleware
@@ -41,14 +31,17 @@ class Middleware
        */
     public function add(MiddlewareInterface $middleware): void
     {
-        $this->stack->add($middleware);
+        $next = $this->next;
+        $this->next = function (Request $request) use ($middleware, $next) {
+            return $middleware->handle($request, $next);
+        };
     }
       /**
        * handling ( running the all middlewares)
        *
        */
-    public function run()
+    public function run(Request $request)
     {
-        return $this->stack->handle(new Request());
+        return ($this->next)($request);
     }
 }

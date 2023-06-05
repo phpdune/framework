@@ -58,8 +58,6 @@ class Kernel extends HttpKernel
         $this->setErrorHanlers();
 
         $this->app->setContainer($this->getContainer());
-        $this->app->load();
-
         require PATH.'/routes/web.php';
         $router = new RouteLoader();
         $router = $router->load();
@@ -84,8 +82,7 @@ class Kernel extends HttpKernel
      */
      public function getContainer(): Container
      {
-         $builder = new ContainerBuilder();
-         return $builder->build();
+         return (new ContainerBuilder())->build();
      }
     /**
      * sending the response to the client

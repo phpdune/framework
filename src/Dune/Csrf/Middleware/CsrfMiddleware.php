@@ -9,14 +9,11 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Dune\Csrf\Middleware;
 
 use Closure;
 use Dune\Http\Request;
 use Dune\Http\Middleware\MiddlewareInterface;
-use Dune\Csrf\Exception\TokenMismatched;
 
 class CsrfMiddleware implements MiddlewareInterface
 {
@@ -25,19 +22,19 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @var const
      */
-    public const HEADER = 'X-CSRF-TOKEN';
+    public const HEADER = "X-CSRF-TOKEN";
     /**
      * Csrf field name
      *
      * @var const
      */
-    public const FIELD = '_token';
+    public const FIELD = "_token";
     /**
      * Request methods allowed to check the token
      *
      * @var const
      */
-    public const METHODS = ['POST','PUT','PATCH','DELETE'];
+    public const METHODS = ["POST", "PUT", "PATCH", "DELETE"];
     /**
      * Csrf token validation
      *
@@ -50,12 +47,19 @@ class CsrfMiddleware implements MiddlewareInterface
      */
     public function handle(Request $request, Closure $next): Request
     {
-        $token = $request->session()->get('_token');
-        if($this->checkRequired($request) && !hash_equals($this->getToken($request), $token)) {
-            throw new TokenMismatched("Csrf Token Mismatched!", 419);
+        $token = $this->getToken($request);
+        if (
+            $this->checkRequired($request) &&
+            !hash_equals($token, $request->session()->get("_token"))
+        ) {
+            throw new \Dune\Csrf\Exception\TokenMismatched(
+                "Csrf Token Mismatched!",
+                419
+            );
         }
         return $next($request);
     }
+
     /**
      * getting the token from header or field
      *
@@ -63,15 +67,15 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @return string
      */
-    public function getToken(Request $request): string
+    private function getToken(Request $request): string
     {
-        if($request->header(self::HEADER)) {
-            return $request->header(self::HEADER);
+        if ($token = $request->header(self::HEADER)) {
+            return $token;
         }
-        if($request->get(self::FIELD)) {
-            return $request->get(self::FIELD);
+        if ($token = $request->get(self::FIELD)) {
+            return $token;
         }
-        return '';
+        return "";
     }
     /**
      * Checks the current request method needs csrf validation or not
@@ -80,8 +84,9 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function checkRequired(Request $request): bool
+    private function checkRequired(Request $request): bool
     {
         return in_array($request->method(), self::METHODS);
     }
 }
+

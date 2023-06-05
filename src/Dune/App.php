@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Dune;
 
-use Dotenv\Dotenv;
+use Symfony\Component\Dotenv\Dotenv;
 use DI\Container;
+use DI\ContainerBuilder;
 use Dune\Console\ConsoleInterface;
 use Dune\Database\EloquentBooter;
+use Dune\ErrorHandler\Error;
 
 final class App
 {
@@ -50,18 +52,11 @@ final class App
      */
     public function __construct()
     {
-        $env = Dotenv::createImmutable(PATH);
-        $env->load();
+      $this->loadAppConfig();
+      $this->loadEnv();
+      $this->loadEloquent();
     }
-       /**
-        * load app configuration
-        * set custom error handlers
-        */
-    public function load(): void
-    {
-        $this->loadAppConfig();
-        $this->loadEloquent();
-    }
+
        /**
         * load app configuration
         *
@@ -145,9 +140,17 @@ final class App
     /**
      * boot up the eloquent orm
      */
-    public function loadEloquent()
+    private function loadEloquent()
     {
         $eloquent = new EloquentBooter();
         $eloquent->boot();
     }
+    /**
+     * load app .env contents
+     */
+     private function loadEnv()
+     {
+       $env = new Dotenv();
+       $env->load(PATH.'/.env');
+     }
 }

@@ -1,0 +1,28 @@
+{
+   "name":"dune/core",
+   "description":"Core component of Dune Framework",
+   "type":"library",
+   "license":"MIT",
+   "support":{
+      "issues":"https://github.com/phpdune/framework/issues",
+      "source":"https://github.com/dune/framework"
+   },
+   "authors":[
+      {
+         "name":"Abhishek B",
+         "email":"phpdune@gmail.com"
+      }
+   ],
+   "require":{
+      "php":"^8.1"
+   },
+   "autoload":{
+      "psr-4":{
+         "Dune\\Core\\":""
+      }
+   },
+   "config":{
+      "sort-packages":true
+   },
+   "minimum-stability":"dev"
+}

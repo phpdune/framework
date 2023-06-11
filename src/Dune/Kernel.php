@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Dune;
 
-use Dune\App;
+use Dune\Core\App;
 use DI\Container;
 use Dune\Http\ResponseInterface;
 use DI\ContainerBuilder;
@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class Kernel extends HttpKernel
 {
     /**
-     * \Dune\App instance
+     * \Dune\Core\App instance
      *
      * @var App
      */

@@ -15,7 +15,7 @@ namespace Dune\Console;
 
 use Symfony\Component\Console\Application;
 use Dune\Console\ConsoleInterface;
-use Dune\App;
+use Dune\Core\App;
 use Dune\Console\BerryCommands;
 
 class BootConsole extends BerryCommands implements ConsoleInterface

@@ -22,7 +22,7 @@ use Dune\Http\Response;
 use Dune\Http\Redirect;
 use Dune\ErrorHandler\Logger;
 use Dune\Support\Twig;
-use Dune\App;
+use Dune\Core\App;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 

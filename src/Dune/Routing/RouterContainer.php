@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Dune\Routing;
 
-use Dune\App;
+use Dune\Core\App;
 use DI\Container;
 use DI\ContainerBuilder;
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Dune\Console\Commands;
 
-use Dune\App;
+use Dune\Core\App;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

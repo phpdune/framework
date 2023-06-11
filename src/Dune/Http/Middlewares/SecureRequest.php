@@ -13,7 +13,7 @@ namespace Dune\Http\Middlewares;
 
 use Closure;
 use Dune\Http\Request;
-use Dune\App;
+use Dune\Core\App;
 use Dune\Http\Middleware\MiddlewareInterface;
 use Dune\Http\Middlewares\Exception\RequestNotSecure;
 

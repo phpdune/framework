@@ -18,7 +18,7 @@ use Dune\Session\Session;
 use Dune\Cookie\Cookie;
 use Dune\Csrf\Csrf;
 use Exception;
-use Dune\App;
+use Dune\Core\App;
 
 abstract class Facade
 {

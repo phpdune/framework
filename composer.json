@@ -23,7 +23,7 @@
          "Dune\\":"src/Dune/"
       },
       "files":[
-         "src/Dune/GearFunc.php"
+         "src/Dune/Core/GearFunc.php"
       ]
    },
    "autoload-dev":{

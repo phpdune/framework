@@ -81,7 +81,7 @@ class Error
      */
     private static function debugMode(): bool
     {
-        if (env('APP_DEBUG') === 'true') {
+        if (env('APP_DEBUG') === true) {
             return true;
         }
         return false;

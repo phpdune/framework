@@ -25,30 +25,33 @@ final class App
     /**
      * Dune Framework Version
      *
-     * @var const
+     * @var string
      */
     public const VERSION = '1.1.9';
+
     /**
-     * \Di\Container instance
+     * The DI container instance.
      *
      * @var Container
      */
     private static Container $container;
+
     /**
-     * \Dune\Console\ConsoleInterface
+     * The ConsoleInterface instance.
      *
      * @var ConsoleInterface
      */
     private ConsoleInterface $console;
+
     /**
-     * app is in testing or not
+     * Indicates if the app is in testing mode.
      *
      * @var bool
      */
     private bool $testing = false;
+
     /**
-     * load the env variables and app configs
-     *
+     * Creates a new App instance and loads the app configuration.
      */
     public function __construct()
     {
@@ -57,88 +60,95 @@ final class App
         $this->loadEloquent();
     }
 
-       /**
-        * load app configuration
-        *
-        */
+    /**
+     * Loads the app configuration.
+     */
     public function loadAppConfig(): void
     {
         date_default_timezone_set(config('app.timezone'));
     }
 
     /**
-     * php-di container setter
+     * Sets the PHP-DI container instance.
      *
-     * @param Container $container
-     *
+     * @param Container $container The container instance.
      */
     public function setContainer(Container $container): void
     {
         self::$container = $container;
     }
+
     /**
-     * php-di container getter
+     * Gets the PHP-DI container instance.
      *
-     * @return Container
+     * @return Container The container instance.
      */
     public static function container(): Container
     {
         return self::$container;
     }
+
     /**
-     * Initializing ConsoleInterface
+     * Sets the ConsoleInterface instance.
      *
-     * @param ConsoleInterface $console
+     * @param ConsoleInterface $console The ConsoleInterface instance.
      */
     public function console(ConsoleInterface $console): void
     {
         $this->console = $console;
     }
+
     /**
-     * running the console
+     * Runs the console application.
+     *
+     * @return int The exit code of the console application.
      */
     public function loadConsole(): int
     {
         $this->loadEloquent();
         return $this->console->run();
     }
+
     /**
-     * check the app is local
-     * getting APP_ENV from .env file
+     * Checks if the app is running in the local environment.
      *
-     * @return bool
+     * @return bool True if the app is running in the local environment, false otherwise.
      */
     public function isLocal(): bool
     {
         return (env('APP_ENV') == 'local' ? true : false);
     }
+
     /**
-     * set the app testing mode
+     * Sets the testing mode for the app.
      *
-     * @return void
+     * @param bool $value The testing mode value.
      */
     public function setTestingMode(bool $value): void
     {
         $this->testing = $value;
     }
+
     /**
-     * return app is on testing mode or not
+     * Checks if the app is running in testing mode.
      *
-     * @return bool
+     * @return bool True if the app is running in testing mode, false otherwise.
      */
     public function isTesting(): bool
     {
         return $this->testing;
     }
+
     /**
-     * checks the app is in maintenance mode or not
+     * Checks if the app is in maintenance mode.
      */
     public function isMaintenance()
     {
-        //
+        // Implementation goes here
     }
+
     /**
-     * boot up the eloquent orm
+     * Boots up the Eloquent ORM.
      */
     private function loadEloquent()
     {

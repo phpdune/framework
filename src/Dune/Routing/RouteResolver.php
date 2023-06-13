@@ -20,7 +20,6 @@ use Dune\Routing\Exception\MiddlewareNotFound;
 use Dune\Routing\RouteActionCaller;
 use Dune\Routing\Router as Route;
 use Dune\Http\Middleware\Middleware;
-use Dune\Http\Middleware\MiddlewareStack;
 
 class RouteResolver extends RouteActionCaller
 {
@@ -130,12 +129,12 @@ class RouteResolver extends RouteActionCaller
      */
     protected function runMiddlewares(array $middlewares): void
     {
-        $middlewareDispatcher = new Middleware(new MiddlewareStack());
+        $middlewareDispatcher = new Middleware();
         if(is_array($middlewares)) {
             foreach($middlewares as $middleware) {
                 $middlewareDispatcher->add(new $middleware());
             }
-            $middlewareDispatcher->run();
+            $middlewareDispatcher->run(new Request());
         }
     }
 }

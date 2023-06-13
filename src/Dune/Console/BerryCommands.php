@@ -25,6 +25,7 @@ class BerryCommands
       \Dune\Console\Commands\DevelopmentServer::class,
       \Dune\Database\Console\CreateModel::class,
       \Dune\Database\Console\DropAllTable::class,
+      \Dune\Console\Commands\GetSrcCode::class,
       \Dune\Database\Console\MigrateCommand::class,
       \Dune\Database\Console\MigrateFresh::class
       ];

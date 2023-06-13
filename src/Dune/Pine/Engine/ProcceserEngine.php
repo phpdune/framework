@@ -24,25 +24,22 @@ class ProcceserEngine extends AbstractEngine
      * @param  string  $view
      * @param array<string,mixed> $data
      *
-     * @return string|null|bool
+     * @return string|bool
      */
-    public function load(string $view, array $data = []): string|null|bool
+    public function load(string $view, array $data = []): string|bool
     {
-        if($this->mapper->cacheMode() && !$this->mapper->getCacheFile($view)) {
-
+        if (
+            !$this->mapper->cacheMode() ||
+            !$this->mapper->getCacheFile($view)
+        ) {
             $view = $this->compile($view);
-            return $this->execute($view, $data);
-        }
-        if(!$this->mapper->cacheMode()) {
-            $view = $this->compile($view);
-            return $this->execute($view, $data);
-        }
-        if($this->mapper->cacheMode() && $this->mapper->getCacheFile($view)) {
+        } else {
             $view = file_get_contents($this->mapper->getCacheFile($view));
-            return $this->execute($view, $data);
         }
-        return null;
+
+        return $this->execute($view, $data);
     }
+
     /**
      *
      * @param  string  $view
@@ -58,7 +55,7 @@ class ProcceserEngine extends AbstractEngine
         $outputLevel = ob_get_level();
         try {
             extract($data, EXTR_OVERWRITE);
-            if(is_file($view)) {
+            if (is_file($view)) {
                 require $view;
                 return true;
             }

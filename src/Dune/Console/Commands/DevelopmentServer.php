@@ -27,7 +27,7 @@ class DevelopmentServer extends Command
      *
      * @var string
      */
-    protected static $defaultName = 'serve';
+    protected static $defaultName = "serve";
 
     /**
      * default symfony console configure method
@@ -36,10 +36,21 @@ class DevelopmentServer extends Command
      */
     protected function configure(): void
     {
-        $this
-        ->setDescription('Start php\'s default development server')
-        ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'server host', '127.0.0.1')
-        ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'server port', '8000');
+        $this->setDescription('Start php\'s default development server')
+            ->addOption(
+                "host",
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "server host",
+                "127.0.0.1"
+            )
+            ->addOption(
+                "port",
+                null,
+                InputOption::VALUE_OPTIONAL,
+                "server port",
+                "8000"
+            );
     }
     /**
      * clear view cache
@@ -49,15 +60,40 @@ class DevelopmentServer extends Command
      *
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $message = new SymfonyStyle($input, $output);
-        $host = $input->getOption('host');
-        $port = $input->getOption('port');
+        $host = $input->getOption("host");
+        $port = $input->getOption("port");
         $command = "php -S $host:$port -t public";
-        $message->info('Development server started');
+        $message->info("Development server started");
+        $this->openUrl($host, $port);
         shell_exec($command);
         return Command::SUCCESS;
+    }
+    /**
+     * open the development server in the browser
+     *
+     * @param string $host
+     * @param string $port
+     *
+     */
+    private function openUrl(string $host, string $port): void
+    {
+        $os = strtolower(PHP_OS);
+        $cmd = "";
+        if (strpos($os, "darwin")) {
+            $cmd = "open";
+        } elseif (strpos($os, "win")) {
+            $cmd = "start";
+        } else {
+            $cmd = "xdg-open";
+        }
+        if (!empty($cmd)) {
+            $fullCmd = $cmd . " http://" . $host . ":" . $port;
+            shell_exec($fullCmd);
+        }
     }
 }

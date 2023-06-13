@@ -22,18 +22,18 @@ class SecureRequest implements MiddlewareInterface
 
     /**
      * check the request is secure
-     * 
+     *
      * @param Request $request
      * @param Closure $next
-     * 
+     *
      * @throw \RequestNotSecure
-     * 
+     *
      * @return Request
      */
     public function handle(Request $request, Closure $next): Request
     {
         if ($this->canHandleRequest(new App) && !$request->secure()) {
-            throw new RequestNotSecure("This request must be made over a secure connection.",403);
+            throw new RequestNotSecure("This request must be made over a secure connection.", 403);
         }
         return $next($request);
     }

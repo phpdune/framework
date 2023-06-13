@@ -52,9 +52,9 @@ final class App
      */
     public function __construct()
     {
-      $this->loadAppConfig();
-      $this->loadEnv();
-      $this->loadEloquent();
+        $this->loadAppConfig();
+        $this->loadEnv();
+        $this->loadEloquent();
     }
 
        /**
@@ -150,7 +150,7 @@ final class App
      */
      private function loadEnv()
      {
-       $env = new Dotenv();
-       $env->load(PATH.'/.env');
+         $env = new Dotenv();
+         $env->load(PATH.'/.env');
      }
 }

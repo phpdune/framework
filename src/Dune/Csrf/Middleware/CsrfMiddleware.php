@@ -89,4 +89,3 @@ class CsrfMiddleware implements MiddlewareInterface
         return in_array($request->method(), self::METHODS);
     }
 }
-

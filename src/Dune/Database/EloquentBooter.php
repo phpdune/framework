@@ -24,7 +24,7 @@ class EloquentBooter
     public function boot(): void
     {
         if(!env('DB_DRIVER')) {
-           return;
+            return;
         }
         $manager = new EloquentManager();
         $manager->addConnection(config('database'));

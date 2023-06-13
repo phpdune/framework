@@ -21,8 +21,8 @@ class Middleware
     public function __construct()
     {
         $this->next = function (Request $request) {
-             return $request;
-          };
+            return $request;
+        };
     }
       /**
        * for adding middleware

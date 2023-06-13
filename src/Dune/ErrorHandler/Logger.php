@@ -41,6 +41,6 @@ class Logger
       */
     public function logFile(): string
     {
-        return PATH.'/storage/log/app.log';
+        return PATH.'/log/app.log';
     }
 }

@@ -19,14 +19,11 @@ use Dune\Http\ResponseInterface;
 use DI\ContainerBuilder;
 use Dune\ErrorHandler\Error;
 use Dune\Routing\RouteLoader;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\Response as BaseResponse;
+use Dune\Http\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class Kernel extends HttpKernel
+
+class Kernel
 {
     /**
      * \Dune\Core\App instance
@@ -41,7 +38,6 @@ class Kernel extends HttpKernel
     */
     public function __construct(App $app)
     {
-        parent::__construct(new EventDispatcher(), new ControllerResolver());
         $this->app = $app;
     }
     /**
@@ -53,7 +49,7 @@ class Kernel extends HttpKernel
      *
      * @return Response
      */
-    public function handle(Request $request, int $type = HttpKernelInterface::MAIN_REQUEST, bool $catch = true): BaseResponse
+    public function handle(Request $request)
     {
         $this->setErrorHanlers();
 
@@ -82,20 +78,24 @@ class Kernel extends HttpKernel
      */
      public function getContainer(): Container
      {
-         return (new ContainerBuilder())->build();
+         $container = new ContainerBuilder();
+         if(!$this->app->isLocal()) {
+          $container->enableCompilation(PATH.'/storage/cache/container');
+          }
+          return $container->build();
      }
     /**
      * sending the response to the client
      *
-     * @param mixed $response
+     * @param ?string $response
      *
-     * @return Response
+     * @return mixed
      */
-     public function sendResponse(mixed $response): BaseResponse
+     public function sendResponse(?string $response): mixed
      {
-         if($response instanceof ResponseInterface) {
-             return $response->response;
+         if(is_string($response)) {
+         return (new Response)->text($response);
          }
-         return new BaseResponse($response);
+         return null;
      }
 }

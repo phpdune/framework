@@ -160,16 +160,7 @@ function csrf(): string
         '">';
     return $csrfField;
 }
-/**
- * return Response
- *
- * @return Response
- */
-function response(): Response
-{
-    $container = \Dune\Core\App::container();
-    return $container->get(\Dune\Http\Response::class);
-}
+
 /**
  * return Redirect
  *

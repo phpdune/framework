@@ -22,7 +22,6 @@ use Dune\Routing\RouteLoader;
 use Dune\Http\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class Kernel
 {
     /**
@@ -80,9 +79,9 @@ class Kernel
      {
          $container = new ContainerBuilder();
          if(!$this->app->isLocal()) {
-          $container->enableCompilation(PATH.'/storage/cache/container');
-          }
-          return $container->build();
+             $container->enableCompilation(PATH.'/storage/cache/container');
+         }
+         return $container->build();
      }
     /**
      * sending the response to the client
@@ -94,7 +93,7 @@ class Kernel
      public function sendResponse(?string $response): mixed
      {
          if(is_string($response)) {
-         return (new Response)->text($response);
+             return (new Response)->text($response);
          }
          return null;
      }

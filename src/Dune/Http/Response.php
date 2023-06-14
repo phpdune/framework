@@ -29,7 +29,7 @@ class Response extends BaseResponse implements ResponseInterface
      */
     public function text(string $text, int $code = 200): null
     {
-        return $this->markup($text,$code);
+        return $this->markup($text, $code);
     }
 
 }

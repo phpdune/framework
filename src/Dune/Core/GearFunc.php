@@ -11,18 +11,6 @@
 
 declare(strict_types=1);
 
-use Dune\Pine\ViewLoader;
-use Dune\Routing\RouteLoader;
-use Dune\Routing\Router;
-use Dune\ErrorHandler\Error;
-use Dune\Http\Request;
-use Dune\Facades\Session;
-use Dune\Facades\Csrf;
-use Dune\Http\Response;
-use Dune\Http\Redirect;
-use Dune\ErrorHandler\Logger;
-use Dune\Support\Twig;
-use Dune\Core\App;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
@@ -38,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response as BaseResponse;
  */
 function view(string $view, array $data = []): ?bool
 {
-    $pine = new ViewLoader(
+    $pine = new \Dune\Pine\ViewLoader(
         config("pine.pine_path"),
         config("pine.cache"),
         config("pine.cache_path")
@@ -47,7 +35,7 @@ function view(string $view, array $data = []): ?bool
     try {
         echo $pine->render($view, $data);
     } catch (\Exception $e) {
-        Error::handleException($e);
+        \Dune\ErrorHandler\Error::handleException($e);
     }
     return null;
 }
@@ -81,9 +69,9 @@ function abort(int $code = 404, string $message = null): ?bool
  */
 function route(string $key, array $values = []): ?string
 {
-    $array = Router::$names;
+    $array = \Dune\Routing\Router::$names;
     if (array_key_exists($key, $array)) {
-        $route = Router::$names[$key];
+        $route = \Dune\Routing\Router::$names[$key];
         if (str_contains($route, "{") && str_contains($route, "}")) {
             $route = str_replace(
                 array_keys($values),
@@ -165,10 +153,10 @@ function config(string $string): mixed
  */
 function csrf(): string
 {
-    $csrfToken = Csrf::generate();
+    $csrfToken = \Dune\Facades\Csrf::generate();
     $csrfField =
         '<input type="hidden" id="_token" name="_token" value="' .
-        Session::get("_token") .
+        \Dune\Facades\Session::get("_token") .
         '">';
     return $csrfField;
 }
@@ -179,8 +167,8 @@ function csrf(): string
  */
 function response(): Response
 {
-    $container = App::container();
-    return $container->get(Response::class);
+    $container = \Dune\Core\App::container();
+    return $container->get(\Dune\Http\Response::class);
 }
 /**
  * return Redirect
@@ -190,7 +178,7 @@ function response(): Response
 
 function redirect(): Redirect
 {
-    return new Redirect(new RedirectResponse("/fake"));
+    return new \Dune\Http\Redirect(new RedirectResponse("/fake"));
 }
 /**
  * for logging message
@@ -200,7 +188,7 @@ function redirect(): Redirect
  */
 function logs(mixed $message): void
 {
-    $logger = new Logger();
+    $logger = new \Dune\Error\Logger();
     $logger->put($message);
 }
 /**
@@ -225,7 +213,7 @@ function memory(): string
  */
 function error(string $key): mixed
 {
-    return Session::get($key);
+    return \Dune\Facades\Session::get($key);
 }
 /**
  * check error message of the form field by session
@@ -236,7 +224,7 @@ function error(string $key): mixed
  */
 function errorHas(string $key): bool
 {
-    return Session::has($key) ? true : false;
+    return \Dune\Facades\Session::has($key) ? true : false;
 }
 /**
  * return the old value of input fields of form
@@ -247,7 +235,7 @@ function errorHas(string $key): bool
  */
 function old(string $key): mixed
 {
-    return Session::get("old_" . $key);
+    return \Dune\Facades\Session::get("old_" . $key);
 }
 /**
  * return the old value of input fields of form
@@ -269,8 +257,8 @@ function twig(string $file, array $data = []): void
 
         "strict_variables" => config("twig.strict_variables"),
     ];
-    if (class_exists(Twig::class)) {
-        $twig = new Twig($path, $config);
+    if (class_exists(\Dune\Support\Twig::class)) {
+        $twig = new \Dune\Support\Twig($path, $config);
         echo $twig->render($file, $data);
     }
 }

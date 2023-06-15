@@ -11,9 +11,6 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response as BaseResponse;
-
 /**
  * view() function, to render the view from controller and to pass data to view via array
  *
@@ -49,7 +46,7 @@ function view(string $view, array $data = []): ?bool
  */
 function abort(int $code = 404, string $message = null): ?bool
 {
-    $message = BaseResponse::$statusTexts[$code] ?? $message;
+    $message = \Dune\Http\Response::$statusTexts[$code] ?? $message;
     $file = PATH . "/app/views/errors/error.pine.php";
     if (file_exists($file)) {
         return view("errors/error", [

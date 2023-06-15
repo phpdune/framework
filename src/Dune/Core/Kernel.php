@@ -20,7 +20,6 @@ use Dune\Routing\RouteLoader;
 use Dune\Http\Response;
 use Dune\Http\Request;
 
-
 class Kernel
 {
     /**
@@ -30,7 +29,7 @@ class Kernel
      */
     private App $app;
     /**
-    * 
+    *
     * App instance setting
     */
     public function __construct(App $app)
@@ -73,9 +72,9 @@ class Kernel
      */
      public function getContainer(): Container
      {
-          $container = new Container;
-          $container->singleton(Request::class,Request::class);
-          return $container;
+         $container = new Container;
+         $container->singleton(Request::class, Request::class);
+         return $container;
      }
     /**
      * sending the response to the client
@@ -87,7 +86,7 @@ class Kernel
      public function sendResponse(?string $response): mixed
      {
          if(is_string($response)) {
-         return (new Response)->text($response);
+             return (new Response)->text($response);
          }
          return null;
      }

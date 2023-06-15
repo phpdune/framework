@@ -35,14 +35,14 @@ class Request implements RequestInterface
      */
     public function __construct()
     {
-       $this->allData = [
-         'GET' => $_GET,
-         'POST' => $_POST,
-         'SESSION' => [],
-         'COOKIE' => $_COOKIE,
-         'SERVER' => $_SERVER,
-         'HEADERS' => $this->headers()
-         ];
+        $this->allData = [
+          'GET' => $_GET,
+          'POST' => $_POST,
+          'SESSION' => [],
+          'COOKIE' => $_COOKIE,
+          'SERVER' => $_SERVER,
+          'HEADERS' => $this->headers()
+          ];
     }
 
     /**
@@ -54,9 +54,9 @@ class Request implements RequestInterface
     public function get($key, $default = null): ?string
     {
         if(isset($this->allData['POST'][$key])) {
-          return $this->allData['POST'][$key];
+            return $this->allData['POST'][$key];
         } elseif (isset($this->allData['GET'][$key])) {
-          return $this->allData['GET'][$key];
+            return $this->allData['GET'][$key];
         }
         return null;
     }
@@ -73,7 +73,7 @@ class Request implements RequestInterface
      */
     public function method(): string
     {
-       return (isset($this->allData['POST']['_method']) ? $this->allData['POST']['_method'] : $this->allData['SERVER']['REQUEST_METHOD']);
+        return (isset($this->allData['POST']['_method']) ? $this->allData['POST']['_method'] : $this->allData['SERVER']['REQUEST_METHOD']);
     }
     
     /**
@@ -134,16 +134,16 @@ class Request implements RequestInterface
      {
          if(isset($this->allData['SERVER']['HTTP_X_REQUESTED_WITH']) && strtolower($this->allData['SERVER']['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
              return true;
-           }
-           return false;
+         }
+         return false;
      }
     /**
      * @return bool
      */
-     public function secure(): bool     
+     public function secure(): bool
      {
          if(isset($this->allData['SERVER']['HTTPS']) && $this->allData['SERVER']['HTTPS'] == 'on') {
-            return true;
+             return true;
          }
          return false;
      }
@@ -152,7 +152,7 @@ class Request implements RequestInterface
      */
      public function headers(): ?array
      {
-        return getallheaders();
+         return getallheaders();
      }
      /**
      * @param string $key
@@ -162,7 +162,7 @@ class Request implements RequestInterface
      public function header(string $key): ?string
      {
          if(isset($this->allData['HEADERS'][$key])) {
-           return $this->allData['HEADERS'][$key];
+             return $this->allData['HEADERS'][$key];
          }
          return null;
      }
@@ -212,12 +212,12 @@ class Request implements RequestInterface
          return $uri['path'];
      }
      /**
-      * 
+      *
       * @return string
       */
-      public function uri(): string 
+      public function uri(): string
       {
-        return $this->allData['SERVER']['REQUEST_URI'];
+          return $this->allData['SERVER']['REQUEST_URI'];
       }
      /**
      * @return string
@@ -253,7 +253,7 @@ class Request implements RequestInterface
      public function fullQuery(): ?string
      {
          $uri = $this->allData['SERVER']['REQUEST_URI'];
-         return str_replace('/?','',$uri);
+         return str_replace('/?', '', $uri);
      }
      /**
      * @param string $key
@@ -263,7 +263,7 @@ class Request implements RequestInterface
      public function query(string $key): ?string
      {
          if(isset($this->allData['GET'][$key])) {
-           return $this->allData['GET'][$key];
+             return $this->allData['GET'][$key];
          }
          return null;
      }
@@ -289,9 +289,9 @@ class Request implements RequestInterface
      public function hasFile(string $key): bool
      {
          if (isset($_FILES['fileInputName']) && $_FILES['fileInputName']['error'] === UPLOAD_ERR_OK) {
-           return true;
+             return true;
          }
-          return false;
+         return false;
      }
 
      /**

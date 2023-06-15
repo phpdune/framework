@@ -15,9 +15,9 @@
    ],
    "require":{
       "php":"^8.1",
-      "symfony/http-foundation":"6.2",
+      "leafs/http":"^2.2",
       "dune/session":"^1.0",
-      "php-di/php-di":"^7.0"
+      "illuminate/container":"^10.13"
    },
    "autoload":{
       "psr-4":{

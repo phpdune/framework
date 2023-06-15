@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace Dune\Core;
 
 use Symfony\Component\Dotenv\Dotenv;
-use DI\Container;
-use DI\ContainerBuilder;
+use Illuminate\Container\Container;
 use Dune\Console\ConsoleInterface;
 use Dune\Database\EloquentBooter;
 use Dune\ErrorHandler\Error;

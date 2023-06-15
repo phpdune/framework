@@ -14,13 +14,11 @@ declare(strict_types=1);
 namespace Dune\Pine;
 
 use Dune\Pine\ViewInterface;
-use Dune\Pine\ViewContainer;
 use Dune\Pine\FileMapper;
 use Dune\Pine\Engine\ProcceserEngine;
 
 class View implements ViewInterface
 {
-    use ViewContainer;
 
     /**
      * The view file.

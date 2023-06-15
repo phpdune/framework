@@ -134,7 +134,7 @@ class RouteResolver extends RouteActionCaller
             foreach($middlewares as $middleware) {
                 $middlewareDispatcher->add(new $middleware());
             }
-            $middlewareDispatcher->run(new Request());
+            $middlewareDispatcher->run($this->container->get(Request::class));
         }
     }
 }

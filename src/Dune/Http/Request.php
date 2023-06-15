@@ -19,36 +19,32 @@ use Dune\Http\RequestInterface;
 use Dune\Session\SessionInterface;
 use Dune\Session\Session;
 use Dune\Http\RequestContainer;
-use Symfony\Component\HttpFoundation\Request as BaseRequest;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Request implements RequestInterface
 {
     use RequestContainer;
 
     /**
-      * \Symfony\Component\HttpFoundation\Request
+      * All data from $_GET, $_POST, $_SESSION, $_SERVER, $_COOKIE
       *
-      * @var ?BaseRequest
+      * @var array<string,mixed>
       */
-    private ?BaseRequest $request = null;
+    private array $allData = [];
     /**
-     * new Symfony Request instance
+     * collect all data from php global variables
      */
     public function __construct()
     {
-        BaseRequest::enableHttpMethodParameterOverride();
-        if(is_null($this->request)) {
-            $this->request = BaseRequest::createFromGlobals();
-        }
+       $this->allData = [
+         'GET' => $_GET,
+         'POST' => $_POST,
+         'SESSION' => [],
+         'COOKIE' => $_COOKIE,
+         'SERVER' => $_SERVER,
+         'HEADERS' => $this->headers()
+         ];
     }
-    /**
-     * return the symfony request instance
-     */
-     public static function globals(): BaseRequest
-     {
-         return $this->request;
-     }
+
     /**
      * @param string $key
      * @param null $default
@@ -57,24 +53,29 @@ class Request implements RequestInterface
      */
     public function get($key, $default = null): ?string
     {
-        return $this->request->get($key, $default);
+        if(isset($this->allData['POST'][$key])) {
+          return $this->allData['POST'][$key];
+        } elseif (isset($this->allData['GET'][$key])) {
+          return $this->allData['GET'][$key];
+        }
+        return null;
     }
     /**
      *
-     * @return BaseRequest
+     * @return array<mixed>
      */
-    public function all(): BaseRequest
+    public function all(): array
     {
-        return $this->request;
+        return $this->allData;
     }
      /**
      * @return string
      */
     public function method(): string
     {
-        return $this->request->getMethod();
+       return (isset($this->allData['POST']['_method']) ? $this->allData['POST']['_method'] : $this->allData['SERVER']['REQUEST_METHOD']);
     }
-
+    
     /**
      *
      * @param string $key
@@ -83,7 +84,7 @@ class Request implements RequestInterface
      */
      public function server(string $key): ?string
      {
-         return $this->request->server->get($key);
+         return (isset($this->allData['SERVER'][$key]) ? $this->allData['SERVER'][$key] : null);
      }
      /**
      *
@@ -91,7 +92,7 @@ class Request implements RequestInterface
      */
      public function isGet(): bool
      {
-         return ($this->request->getMethod() == 'GET' ? true : false);
+         return ($this->method() == 'GET' ? true : false);
      }
     /**
      *
@@ -99,7 +100,7 @@ class Request implements RequestInterface
      */
      public function isPost(): bool
      {
-         return ($this->request->getMethod() == 'POST' ? true : false);
+         return ($this->method() == 'POST' ? true : false);
      }
      /**
      *
@@ -107,7 +108,7 @@ class Request implements RequestInterface
      */
      public function isPut(): bool
      {
-         return ($this->request->getMethod() == 'PUT' ? true : false);
+         return ($this->method() == 'PUT' ? true : false);
      }
     /**
      *
@@ -115,7 +116,7 @@ class Request implements RequestInterface
      */
      public function isPatch(): bool
      {
-         return ($this->request->getMethod() == 'PATCH' ? true : false);
+         return ($this->method() == 'PATCH' ? true : false);
      }
     /**
      *
@@ -123,7 +124,7 @@ class Request implements RequestInterface
      */
      public function isDelete(): bool
      {
-         return ($this->request->getMethod() == 'DELETE' ? true : false);
+         return ($this->method() == 'DELETE' ? true : false);
      }
     /**
      *
@@ -131,22 +132,27 @@ class Request implements RequestInterface
      */
      public function isAjax(): bool
      {
-         return $this->request->isXmlHttpRequest();
+         if(isset($this->allData['SERVER']['HTTP_X_REQUESTED_WITH']) && strtolower($this->allData['SERVER']['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+             return true;
+           }
+           return false;
      }
     /**
-     *
      * @return bool
      */
-     public function secure(): bool
+     public function secure(): bool     
      {
-         return $this->request->isSecure();
+         if(isset($this->allData['SERVER']['HTTPS']) && $this->allData['SERVER']['HTTPS'] == 'on') {
+            return true;
+         }
+         return false;
      }
      /**
      * @return array<string,mixed>
      */
      public function headers(): ?array
      {
-         return $this->request->headers->all();
+        return getallheaders();
      }
      /**
      * @param string $key
@@ -155,7 +161,10 @@ class Request implements RequestInterface
      */
      public function header(string $key): ?string
      {
-         return $this->request->headers->get($key);
+         if(isset($this->allData['HEADERS'][$key])) {
+           return $this->allData['HEADERS'][$key];
+         }
+         return null;
      }
      /**
      * @param string $key
@@ -164,28 +173,28 @@ class Request implements RequestInterface
      */
      public function hasHeader(string $key): bool
      {
-         return $this->request->headers->has($key);
+         return (isset($this->allData['HEADERS'][$key]));
      }
      /**
      * @return string
      */
      public function ip(): string
      {
-         return $this->request->getClientIp();
+         return $this->allData['SERVER']['REMOTE_ADDR'];
      }
      /**
      * @return string
      */
      public function userAgent(): string
      {
-         return $this->request->headers->get('User-Agent');
+         return $this->allData['SERVER']['HTTP_USER_AGENT'];
      }
      /**
      * @return string
      */
      public function host(): string
      {
-         return $this->request->getHost();
+         return $this->allData['SERVER']['HTTP_HOST'];
      }
      /**
      * @return string
@@ -199,8 +208,17 @@ class Request implements RequestInterface
      */
      public function path(): string
      {
-         return $this->request->getPathInfo();
+         $uri = parse_url($this->allData['SERVER']['REQUEST_URI']);
+         return $uri['path'];
      }
+     /**
+      * 
+      * @return string
+      */
+      public function uri(): string 
+      {
+        return $this->allData['SERVER']['REQUEST_URI'];
+      }
      /**
      * @return string
      */
@@ -234,7 +252,8 @@ class Request implements RequestInterface
      */
      public function fullQuery(): ?string
      {
-         return $this->request->getQueryString();
+         $uri = $this->allData['SERVER']['REQUEST_URI'];
+         return str_replace('/?','',$uri);
      }
      /**
      * @param string $key
@@ -243,7 +262,10 @@ class Request implements RequestInterface
      */
      public function query(string $key): ?string
      {
-         return $this->request->query->get($key);
+         if(isset($this->allData['GET'][$key])) {
+           return $this->allData['GET'][$key];
+         }
+         return null;
      }
      /**
      * @param string $key
@@ -259,35 +281,32 @@ class Request implements RequestInterface
      */
      public function fullUrl(): string
      {
-         return $this->request->getSchemeAndHttpHost() . $this->path();
+         return $this->scheme() .'://'. $this->host() . $this->path();
      }
      /**
      * @return bool
      */
      public function hasFile(string $key): bool
      {
-         return $this->request->files->has($key);
+         if (isset($_FILES['fileInputName']) && $_FILES['fileInputName']['error'] === UPLOAD_ERR_OK) {
+           return true;
+         }
+          return false;
      }
-     /**
-     * @return Symfony\Component\HttpFoundation\File\UploadedFile
-     */
-     public function file(string $key): UploadedFile
-     {
-         return $this->request->files->get($key);
-     }
+
      /**
      * @return string
      */
      public function fullUrlWithQuery(): string
      {
-         return $this->request->getSchemeAndHttpHost() . $this->request->getRequestUri();
+         return $this->scheme() .'://'. $this->host() . $this->uri();
      }
      /**
      * @return string
      */
      public function port(): string
      {
-         return $this->request->getPort();
+         return $this->allData['SERVER']['SERVER_PORT'];
      }
     /**
      * session instance
@@ -309,16 +328,5 @@ class Request implements RequestInterface
     {
         return Validater::make($data);
     }
-    /**
-     * access the method of symfony request
-     *
-     * @param string $method
-     * @param array $args
-     *
-     * @return mixed
-     */
-     public function __call(string $method, array $args): mixed
-     {
-         return $this->request->$method(...$args);
-     }
+
 }

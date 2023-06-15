@@ -15,8 +15,7 @@
    ],
    "require":{
       "php":"^8.1",
-      "ext-tokenizer":"*",
-      "nikic/php-parser":"^4.15"
+      "ext-tokenizer":"*"
    },
    "autoload":{
       "psr-4":{

@@ -38,9 +38,8 @@
       "ext-session": "*",
       "ext-openssl": "*",
       "symfony/var-dumper":"^6.2",
-      "php-di/php-di":"^7.0",
+      "illuminate/container":"^10.13",
       "symfony/console":"^6.2",
-      "symfony/http-foundation":"^6.2",
       "leafs/http": "^2.2",
       "illuminate/database":"^10.11"
    },

@@ -14,13 +14,12 @@ declare(strict_types=1);
 namespace Dune\Core;
 
 use Dune\Core\App;
-use DI\Container;
-use Dune\Http\ResponseInterface;
-use DI\ContainerBuilder;
+use Illuminate\Container\Container;
 use Dune\ErrorHandler\Error;
 use Dune\Routing\RouteLoader;
 use Dune\Http\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Dune\Http\Request;
+
 
 class Kernel
 {
@@ -31,9 +30,8 @@ class Kernel
      */
     private App $app;
     /**
-    * calling the constructer of parent class
-    * (\Symfony\Component\HttpKernel\HttpKernel)
-    *
+    * 
+    * App instance setting
     */
     public function __construct(App $app)
     {
@@ -51,12 +49,10 @@ class Kernel
     public function handle(Request $request)
     {
         $this->setErrorHanlers();
-
         $this->app->setContainer($this->getContainer());
-        require PATH.'/routes/web.php';
-        $router = new RouteLoader();
-        $router = $router->load();
-        $value = $router->dispatch($request->getRequestUri(), $request->getMethod());
+        $router = (new RouteLoader())->load();
+        require_once PATH.'/routes/web.php';
+        $value = $router->dispatch($request->path(), $request->method());
         return $this->sendResponse($value);
     }
     /**
@@ -77,11 +73,9 @@ class Kernel
      */
      public function getContainer(): Container
      {
-         $container = new ContainerBuilder();
-         if(!$this->app->isLocal()) {
-             $container->enableCompilation(PATH.'/storage/cache/container');
-         }
-         return $container->build();
+          $container = new Container;
+          $container->singleton(Request::class,Request::class);
+          return $container;
      }
     /**
      * sending the response to the client
@@ -93,7 +87,7 @@ class Kernel
      public function sendResponse(?string $response): mixed
      {
          if(is_string($response)) {
-             return (new Response)->text($response);
+         return (new Response)->text($response);
          }
          return null;
      }

@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 namespace Dune\Facades;
 
-use Dune\Routing\Router;
-use Dune\Session\Session;
-use Dune\Cookie\Cookie;
-use Dune\Csrf\Csrf;
 use Exception;
 use Dune\Core\App;
 
@@ -75,10 +71,10 @@ abstract class Facade
     {
         $container = App::container();
         return match($name) {
-            'route' => $container->get(Router::class),
-            'session' => $container->get(Session::class),
-            'csrf' => $container->get(Csrf::class),
-            'cookie' => $container->get(Cookie::class),
+            'route' => $container->get(\Dune\Routing\Router::class),
+            'session' => $container->get(\Dune\Session\Session::class),
+            'csrf' => $container->get(\Dune\Csrf\Csrf::class),
+            'cookie' => $container->get(\Dune\Cookie\Cookie::class),
             default => throw new Exception('cannot resolve this class')
         };
     }

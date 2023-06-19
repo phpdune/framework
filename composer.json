@@ -54,11 +54,14 @@
       "dune/core":"self.version"
    },
    "require-dev":{
-      "phpunit/phpunit":"^10.1",
+      "pestphp/pest":"^2.8",
       "phpstan/phpstan":"^1.10"
    },
    "config":{
-      "sort-packages":true
+      "sort-packages":true,
+      "allow-plugins": {
+         "pestphp/pest-plugin": true
+      }
    },
    "minimum-stability":"stable",
    

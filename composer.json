@@ -32,16 +32,19 @@
       }
    },
    "require":{
-      "php":"^8.0",
+      "php": "^8.0",
       "ext-ctype": "*",
-      "ext-tokenizer":"*",
-      "ext-session": "*",
       "ext-openssl": "*",
-      "symfony/var-dumper":"^6.2",
-      "illuminate/container":"^10.13",
-      "symfony/console":"^6.2",
+      "ext-session": "*",
+      "ext-tokenizer": "*",
+      "illuminate/container": "^10.13",
+      "illuminate/database": "^10.11",
       "leafs/http": "^2.2",
-      "illuminate/database":"^10.11"
+      "phpoption/phpoption": "^1.9",
+      "symfony/console": "^6.2",
+      "symfony/dotenv": "^6.3",
+      "symfony/var-dumper": "^6.2",
+      "vlucas/phpdotenv": "^5.5"
    },
    "replace":{
       "dune/pine":"self.version",
@@ -54,13 +57,13 @@
       "dune/core":"self.version"
    },
    "require-dev":{
-      "pestphp/pest":"^2.8",
-      "phpstan/phpstan":"^1.10"
+      "phpstan/phpstan": "^1.10",
+      "phpunit/phpunit": "^10.2"
    },
    "config":{
       "sort-packages":true,
       "allow-plugins": {
-         "pestphp/pest-plugin": true
+         "pestphp/pest-plugin": false
       }
    },
    "minimum-stability":"stable",

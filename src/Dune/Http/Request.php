@@ -152,7 +152,11 @@ class Request implements RequestInterface
      */
      public function headers(): ?array
      {
-         return getallheaders();
+         if(function_exists('getallheaders'))
+         {
+           return \getallheaders();
+         }
+          return [];
      }
      /**
      * @param string $key

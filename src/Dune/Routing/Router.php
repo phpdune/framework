@@ -377,4 +377,20 @@ class Router implements RouterInterface
      {
          return (isset(self::$middlewares[$middleware]) ? true : false);
      }
+    /**
+     * clear all properties values
+     *
+     * @return void
+     */     
+     public function clear(): void
+     {
+       self::$routes = [];
+       self::$middlewares = [];
+       self::$names = [];
+       self::$path = '';
+       $this->prefixedUrl = '';
+       $this->controller = '';
+       $this->controllerMap = [];
+       
+     }
 }

@@ -110,7 +110,7 @@ class RouteResolver extends RouteActionCaller
                 );
             }
         }
-        return null;
+        return [];
     }
     /**
      * return params

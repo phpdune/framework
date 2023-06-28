@@ -1,5 +1,5 @@
 {
-   "name":"dune/framework",
+   "name": "dune/framework",
    "description":"The PHP Dune Framework !",
    "type":"library",
    "license":"MIT",

@@ -24,7 +24,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: xdebug
 
       - name: Install dependencies with Composer
         uses: ramsey/composer-install@v2

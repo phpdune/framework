@@ -15,6 +15,11 @@ namespace Dune\Console;
 
 class BerryCommands
 {
+    /**
+     * Berry Commands
+     *
+     * @var array<int,string>
+     */
     protected array $commands = [
       \Dune\Console\Commands\AppTesting::class,
       \Dune\Console\Commands\ClearViewCache::class,

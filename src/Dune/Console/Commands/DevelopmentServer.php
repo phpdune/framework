@@ -91,9 +91,7 @@ class DevelopmentServer extends Command
         } else {
             $cmd = "xdg-open";
         }
-        if (!empty($cmd)) {
-            $fullCmd = $cmd . " http://" . $host . ":" . $port;
-            shell_exec($fullCmd);
-        }
+        $fullCmd = $cmd . " http://" . $host . ":" . $port;
+        shell_exec($fullCmd);
     }
 }

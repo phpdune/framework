@@ -18,13 +18,13 @@ class SessionConfig
     /**
      * Session configuration
      *
-     * @var array
+     * @var array<string,mixed>
      */
     private array $config;
     /**
      * set the session configuration
      *
-     * @param array $configs<mixed>
+     * @param array<string,mixed> $configs
      */
     public function __construct(array $configs = [])
     {

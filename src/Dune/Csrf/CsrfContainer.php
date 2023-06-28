@@ -27,13 +27,13 @@ trait CsrfContainer
     /**
      * setting up the container instance
      */
-    public function __setUp()
+    public function __setUp(): void
     {
         if(!$this->container) {
             if(class_exists(App::class)) {
                 $container = App::container();
             } else {
-                $container = new Container;
+                $container = new Container();
             }
             $this->container = $container;
         }

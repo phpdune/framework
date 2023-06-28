@@ -22,15 +22,16 @@ class SessionLoader
 {
     use SessionContainer;
     /**
-     * \Dune\Routing\Router instance
+     * \Dune\Session\Session instance
      *
-     * @var ?Router
+     * @var ?Session
      */
     protected ?Session $session = null;
     /**
      * calling router method
      * setting up router instance
      *
+     * @param array<string,mixed> $configs
      */
     public function __construct(array $configs)
     {
@@ -43,11 +44,11 @@ class SessionLoader
             );
         }
     }
-      /**
-       * returning the loaded router instance
-       *
-       * @return Session
-       */
+    /**
+     * returning the loaded router instance
+     *
+     * @return Session
+     */
     public function load(): Session
     {
         return $this->session;

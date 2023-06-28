@@ -24,11 +24,11 @@ class Middleware
             return $request;
         };
     }
-      /**
-       * for adding middleware
-       *
-       * @param MiddlewareInterface $middleware
-       */
+    /**
+     * for adding middleware
+     *
+     * @param MiddlewareInterface $middleware
+     */
     public function add(MiddlewareInterface $middleware): void
     {
         $next = $this->next;
@@ -36,11 +36,12 @@ class Middleware
             return $middleware->handle($request, $next);
         };
     }
-      /**
-       * handling ( running the all middlewares)
-       *
-       */
-    public function run(Request $request)
+    /**
+     * handling ( running the all middlewares)
+     *
+     * @return Request
+     */
+    public function run(Request $request): Request
     {
         return ($this->next)($request);
     }

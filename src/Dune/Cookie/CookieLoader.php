@@ -12,14 +12,17 @@ class CookieLoader
 {
     use CookieContainer;
     /**
-     * \Dune\Routing\Router instance
+     * Cookie config
      *
-     * @var ?Router
+     * @var ?Cookie
      */
     protected ?Cookie $cookie = null;
+
     /**
      * calling router method
      * setting up router instance
+     *
+     * @param array<string, string|bool> $configs
      *
      */
     public function __construct(array $configs)
@@ -30,11 +33,11 @@ class CookieLoader
             $this->cookie = new Cookie($config);
         }
     }
-      /**
-       * returning the loaded router instance
-       *
-       * @return Session
-       */
+    /**
+     * returning the loaded router instance
+     *
+     * @return Cookie
+     */
     public function load(): Cookie
     {
         return $this->cookie;

@@ -37,11 +37,11 @@ class RouteLoader
             $this->route = $this->container->get(Router::class);
         }
     }
-      /**
-       * returning the loaded router instance
-       *
-       * @return Router
-       */
+    /**
+     * returning the loaded router instance
+     *
+     * @return Router
+     */
     public function load(): Router
     {
         return $this->route;

@@ -94,17 +94,17 @@ class FileMapper
      *
      * @return string
      */
-     public function getPineFile(string $file): string
-     {
-         $file = $this->pineFilePath.DIRECTORY_SEPARATOR.$file .$this->pineExtension;
-         if(file_exists($file)) {
-             return $file;
-         }
-         throw new ViewNotFound(
-             "Exception : {$file} File Not Found In Views Directory",
-             404
-         );
-     }
+    public function getPineFile(string $file): string
+    {
+        $file = $this->pineFilePath.DIRECTORY_SEPARATOR.$file .$this->pineExtension;
+        if(file_exists($file)) {
+            return $file;
+        }
+        throw new ViewNotFound(
+            "Exception : {$file} File Not Found In Views Directory",
+            404
+        );
+    }
     /**
      * get the layout file path by file name
      *
@@ -114,58 +114,58 @@ class FileMapper
      *
      * @return string
      */
-     public function getLayoutFile(string $file): string
-     {
-         $file = $this->pineFilePath.DIRECTORY_SEPARATOR. 'layouts' .DIRECTORY_SEPARATOR.$file .$this->pineExtension;
-         if(file_exists($file)) {
-             return $file;
-         }
-         throw new LayoutNotFound(
-             "Exception : {$file} File Not Found In views/layouts Directory",
-             404
-         );
-     }
-     /**
-     * get cache file extension
-     *
-     * @return string
-     */
+    public function getLayoutFile(string $file): string
+    {
+        $file = $this->pineFilePath.DIRECTORY_SEPARATOR. 'layouts' .DIRECTORY_SEPARATOR.$file .$this->pineExtension;
+        if(file_exists($file)) {
+            return $file;
+        }
+        throw new LayoutNotFound(
+            "Exception : {$file} File Not Found In views/layouts Directory",
+            404
+        );
+    }
+    /**
+    * get cache file extension
+    *
+    * @return string
+    */
     public function getCacheExtension(): string
     {
         return $this->cacheExtension;
     }
-     /**
-     * get pine file extension
-     *
-     * @return string
-     */
+    /**
+    * get pine file extension
+    *
+    * @return string
+    */
     public function getPineExtension(): string
     {
         return $this->pineExtension;
     }
-     /**
-     * get cache file path
-     *
-     * @return ?string
-     */
+    /**
+    * get cache file path
+    *
+    * @return ?string
+    */
     public function getCacheFilePath(): ?string
     {
         return $this->cacheFilePath;
     }
-     /**
-     * get pine file path
-     *
-     * @return string
-     */
+    /**
+    * get pine file path
+    *
+    * @return string
+    */
     public function getPineFilePath(): string
     {
         return $this->pineFilePath;
     }
-     /**
-     * get cacheMode
-     *
-     * @return bool
-     */
+    /**
+    * get cacheMode
+    *
+    * @return bool
+    */
     public function cacheMode(): bool
     {
         return $this->cacheMode;

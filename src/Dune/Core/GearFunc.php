@@ -19,16 +19,15 @@ declare(strict_types=1);
  *
  * @throw \Exception
  *
- * @return null|bool
+ * @return null
  */
-function view(string $view, array $data = []): ?bool
+function view(string $view, array $data = []): null
 {
-    $pine = new \Dune\Pine\ViewLoader(
+    $pine = (new \Dune\Pine\ViewLoader(
         config("pine.pine_path"),
         config("pine.cache"),
         config("pine.cache_path")
-    );
-    $pine = $pine->load();
+    ))->load();
     try {
         echo $pine->render($view, $data);
     } catch (\Exception $e) {
@@ -42,9 +41,11 @@ function view(string $view, array $data = []): ?bool
  *
  * @param int $code
  *
- * @return ?bool
+ * @throw \Exception
+ *
+ * @return null
  */
-function abort(int $code = 404, string $message = null): ?bool
+function abort(int $code = 404, string $message = null): null
 {
     $message = \Dune\Http\Response::$statusTexts[$code] ?? $message;
     $file = PATH . "/app/views/errors/error.pine.php";
@@ -54,7 +55,7 @@ function abort(int $code = 404, string $message = null): ?bool
             "message" => $message,
         ]);
     }
-    return null;
+    throw new \Exception("error.pine.php not found");
 }
 /**
  * route function will return the route path by its name

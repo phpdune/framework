@@ -9,11 +9,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Dune\Http\Middleware;
+
+use Dune\Http\Request;
+use Closure;
 
 interface MiddlewareInterface
 {
-    //
+    public function handle(Request $request, Closure $next): Request;
 }

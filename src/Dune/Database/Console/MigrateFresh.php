@@ -101,13 +101,11 @@ class MigrateFresh extends Command
      *
      * @param \Exception $e
      *
-     * @return ?SymfonyStyle
      */
-    public function handleException(\Exception $e): ?SymfonyStyle
+    public function handleException(\Exception $e): void
     {
         if($e->getCode() == 2002) {
-            return $this->msg->error('Database Connection refused');
+            $this->msg->error('Database Connection refused');
         }
-        return null;
     }
 }

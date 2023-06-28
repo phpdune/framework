@@ -19,7 +19,6 @@ use Dune\Pine\Engine\ProcceserEngine;
 
 class View implements ViewInterface
 {
-
     /**
      * The view file.
      *

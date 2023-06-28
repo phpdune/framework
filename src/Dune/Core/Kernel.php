@@ -40,12 +40,10 @@ class Kernel
      * handle the http request
      *
      * @param Request $request
-     * @param int $type
-     * @param bool $catch
      *
      * @return Response
      */
-    public function handle(Request $request)
+    public function handle(Request $request): Response
     {
         $this->setErrorHanlers();
         $this->app->setContainer($this->getContainer());
@@ -59,23 +57,23 @@ class Kernel
      * setting the error ErrorHandler
      * handler \Dune\ErroeHandler\Error
      */
-     public function setErrorHanlers(): void
-     {
-         set_error_handler([Error::class,'handle'], E_ALL);
-         set_exception_handler([Error::class,'handleException']);
-     }
+    public function setErrorHanlers(): void
+    {
+        set_error_handler([Error::class,'handle'], E_ALL);
+        set_exception_handler([Error::class,'handleException']);
+    }
     /**
      * php di container instance creating
      * \DI\Container
      *
      * @return Container
      */
-     public function getContainer(): Container
-     {
-         $container = new Container;
-         $container->singleton(Request::class, Request::class);
-         return $container;
-     }
+    public function getContainer(): Container
+    {
+        $container = new Container();
+        $container->singleton(Request::class, Request::class);
+        return $container;
+    }
     /**
      * sending the response to the client
      *
@@ -83,11 +81,11 @@ class Kernel
      *
      * @return mixed
      */
-     public function sendResponse(?string $response): mixed
-     {
-         if(is_string($response)) {
-             return (new Response)->text($response);
-         }
-         return null;
-     }
+    public function sendResponse(?string $response): mixed
+    {
+        if(is_string($response)) {
+            return (new Response())->text($response);
+        }
+        return null;
+    }
 }

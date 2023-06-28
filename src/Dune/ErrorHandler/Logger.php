@@ -24,21 +24,21 @@ class Logger
         ini_set("log_errors", 'On');
         ini_set('error_log', $this->logFile());
     }
-     /**
-      * will log the message
-      *
-      * @param string $message
-      *
-      */
+    /**
+     * will log the message
+     *
+     * @param string $message
+     *
+     */
     public function put(string $message): void
     {
         error_log($message);
     }
-     /**
-      * return app.log path
-      *
-      * @return string
-      */
+    /**
+     * return app.log path
+     *
+     * @return string
+     */
     public function logFile(): string
     {
         return PATH.'/log/app.log';

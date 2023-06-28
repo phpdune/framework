@@ -100,16 +100,14 @@ class MigrateCommand extends Command
      *
      * @param \Exception $e
      *
-     * @return ?SymfonyStyle
      */
-    public function handleException(\Exception $e): ?SymfonyStyle
+    public function handleException(\Exception $e): void
     {
         if($e->getCode() == 2002) {
-            return $this->msg->error('Database Connection refused');
+            $this->msg->error('Database Connection refused');
         }
         if($e->getCode() == '42S01') {
-            return $this->msg->note('Alredy migrated');
+            $this->msg->note('Alredy migrated');
         }
-        return null;
     }
 }

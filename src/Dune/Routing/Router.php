@@ -88,15 +88,15 @@ class Router implements RouterInterface
     /**
      * set the routes
      *
-     * @param  string  $route
-     * @param  string  $method
-     * @param callable|string|array<string,string> $action
+     * @param string $route
+     * @param string $method
+     * @param mixed $action
      *
      */
     protected function setRoutes(
         string $route,
         string $method,
-        Closure|array|string $action
+        $action
     ): void {
         self::$path = $route;
         self::$routes[] = [
@@ -143,23 +143,23 @@ class Router implements RouterInterface
         }
     }
     /**
-     * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param string $route
+     * @param mixed $action
      *
      * @return self
      */
-     public function get(string $route, Closure|array|string $action): self
-     {
-         if (is_string($action)) {
-             $action = [$this->controller,$action];
-         }
-         $route = $this->prefixedUrl . $route;
-         $this->setRoutes($route, 'GET', $action);
-         return $this;
-     }
+    public function get(string $route, $action): self
+    {
+        if (is_string($action)) {
+            $action = [$this->controller,$action];
+        }
+        $route = $this->prefixedUrl . $route;
+        $this->setRoutes($route, 'GET', $action);
+        return $this;
+    }
     /**
-     * @param  string  $route
-     * @param  string  $view
+     * @param string $route
+     * @param string $view
      *
      * @return self
      */
@@ -170,70 +170,70 @@ class Router implements RouterInterface
         return $this;
     }
     /**
-     * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param string $route
+     * @param mixed $action
      *
      * @return self
      */
-     public function post(string $route, Closure|array|string $action): self
-     {
-         if (is_string($action)) {
-             $action = [$this->controller,$action];
-         }
-         $route = $this->prefixedUrl . $route;
-         $this->setRoutes($route, 'POST', $action);
-         return $this;
-     }
+    public function post(string $route, $action): self
+    {
+        if (is_string($action)) {
+            $action = [$this->controller,$action];
+        }
+        $route = $this->prefixedUrl . $route;
+        $this->setRoutes($route, 'POST', $action);
+        return $this;
+    }
     /**
-     * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param string $route
+     * @param mixed $action
      *
      * @return self
      */
-     public function put(string $route, Closure|array|string $action): self
-     {
-         if (is_string($action)) {
-             $action = [$this->controller,$action];
-         }
-         $route = $this->prefixedUrl . $route;
-         $this->setRoutes($route, 'PUT', $action);
-         return $this;
-     }
+    public function put(string $route, $action): self
+    {
+        if (is_string($action)) {
+            $action = [$this->controller,$action];
+        }
+        $route = $this->prefixedUrl . $route;
+        $this->setRoutes($route, 'PUT', $action);
+        return $this;
+    }
     /**
-     * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param string $route
+     * @param mixed $action
      *
      * @return self
      */
-     public function patch(string $route, Closure|array|string $action): self
-     {
-         if (is_string($action)) {
-             $action = [$this->controller,$action];
-         }
-         $route = $this->prefixedUrl . $route;
-         $this->setRoutes($route, 'PATCH', $action);
-         return $this;
-     }
+    public function patch(string $route, $action): self
+    {
+        if (is_string($action)) {
+            $action = [$this->controller,$action];
+        }
+        $route = $this->prefixedUrl . $route;
+        $this->setRoutes($route, 'PATCH', $action);
+        return $this;
+    }
     /**
-     * @param  string  $route
-     * @param  callable|array<string,string>|string  $action
+     * @param string $route
+     * @param mixed $action
      *
      * @return self
      */
-     public function delete(string $route, Closure|array|string $action): self
-     {
-         if (is_string($action)) {
-             $action = [$this->controller,$action];
-         }
-         $route = $this->prefixedUrl . $route;
-         $this->setRoutes($route, 'DELETE', $action);
-         return $this;
-     }
+    public function delete(string $route, $action): self
+    {
+        if (is_string($action)) {
+            $action = [$this->controller,$action];
+        }
+        $route = $this->prefixedUrl . $route;
+        $this->setRoutes($route, 'DELETE', $action);
+        return $this;
+    }
 
     /**
      * set name for routes
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return self
      */
@@ -245,7 +245,7 @@ class Router implements RouterInterface
     /**
      * set middlware for route
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return self
      */
@@ -257,25 +257,25 @@ class Router implements RouterInterface
     /**
      * trigger the route attributes mode by this
      */
-     public function useAttributes(): void
-     {
-         $this->setAttributeRoute();
-     }
+    public function useAttributes(): void
+    {
+        $this->setAttributeRoute();
+    }
     /**
      * proceeds the route to run
      *
-     * @param  string  $uri
-     * @param  string  $method
+     * @param string $uri
+     * @param string $method
      *
      * @throw \MethodNotSupported
      * @throw \NotFound
      *
      * @return string|null
      */
-     public function dispatch(string $uri, string $method): mixed
-     {
-         return $this->resolver->resolve($uri, $method);
-     }
+    public function dispatch(string $uri, string $method): mixed
+    {
+        return $this->resolver->resolve($uri, $method);
+    }
     /**
      * route controller grouping
      *
@@ -283,11 +283,11 @@ class Router implements RouterInterface
      * @param  \Closure  $callback
      *
      */
-     public function controller(string $controller, Closure $callback): void
-     {
-         $this->controller = $controller;
-         $callback();
-     }
+    public function controller(string $controller, Closure $callback): void
+    {
+        $this->controller = $controller;
+        $callback();
+    }
     /**
      * route url grouping
      *
@@ -295,65 +295,65 @@ class Router implements RouterInterface
      * @param \Closure $callback
      *
      */
-     public function prefix(string $prefix, Closure $callback): void
-     {
-         $oldPrefix = $this->prefixedUrl;
-         $this->prefixedUrl = $oldPrefix . $prefix;
-         $callback();
-         $this->prefixedUrl = $oldPrefix;
-     }
+    public function prefix(string $prefix, Closure $callback): void
+    {
+        $oldPrefix = $this->prefixedUrl;
+        $this->prefixedUrl = $oldPrefix . $prefix;
+        $callback();
+        $this->prefixedUrl = $oldPrefix;
+    }
     /**
      * get the controllers from controller dir
      *
      * @return array<int,string>
      */
-     private function mapControllers(): array
-     {
-         if(!empty($this->controllerMap)) {
-             return $this->controllerMap;
-         }
-         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(PATH.'/app/controllers'));
+    private function mapControllers(): array
+    {
+        if(!empty($this->controllerMap)) {
+            return $this->controllerMap;
+        }
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(PATH.'/app/controllers'));
 
-         foreach ($iterator as $file) {
-             if ($file->isFile()) {
-                 $name = str_replace(PATH, '', $file->getPathname());
-                 $name = str_replace('.php', '', $name);
-                 $name = str_replace('/', ' ', $name);
-                 $name = ucwords($name);
-                 $name = str_replace(' ', '\\', $name);
-                 $this->controllerMap[] = $name;
-             }
-         }
-         return $this->controllerMap;
-     }
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                $name = str_replace(PATH, '', $file->getPathname());
+                $name = str_replace('.php', '', $name);
+                $name = str_replace('/', ' ', $name);
+                $name = ucwords($name);
+                $name = str_replace(' ', '\\', $name);
+                $this->controllerMap[] = $name;
+            }
+        }
+        return $this->controllerMap;
+    }
 
     /**
      * return routes
      *
      * @return array<string,string>|null
      */
-     public function getRoutes(): ?array
-     {
-         return self::$routes;
-     }
+    public function getRoutes(): ?array
+    {
+        return self::$routes;
+    }
     /**
      * return path
      *
      * @return string|null
      */
-     public function getPath(): ?string
-     {
-         return self::$path;
-     }
+    public function getPath(): ?string
+    {
+        return self::$path;
+    }
     /**
      * return names
      *
      * @return array<string,string>|null
      */
-     public function getNames(): ?array
-     {
-         return self::$names;
-     }
+    public function getNames(): ?array
+    {
+        return self::$names;
+    }
     /**
      * return middleware
      *
@@ -361,10 +361,10 @@ class Router implements RouterInterface
      *
      * @return string|null
      */
-     public function getMiddleware(string $middleware): ?string
-     {
-         return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
-     }
+    public function getMiddleware(string $middleware): ?string
+    {
+        return (isset(self::$middlewares[$middleware]) ? self::$middlewares[$middleware] : null);
+    }
 
     /**
      * return true if route has middleware
@@ -373,24 +373,24 @@ class Router implements RouterInterface
      *
      * @return bool
      */
-     public function hasMiddleware(string $middleware): bool
-     {
-         return (isset(self::$middlewares[$middleware]) ? true : false);
-     }
+    public function hasMiddleware(string $middleware): bool
+    {
+        return (isset(self::$middlewares[$middleware]) ? true : false);
+    }
     /**
      * clear all properties values
      *
      * @return void
-     */     
-     public function clear(): void
-     {
-       self::$routes = [];
-       self::$middlewares = [];
-       self::$names = [];
-       self::$path = '';
-       $this->prefixedUrl = '';
-       $this->controller = '';
-       $this->controllerMap = [];
-       
-     }
+     */
+    public function clear(): void
+    {
+        self::$routes = [];
+        self::$middlewares = [];
+        self::$names = [];
+        self::$path = '';
+        $this->prefixedUrl = '';
+        $this->controller = '';
+        $this->controllerMap = [];
+
+    }
 }

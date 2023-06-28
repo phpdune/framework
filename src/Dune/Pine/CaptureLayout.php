@@ -48,13 +48,13 @@ class CaptureLayout
     {
         $this->mapper = $mapper;
     }
-     /**
-      * layout contents will be merged and return the file if layout is enabled
-      *
-      * @param string $template
-      *
-      * @return string
-      */
+    /**
+     * layout contents will be merged and return the file if layout is enabled
+     *
+     * @param string $template
+     *
+     * @return string
+     */
     public function layout(string $template): string
     {
         $this->template = $template;
@@ -62,9 +62,9 @@ class CaptureLayout
         return $this->getTemplate();
 
     }
-     /**
-      * capturing details from layout block
-      */
+    /**
+     * capturing details from layout block
+     */
     private function captureContents(): void
     {
 
@@ -79,11 +79,11 @@ class CaptureLayout
             $this->layoutName = $extends[1][0];
         }
     }
-     /**
-      * merging the layout contents with pine file
-      *
-      * @return string
-      */
+    /**
+     * merging the layout contents with pine file
+     *
+     * @return string
+     */
     private function getTemplate(): string
     {
         if($this->layoutName) {

@@ -45,13 +45,13 @@ class Validater extends RuleChecker
     {
         $this->request = $request;
     }
-     /**
-       * validation making method
-       *
-       * @param ValidaterInterface|array $data
-       *
-       * @var ?Redirect
-       */
+    /**
+      * validation making method
+      *
+      * @param ValidaterInterface|array $data
+      *
+      * @var ?Redirect
+      */
     public function make(ValidaterInterface|array $data): ?Redirect
     {
         if (is_array($data)) {
@@ -83,52 +83,52 @@ class Validater extends RuleChecker
      * @param string $field
      *
      */
-     private function checkValidation(string $name, mixed $ruleValue, string $field): void
-     {
-         $value = $this->request->get($field) ?? '';
-         if ($name == 'required') {
-             if (!$value) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field is required";
-                 }
-             }
-         } elseif ($name == 'min') {
-             if (strlen($value) < $ruleValue) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field must be at least {$ruleValue} characters";
-                 }
-             }
-         } elseif ($name == 'max') {
-             if (strlen($value) > $ruleValue) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field may not be greater than {$ruleValue} characters";
-                 }
-             }
-         } elseif ($name == 'email') {
-             if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field must be a valid email address";
-                 }
-             }
-         } elseif ($name == 'equal') {
-             if ($value !== $this->request->get($ruleValue)) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field must be equal to {$ruleValue}";
-                 }
-             }
-         } elseif ($name == 'numeric') {
-             if (!ctype_digit($value)) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = 'field must be numeric';
-                 }
-             }
-         } elseif ($name == 'digit') {
-             $num = explode(',', $ruleValue);
-             if ($value < $num[0] || $value > $num[1]) {
-                 if (!$this->errors[$field]) {
-                     $this->errors[$field] = "field must be digit between {$num[0]} to {$num[1]}";
-                 }
-             }
-         }
-     }
+    private function checkValidation(string $name, mixed $ruleValue, string $field): void
+    {
+        $value = $this->request->get($field) ?? '';
+        if ($name == 'required') {
+            if (!$value) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field is required";
+                }
+            }
+        } elseif ($name == 'min') {
+            if (strlen($value) < $ruleValue) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field must be at least {$ruleValue} characters";
+                }
+            }
+        } elseif ($name == 'max') {
+            if (strlen($value) > $ruleValue) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field may not be greater than {$ruleValue} characters";
+                }
+            }
+        } elseif ($name == 'email') {
+            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field must be a valid email address";
+                }
+            }
+        } elseif ($name == 'equal') {
+            if ($value !== $this->request->get($ruleValue)) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field must be equal to {$ruleValue}";
+                }
+            }
+        } elseif ($name == 'numeric') {
+            if (!ctype_digit($value)) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = 'field must be numeric';
+                }
+            }
+        } elseif ($name == 'digit') {
+            $num = explode(',', $ruleValue);
+            if ($value < $num[0] || $value > $num[1]) {
+                if (!$this->errors[$field]) {
+                    $this->errors[$field] = "field must be digit between {$num[0]} to {$num[1]}";
+                }
+            }
+        }
+    }
 }

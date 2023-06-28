@@ -56,9 +56,9 @@ class ViewLoader
      *
      * @return View
      */
-     public function load(): View
-     {
-         return $this->pine;
-     }
+    public function load(): View
+    {
+        return $this->pine;
+    }
 
 }

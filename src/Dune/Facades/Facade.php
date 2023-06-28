@@ -21,7 +21,7 @@ abstract class Facade
     /**
      * The resolved instances of the facades.
      *
-     * @var array
+     * @var array<string,object>
      */
     protected static array $resolvedInstances = [];
     /**
@@ -34,7 +34,7 @@ abstract class Facade
      * static call
      *
      * @param string $method
-     * @param array<mixed>
+     * @param array<mixed> $arags
      *
      * @return mixed
      */
@@ -43,13 +43,13 @@ abstract class Facade
         $instance = static::resolveFacadeInstance(static::getAccessor());
         return $instance->$method(...$arags);
     }
-      /**
-       * to resolve the facade instance
-       *
-       * @param string $name
-       *
-       * @return mixed
-       */
+    /**
+     * to resolve the facade instance
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     public static function resolveFacadeInstance(string $name): mixed
     {
         if(isset(static::$resolvedInstances[$name])) {
@@ -58,15 +58,15 @@ abstract class Facade
         static::$resolvedInstances[$name] = static::getResolvable($name);
         return static::$resolvedInstances[$name];
     }
-       /**
-       * return the specific instance by accessor
-       *
-       * @param string $name
-       *
-       * @throw Exception
-       *
-       * @return mixed
-       */
+    /**
+    * return the specific instance by accessor
+    *
+    * @param string $name
+    *
+    * @throw Exception
+    *
+    * @return mixed
+    */
     public static function getResolvable(string $name): mixed
     {
         $container = App::container();

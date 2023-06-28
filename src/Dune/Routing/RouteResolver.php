@@ -88,8 +88,7 @@ class RouteResolver extends RouteActionCaller
      *
      * @param  string  $middleware
      *
-     *
-     * @return string|null
+     * @return array<mixed>|null
      */
     protected function getMiddleware(?string $middleware): ?array
     {
@@ -117,14 +116,14 @@ class RouteResolver extends RouteActionCaller
      *
      * @return array<string,string>|null
      */
-     public function getParams(): ?array
-     {
-         return self::$params;
-     }
+    public function getParams(): ?array
+    {
+        return self::$params;
+    }
     /**
      * middleware calling method
      *
-     * @param  string  $middleware.
+     * @param array<int,string> $middlewares
      *
      */
     protected function runMiddlewares(array $middlewares): void

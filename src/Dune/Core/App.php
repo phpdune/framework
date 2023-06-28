@@ -141,15 +141,15 @@ final class App
     /**
      * Checks if the app is in maintenance mode.
      */
-    public function isMaintenance()
-    {
-        // Implementation goes here
-    }
+    /* public function isMaintenance()
+     {
+         // Implementation goes here
+     } */
 
     /**
      * Boots up the Eloquent ORM.
      */
-    private function loadEloquent()
+    private function loadEloquent(): void
     {
         $eloquent = new EloquentBooter();
         $eloquent->boot();
@@ -157,9 +157,9 @@ final class App
     /**
      * load app .env contents
      */
-     private function loadEnv()
-     {
-         $env = new Dotenv();
-         $env->load(PATH.'/.env');
-     }
+    private function loadEnv(): void
+    {
+        $env = new Dotenv();
+        $env->load(PATH.'/.env');
+    }
 }

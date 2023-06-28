@@ -34,30 +34,30 @@ class BootConsole extends BerryCommands implements ConsoleInterface
         $this->console = $console;
 
     }
-     /**
-      * console commands registering
-      */
+    /**
+     * console commands registering
+     */
     private function register(): void
     {
         foreach ($this->commands as $command) {
             $this->console->add(new $command());
         }
     }
-     /**
-      * loading the configuration and console command registration
-      * running
-      *
-      * @return int
-      */
+    /**
+     * loading the configuration and console command registration
+     * running
+     *
+     * @return int
+     */
     public function run(): int
     {
         $this->configure();
         $this->register();
         return $this->console->run();
     }
-     /**
-      * setting console app details
-      */
+    /**
+     * setting console app details
+     */
     private function configure(): void
     {
         $this->console->setName('Dune Framework');

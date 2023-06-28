@@ -18,6 +18,11 @@ use Leaf\Http\Response as BaseResponse;
 
 class Response extends BaseResponse implements ResponseInterface
 {
+    /**
+     * status texts
+     *
+     * @var array<int,string>
+     */
     public static $statusTexts = [
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -86,7 +91,7 @@ class Response extends BaseResponse implements ResponseInterface
     /**
      * text response sending
      *
-     * @param array $text
+     * @param string $text
      * @param int $code
      *
      * @return null

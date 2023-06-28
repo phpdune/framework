@@ -54,7 +54,7 @@ class Session implements SessionInterface
      * Setting Session
      *
      * @param  string  $key
-     * @param string|array $value
+     * @param array<mixed>|string $value
      *
      * @return mixed
      */
@@ -94,7 +94,7 @@ class Session implements SessionInterface
     /**
      * getSession process goes here
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -116,26 +116,26 @@ class Session implements SessionInterface
     /**
      * getting Array Session
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return array<mixed>|null
      */
-     private function getArraySession($key): ?array
-     {
-         $data = [];
-         $values = $_SESSION[$key];
-         if ($this->config->get('encrypt')) {
-             foreach ($values as $vkey => $value) {
-                 $data[$vkey] = $this->sessionDecrypt($value);
-             }
-             return $data;
-         }
-         return $values;
-     }
+    private function getArraySession($key): ?array
+    {
+        $data = [];
+        $values = $_SESSION[$key];
+        if ($this->config->get('encrypt')) {
+            foreach ($values as $vkey => $value) {
+                $data[$vkey] = $this->sessionDecrypt($value);
+            }
+            return $data;
+        }
+        return $values;
+    }
     /**
      * Check session name is a valid one by regex
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return bool
      */
@@ -166,10 +166,10 @@ class Session implements SessionInterface
     {
         return $this->encrypter->decrypt($key);
     }
-     /**
-     * set session_start() if it doesn't exist
-     *
-     */
+    /**
+    * set session_start() if it doesn't exist
+    *
+    */
     protected function start(): void
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -232,13 +232,13 @@ class Session implements SessionInterface
         }
         return false;
     }
-     /**
-     * will add new value to the current session
-     *
-     * @param string $key
-     * @param string $value
-     *
-     */
+    /**
+    * will add new value to the current session
+    *
+    * @param string $key
+    * @param string $value
+    *
+    */
     public function overwrite(string $key, string $value): void
     {
         (!$this->has($key) ? $this->set($key, $value) : $_SESSION[$key] = $value);
@@ -246,7 +246,7 @@ class Session implements SessionInterface
     /**
      * get the session id
      *
-     * @return ?tring|int
+     * @return string|int
      */
     public function id(): string|int
     {

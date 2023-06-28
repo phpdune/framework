@@ -14,7 +14,7 @@ class ValidateHost implements MiddlewareInterface
     /**
      * trusted hosts array
      *
-     * @var array
+     * @var array<int,string>
      */
     private array $trustedHosts;
     /**

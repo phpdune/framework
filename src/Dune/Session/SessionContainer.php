@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace Dune\Session;
 
 use Dune\Core\App;
-use DI\Container;
-use DI\ContainerBuilder;
+use Illuminate\Container\Container;
 
 trait SessionContainer
 {
@@ -28,14 +27,13 @@ trait SessionContainer
     /**
      * setting up the container instance
      */
-    public function __setUp()
+    public function __setUp(): void
     {
         if(!$this->container) {
             if(class_exists(App::class)) {
                 $container = App::container();
             } else {
-                $containerBuilder = new ContainerBuilder();
-                $container = $containerBuilder->build();
+                $container = new Container();
             }
             $this->container = $container;
         }

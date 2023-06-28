@@ -18,13 +18,13 @@ class CookieConfig
     /**
      * Cookie configuration
      *
-     * @var array
+     * @var array<string, string|bool>
      */
     private array $config;
     /**
      * set the session configuration
      *
-     * @param array $configs<mixed>
+     * @param array<string, string|bool> $configs
      */
     public function __construct(array $configs = [])
     {

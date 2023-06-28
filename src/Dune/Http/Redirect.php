@@ -110,25 +110,25 @@ class Redirect extends RedirectResponse implements ResponseInterface
         }
         return $this;
     }
-      /**
-       * set the response headers
-       *
-       * @param int $code
-       *
-       * @return self
-       */
+    /**
+     * set the response headers
+     *
+     * @param int $code
+     *
+     * @return self
+     */
     public function withStatus(int $code = 302): self
     {
         $this->response->setCode($code);
         return $this;
     }
-      /**
-       * set the response headers
-       *
-       * @param array<string,string> $headers
-       *
-       * @return self
-       */
+    /**
+     * set the response headers
+     *
+     * @param array<string,string> $headers
+     *
+     * @return self
+     */
     public function withHeader(array $headers): self
     {
         foreach($headers as $key => $value) {
@@ -145,16 +145,16 @@ class Redirect extends RedirectResponse implements ResponseInterface
     {
         return $this->response;
     }
-      /**
-       * access the method of symfony response
-       *
-       * @param string $method
-       * @param array $args
-       *
-       * @return mixed
-       */
-       public function __call(string $method, array $args): mixed
-       {
-           return $this->response->$method(...$args);
-       }
+    /**
+     * access the method of symfony response
+     *
+     * @param string $method
+     * @param array $args
+     *
+     * @return mixed
+     */
+    public function __call(string $method, array $args): mixed
+    {
+        return $this->response->$method(...$args);
+    }
 }

@@ -21,7 +21,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class GetSrcCode extends Command
 {
-
     /**
      * command name
      *
@@ -58,8 +57,7 @@ class GetSrcCode extends Command
     /**
      * open the development server in the browser
      *
-     * @param string $host
-     * @param string $port
+     * @param string $url
      *
      */
     private function openUrl(string $url): void
@@ -73,9 +71,7 @@ class GetSrcCode extends Command
         } else {
             $cmd = "xdg-open";
         }
-        if (!empty($cmd)) {
-            $fullCmd = $cmd .' '. $url;
-            shell_exec($fullCmd);
-        }
+        $fullCmd = $cmd .' '. $url;
+        shell_exec($fullCmd);
     }
 }

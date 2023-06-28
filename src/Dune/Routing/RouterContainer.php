@@ -27,7 +27,7 @@ trait RouterContainer
     /**
      * setting up the container instance
      */
-    public function __setUp()
+    public function __setUp(): void
     {
         if(!$this->container) {
             if(class_exists(App::class)) {

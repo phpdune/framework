@@ -43,7 +43,7 @@ class CsrfMiddleware implements MiddlewareInterface
      *
      * @throw TokenMismatched
      *
-     * @return Closure
+     * @return Request
      */
     public function handle(Request $request, Closure $next): Request
     {

@@ -1,6 +1,6 @@
 {
-   "name":"dune/framework",
-   "description":"The PHP Dune Framework !",
+   "name": "dune/framework",
+   "description": "The PHP Dune Framework !",
    "type":"library",
    "license":"MIT",
    "keywords": [

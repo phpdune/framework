@@ -3,35 +3,35 @@
    "description":"The PHP Dune Framework !",
    "type":"library",
    "license":"MIT",
-   "keywords":[
+   "keywords": [
       "php framework",
       "framework",
       "Dune"
    ],
-   "support":{
+   "support": {
       "issues":"https://github.com/phpdune/framework/issues",
       "source":"https://github.com/phpdune/framework"
    },
-   "authors":[
+   "authors": [
       {
          "name":"Abhishek B",
          "email":"phpdune@gmail.com"
       }
    ],
-   "autoload":{
-      "psr-4":{
+   "autoload": {
+      "psr-4": {
          "Dune\\":"src/Dune/"
       },
-      "files":[
+      "files": [
          "src/Dune/Core/GearFunc.php"
       ]
    },
-   "autoload-dev":{
-      "psr-4":{
+   "autoload-dev": {
+      "psr-4": {
          "Dune\\Tests\\":"tests/"
       }
    },
-   "require":{
+   "require": {
       "php": "^8.0",
       "ext-ctype": "*",
       "ext-openssl": "*",
@@ -46,7 +46,7 @@
       "symfony/var-dumper": "^6.2",
       "vlucas/phpdotenv": "^5.5"
    },
-   "replace":{
+   "replace": {
       "dune/pine":"self.version",
       "dune/routing":"self.version",
       "dune/csrf":"self.version",
@@ -56,15 +56,18 @@
       "dune/database":"self.version",
       "dune/core":"self.version"
    },
-   "require-dev":{
+   "require-dev": {
       "phpstan/phpstan": "^1.10",
       "phpunit/phpunit": "^10.2"
    },
-   "config":{
+   "config": {
       "sort-packages":true,
       "allow-plugins": {
          "pestphp/pest-plugin": false
       }
+   },
+   "scripts": {
+     "test": "phpunit"
    },
    "minimum-stability":"stable",
    

@@ -48,7 +48,7 @@ class RouteDITest extends TestCase
        });
        //test 1
        $result = $this->router->dispatch('/test', 'GET');
-       $expected = 'test';
+       $expected = 'tes';
        $this->assertEquals($expected, $result);
        // test 2
        $result = $this->router->dispatch('/test/1', 'GET');

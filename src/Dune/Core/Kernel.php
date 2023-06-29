@@ -43,7 +43,7 @@ class Kernel
      *
      * @return Response
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request): ?Response
     {
         $this->setErrorHanlers();
         $this->app->setContainer($this->getContainer());

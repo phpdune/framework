@@ -162,12 +162,12 @@ function csrf(): string
 /**
  * return Redirect
  *
- * @return Redirect
+ * @return \Dune\Http\RedirectResponse
  */
 
-function redirect(): Redirect
+function redirect(): \Dune\Http\RedirectResponse
 {
-    return new \Dune\Http\Redirect(new RedirectResponse("/fake"));
+    return new \Dune\Http\RedirectResponse();
 }
 /**
  * for logging message
@@ -177,7 +177,7 @@ function redirect(): Redirect
  */
 function logs(mixed $message): void
 {
-    $logger = new \Dune\Error\Logger();
+    $logger = new \Dune\ErrorHandler\Logger();
     $logger->put($message);
 }
 /**

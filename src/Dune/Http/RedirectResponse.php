@@ -13,28 +13,18 @@ declare(strict_types=1);
 
 namespace Dune\Http;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Dune\Http\Request;
 use Dune\Http\ResponseInterface;
 use Dune\Facades\Session;
 
-class Redirect extends RedirectResponse implements ResponseInterface
+class RedirectResponse implements ResponseInterface
 {
     /**
-     * \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     * @var RedirectResponse
+     * redirect contents details
+     * 
+     * @var array<string,mixed>
      */
-    public RedirectResponse $response;
-    /**
-     * Initializing var $response
-     *
-     * @param RedirectResponse $response
-     */
-    public function __construct(RedirectResponse $response)
-    {
-        $this->response = $response;
-    }
+     private array $contents = [];
     /**
      * redirect to path
      * example ('/test/uri')
@@ -46,8 +36,8 @@ class Redirect extends RedirectResponse implements ResponseInterface
      */
     public function path(string $path, int $code = 302): self
     {
-        $this->response->setTargerUrl($path);
-        $this->response->setStatusCode($code);
+        $this->contents['uri'] = $path;
+        $this->contents['status'] = $code;
         $this->sendResponse();
         return $this;
     }
@@ -63,9 +53,9 @@ class Redirect extends RedirectResponse implements ResponseInterface
      */
     public function route(string $route, array $particles = [], int $code = 302): self
     {
-        $url = \route($route, $particles);
-        $this->response->setTargetUrl($url);
-        $this->response->setStatusCode($code);
+        $uri = \route($route, $particles);
+        $this->contents['uri'] = $uri;
+        $this->contents['status'] = $code;
         $this->sendResponse();
         return $this;
     }
@@ -76,10 +66,9 @@ class Redirect extends RedirectResponse implements ResponseInterface
      */
     public function back(): self
     {
-        $request = new Request();
-        $url = $request->header('referer');
-        $this->response->setTargetUrl($url);
-        $this->response->setStatusCode(302);
+        $uri = $_SERVER['HTTP_REFERER'];
+        $this->contents['uri'] = $uri;
+        $this->contents['status'] = 302;
         $this->sendResponse();
         return $this;
     }
@@ -99,7 +88,7 @@ class Redirect extends RedirectResponse implements ResponseInterface
     /**
      * redirect with many session msg
      *
-     * @param array<string,mixed>
+     * @param array<string,mixed> $alerts
      *
      * @return self
      */
@@ -119,42 +108,18 @@ class Redirect extends RedirectResponse implements ResponseInterface
      */
     public function withStatus(int $code = 302): self
     {
-        $this->response->setCode($code);
+        $this->contents['status'] = $code;
         return $this;
     }
-    /**
-     * set the response headers
-     *
-     * @param array<string,string> $headers
-     *
-     * @return self
-     */
-    public function withHeader(array $headers): self
-    {
-        foreach($headers as $key => $value) {
-            $this->response->headers->set($headers);
-        }
-        return $this;
-    }
+    
     /**
      * send the redirect response
      *
-     * @return RedirectResponse
+     * @return int
      */
-    private function sendResponse(): RedirectResponse
+    private function sendResponse(): int
     {
-        return $this->response;
+        return response()->redirect($this->contents['path'],$this->contents['status']);
     }
-    /**
-     * access the method of symfony response
-     *
-     * @param string $method
-     * @param array $args
-     *
-     * @return mixed
-     */
-    public function __call(string $method, array $args): mixed
-    {
-        return $this->response->$method(...$args);
-    }
+    
 }

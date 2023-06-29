@@ -27,7 +27,7 @@ abstract class Facade
     /**
      * getAccessor abstract method to resolve the specific instance
      *
-     * @return string;
+     * @return string
      */
     abstract protected static function getAccessor(): string;
     /**

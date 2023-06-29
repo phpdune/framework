@@ -16,7 +16,7 @@ namespace Dune\Http;
 use Dune\Core\App;
 use Illuminate\Container\Container;
 
-trait RequestContainer
+trait HttpContainer
 {
     /**
      * \DI\Container instance

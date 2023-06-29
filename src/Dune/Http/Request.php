@@ -18,11 +18,11 @@ use Dune\Http\Validation\Validater;
 use Dune\Http\RequestInterface;
 use Dune\Session\SessionInterface;
 use Dune\Session\Session;
-use Dune\Http\RequestContainer;
+use Dune\Http\HttpContainer;
 
 class Request implements RequestInterface
 {
-    use RequestContainer;
+    use HttpContainer;
 
     /**
       * All data from $_GET, $_POST, $_SESSION, $_SERVER, $_COOKIE

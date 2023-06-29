@@ -129,11 +129,9 @@ class RouteResolver extends RouteActionCaller
     protected function runMiddlewares(array $middlewares): void
     {
         $middlewareDispatcher = new Middleware();
-        if(is_array($middlewares)) {
             foreach($middlewares as $middleware) {
                 $middlewareDispatcher->add(new $middleware());
             }
             $middlewareDispatcher->run($this->container->get(Request::class));
         }
-    }
 }

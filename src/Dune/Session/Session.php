@@ -76,6 +76,8 @@ class Session implements SessionInterface
      *
      * @param  string  $key
      * @param array<mixed> $values
+     * 
+     * @throw \Exception
      *
      */
     private function setArraySession(string $key, array $values): void
@@ -90,6 +92,8 @@ class Session implements SessionInterface
             $value = (($data) ? $data : $values);
             $_SESSION[$key] = $value;
         }
+        
+        throw new \Exception("Invalid session name");
     }
     /**
      * getSession process goes here
